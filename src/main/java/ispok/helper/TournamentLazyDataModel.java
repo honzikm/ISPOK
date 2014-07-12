@@ -60,7 +60,7 @@ public class TournamentLazyDataModel extends LazyDataModel<TournamentDto> {
 
         List<TournamentDto> tournamentDtos = tournamentService.getPage(first, pageSize, sortField, ascending, filters);
 
-        int matchesCount = (tournamentService.getTournamentCount(filters)).intValue();
+        int matchesCount = tournamentService.getTournamentCount(filters);
 
         logger.debug("Matches found: {}", matchesCount);
 

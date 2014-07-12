@@ -9,7 +9,10 @@
     <packaging>war</packaging>
 
     <name>ISPOK</name>
-
+    <ciManagement>
+        <system>hudson</system>
+        <url>http://10.0.1.1:8088/job/ISPOK/</url>
+    </ciManagement>
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
