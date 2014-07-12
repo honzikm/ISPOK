@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <ui:include src="/template/head.xhtml"/>
+    <h:body>
+
+        <ui:include src="/template/header.xhtml"/>
+
+        <h1>
+            <h:outputText value="#{msg.ispok}"/>
+        </h1>
+        <h2>
+            <h:outputText value="#{msg.login}" />
+        </h2>
+
+        <c:if test="${not empty param}">  
+            <div class="errorblock">  
+                Your login attempt was not successful, try again.<br/>
+                ${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}  
+            </div>  
+        </c:if>  
+
+        <!-- login stranka pak musi obsahovat form s acion="static/j_spring_security_check" method="post", a dvema inputy: name="j_username", "j_password" -->
+        <h:messages  style="color:red"/>
+
+        <form action="static/j_spring_security_check" method="post">
+            <ul>
+<!--                <li>
+                    <h:link value="#{msg.register}" outcome="register.xhtml"/>
+                </li>-->
+                <li>
+                    <h:outputLabel for="username" value="#{msg.username}: " />
+                    <input id="username" type="text" name="j_username"/>
+                </li>
+                <li>
+                    <h:outputLabel for="password" value="#{msg.password}: " />
+                    <input id="password" type="password" name="j_password"/>
+                </li>
+                <li>
+                    <button type="submit">#{msg.login}</button>    
+                </li>
+            </ul>
+        </form>
+    </h:body>
+</html>
+

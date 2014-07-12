@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:include src="/template/head.xhtml" />
+
+    <h:body>
+        <ui:include src="/template/header.xhtml"/>
+
+        <h1>
+            <h:outputText value="#{msg.ispok}"/>
+        </h1>
+        <h2>
+            <h:outputText value="#{msg.register}"/>
+        </h2>
+
+        <h:messages  style="color:red"/>
+
+        <h:form>
+            <ul>
+                <li>
+                    <h:outputLabel for="username" value="#{msg.username}: " />
+                    <h:inputText id="username" value="#{register.username}" required="true" requiredMessage="Username is required" >
+                        <f:validator binding="#{usernameValidator}" />
+                    </h:inputText>
+                </li>
+                <li>
+                    <h:outputLabel for="email" value="#{msg.email}: " />
+                    <h:inputText id="email" value="#{register.email}" required="true" requiredMessage="Email is required" >
+                        <f:validator binding="#{emailValidator}" />
+                    </h:inputText>
+                </li>
+                <li>
+                    <h:outputLabel for="password" value="#{msg.password}: " />
+                    <h:inputSecret id="password" value="#{register.password}" required="true" requiredMessage="Password is required" >
+                        <f:validator binding="#{passwordValidator}" />
+                    </h:inputSecret>
+                </li>
+                <li>
+                    <h:commandButton id="regbutton" value="#{msg.register}" action="#{register.save()}" />
+                </li>
+            </ul>
+        </h:form>
+    </h:body>
+</html>
+

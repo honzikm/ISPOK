@@ -1,0 +1,106 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 16-Apr-2014, 00:21:38
+    Author     : Jan Mucha <j.mucha@seznam.cz>
+*/
+
+#layout{
+    margin: auto;
+    max-width: 800px;
+    min-width: 600px;
+    min-height: 600px;
+    height: 1000px;
+    
+}
+
+/*li{
+    display: inline;
+}
+ul{
+    text-align: center;
+}*/
+
+.inline{
+    display: inline;
+}
+
+.center{
+ text-align: center;   
+ color: crimson !important;
+}
+
+.ui-layout-bd {
+    border: 0;
+}
+.ui-layout-unit-top .ui-layout-bd {
+    border: 0;
+}
+
+.ui-layout-pane {
+    border: 0;
+    overflow-y: hidden !important;
+}
+
+.ui-layout-unit-content{
+    overflow-y: hidden !important;
+}
+
+.selected-menu-style-text .ui-menuitem-text {
+    background-color: yellow;
+}
+
+.ui-widget, .ui-widget .ui-widget {
+    font-size: 90% !important;
+}
+
+#test{
+    text-align: left !important;
+}
+
+.test{
+    text-align: left !important;
+}
+
+/*.ui-datatable-header{
+    text-align: left !important;
+}*/
+
+.ui-datatable .ui-datatable-footer {
+    text-align: left !important;
+}
+
+#dataForm\3a employeesTab\3a j_idt29\3a filter{
+    display: none;
+}
+
+#deleteEmployeeForm{
+    text-align: center;
+}
+
+#deleteOfficeForm{
+    text-align: center;
+}
+
+/*.ui-selectonebutton{
+    display: list-item !important;
+}
+
+div.ui-button {
+    display: list-item  !important;
+}*/
+
+
+/*.left{
+    min-width:400px;
+    min-height:600px;
+    height: 600px;
+}*/
+
+/*.ui-tabmenu .ui-tabmenu-nav {
+    padding: .2em .2em .2em .2em !important;
+}
+*/

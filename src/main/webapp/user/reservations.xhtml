@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <ui:include src="/template/head.xhtml"/>
+    <h:body>
+        <ui:include src="/template/header.xhtml"/>
+        <h1>
+            <h:outputText value="#{msg.company_name}"/>
+        </h1>
+        <h2>
+            <h:outputText value="#{msg.reservations}" />
+        </h2>
+
+
+        <!--Show all validation messages--> 
+        <h:messages  style="color:red" />
+
+        <h:form>
+            <fieldset>
+                <legend><h:outputText value="#{msg.reservations}"/></legend>
+                <ul>
+                    <ui:repeat value="#{reservations.myReservations}" var="tic" varStatus="status">
+                        <li>
+                            <ul>
+                                <li>
+                                    <h:outputText value="#{msg.from}: "/>
+                                    <h:outputText value="#{tic.flight.from}" />
+                                </li>
+                                <li>
+                                    <h:outputText value="#{msg.to}: "/>
+                                    <h:outputText value="#{tic.flight.to}" />
+                                </li>
+                                <li>
+                                    <h:outputText value="#{msg.time}: "/>
+                                    <h:outputText value="#{tic.flight.date} #{tic.flight.time}" />
+                                </li>
+                                <li>
+                                    <h:outputText value="#{msg.aircraft}: "/>
+                                    <h:outputText value="#{tic.flight.aircraft}" />
+                                </li>
+
+                                <!--passenger-->
+                                <li>
+                                    <h:outputText value="#{msg.firstName}: "/>
+                                    <h:outputText value="#{tic.passenger.firstName}" />
+                                </li>
+                                <li>
+                                    <h:outputText value="#{msg.lastName}: "/>
+                                    <h:outputText value="#{tic.passenger.lastName}"/>
+                                </li>
+                                <li>
+                                    <h:outputText value="#{msg.paperId}: "/>
+                                    <h:outputText value="#{tic.passenger.paperId}"/>
+                                </li>
+                                <li>
+                                    <h:outputText value="#{msg.seat}: "/>
+                                    <h:outputText value="#{tic.seatId}"/>
+                                </li>
+                                <li>
+                                    <h:commandButton action="#{reservations.remove(tic.id)}" value="#{msg.delete}"/>
+                                </li>
+                            </ul>
+                        </li>
+                    </ui:repeat>
+                </ul>
+            </fieldset>
+        </h:form>
+    </h:body>
+</html>
+

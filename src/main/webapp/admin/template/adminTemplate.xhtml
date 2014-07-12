@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+    <h:head id="head">
+        <ui:insert name="title">
+            <title>#{msg.ispok}</title>
+        </ui:insert>
+        <h:outputStylesheet name="ispok_admin.css" library="css"/>
+    </h:head>
+
+    <h:body>
+
+
+        <p:layout  id="layout">
+            <p:layoutUnit position="north">
+
+                <ui:insert name="toolbar" >
+                    <ui:include src="/admin/template/toolbar.xhtml" />
+                </ui:insert>
+
+            </p:layoutUnit>
+
+            <p:layoutUnit class="left" position="west">
+                <ui:insert name="managementMenu">
+                    <ui:include src="/admin/template/managementMenu.xhtml" />
+                </ui:insert>
+            </p:layoutUnit> 
+
+
+            <p:layoutUnit  position="center">  
+                <ui:insert name="content">
+
+                </ui:insert>
+
+            </p:layoutUnit>  
+        </p:layout>
+
+        <ui:insert name="body">
+        </ui:insert>
+
+    </h:body>
+
+</html>

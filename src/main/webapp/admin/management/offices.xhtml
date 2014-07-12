@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="/admin/template/adminTemplate.xhtml" >
+
+            <ui:define name="title">
+                <title>#{msg.offices} | #{msg.ispok}</title>
+            </ui:define>
+
+
+            <ui:define name="content">
+
+                <p:growl id="growl" showDetail="true" /> 
+
+                <h:form id="dataForm"> 
+
+                    <p:contextMenu for="officesTableId">
+                        <p:menuitem value="#{msg.edit}" icon="ui-icon-pencil" update=":editOfficeForm" action="#{officeEdit.loadOffice()}" oncomplete="editOfficeDialog.show()"/>
+                        <p:menuitem value="#{msg.delete}" ajax="true" icon="ui-icon-close" update="officesTableId" oncomplete="deleteOfficeDialog.show()"/>
+                    </p:contextMenu> 
+
+
+                    <p:dataTable id="officesTableId" widgetVar="officesTable" var="office" value="#{officeEdit.offices}" 
+                                 paginator="true" rowsPerPageTemplate="10, 25, 50, 100" rows="25" 
+                                 filteredValue="#{officeEdit.filteredOffices}"
+                                 rowKey="#{office.id}" selectionMode="multiple" selection="#{officeEdit.selected}">  
+
+                        <!--<p:ajax event="rowSelect"  />--> 
+
+                        <f:facet name="header">  
+                            <p:outputPanel > 
+                                <div align="right" style="float: right">
+                                    <h:outputText value="#{msg.name_filter}: "  />  
+                                    <p:inputText id="globalFilter" onkeyup="PF('officeTable').filter()"  />  
+                                </div>
+                                <div align="left">
+                                    <p:commandButton value="#{msg.neww}"  icon="ui-icon-star" onclick="newOfficeDialog.show()"/>
+                                    <p:commandButton value="#{msg.edit}" icon="ui-icon-pencil" update=":editOfficeForm" action="#{officeEdit.loadOffice()}" oncomplete="editOfficeDialog.show()"/>
+                                    <p:commandButton value="#{msg.delete}" icon="ui-icon-trash" onclick="deleteOfficeDialog.show()"/>
+                                </div>
+                            </p:outputPanel>  
+                        </f:facet>  
+
+                        <p:column filterStyle="" headerText="id">  
+                            <h:outputText value="#{office.id}" />  
+                        </p:column>
+
+                        <p:column sortBy="#{office.name}" filterBy="#{office.name}" headerText="#{msg.office_name}">  
+                            <h:outputText value="#{office.name}" />  
+                        </p:column>  
+
+                    </p:dataTable> 
+                    <p:remoteCommand name="updateTable" update="dataForm" />
+                </h:form>
+
+            </ui:define>
+
+
+            <ui:define name="body">
+
+                <p:dialog id="newOfficeDialogId" header="#{msg.office_new}" widgetVar="newOfficeDialog" resizable="false" 
+                          closable="false" draggable="true" closeOnEscape="true" modal="true" >  
+                    <h:form id="newOfficeForm">
+                        <table>
+                            <tr>
+                                <td>
+                                    <p:outputLabel for="nameInput" value="#{msg.office_name}: " />
+                                </td>
+                                <td>
+                                    <p:inputText id="nameInput" value="#{officeEdit.name}" required="true" requiredMessage="#{msg.office_name_valid_length}">
+                                        <f:validator binding="#{officeNameValidator}" />
+                                    </p:inputText>
+                                </td>
+                                <td>
+                                    <p:message id="msgName" for="nameInput" /> 
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <ul>
+                                        <li>
+                                            <p:commandButton value="#{msg.add}" ajax="true" update="newOfficeForm :growl"    
+                                                             action="#{officeEdit.addOffice()}" 
+                                                             oncomplete="if (args &amp;&amp; !args.validationFailed){ newOfficeDialog.hide(); updateTable();}">
+                                            </p:commandButton>
+                                        </li>
+                                        <li>
+                                            <p:commandButton value="#{msg.cancel}" action="#{officeEdit.clearEdit()}" oncomplete="newOfficeDialog.hide();"  >
+                                                <!--<p:resetInput target="newOfficeForm" />-->
+                                                <p:ajax update="newOfficeForm" resetValues="true"/> 
+                                            </p:commandButton>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </table>
+                    </h:form>
+                </p:dialog>  
+
+                <p:dialog header="#{msg.office_delete} ?" widgetVar="deleteOfficeDialog" resizable="false" 
+                          closable="false" draggable="true" closeOnEscape="true" modal="true"> 
+                    <h:form id="deleteOfficeForm" >
+                        <h:outputText value="#{msg.office_delete_confirm}" />
+                        <br/>
+                        <p:commandButton value="#{msg.yes}" styleClass="ui-confirmdialog-yes" update=":growl"
+                                         icon="ui-icon-check" action="#{officeEdit.delete()}" oncomplete="updateTable(); deleteOfficeDialog.hide();"/>  
+                        <p:commandButton value="#{msg.no}" styleClass="ui-confirmdialog-no" icon="ui-icon-close" onclick="deleteOfficeDialog.hide()"/> 
+                    </h:form>
+                </p:dialog>
+
+                <p:dialog header="#{msg.office_edit}" widgetVar="editOfficeDialog" resizable="false"
+                          closable="false" draggable="true" closeOnEscape="true" modal="true">
+                    <h:form id="editOfficeForm"> 
+                        <table>
+                            <tr>
+                                <td>
+                                    <p:outputLabel for="editNameInput" value="#{msg.office_name}: "/>
+                                </td>
+                                <td>
+                                    <h:outputText id="editNameInput" value="#{officeEdit.name}" />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="2">
+                                    <ul>
+                                        <li>
+                                            <p:commandButton value="#{msg.save}" ajax="true" update="editOfficeForm :dataForm :growl"
+                                                             action="#{officeEdit.updateOffice()}" 
+                                                             oncomplete="if (args &amp;&amp; !args.validationFailed){ editOfficeDialog.hide();}" />
+                                        </li>
+                                        <li>
+                                            <p:commandButton value="#{msg.cancel}" process="@this" oncomplete="editOfficeDialog.hide();" />
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </table>
+                    </h:form>
+                </p:dialog>
+            </ui:define>
+
+
+        </ui:composition>
+
+    </h:body>
+</html>
+

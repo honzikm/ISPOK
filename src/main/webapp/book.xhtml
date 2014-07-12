@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:include src="/template/head.xhtml"/>
+
+    <h:body>
+
+        <ui:include src="/template/header.xhtml"/>
+
+        <h1>
+            <h:outputText value="#{msg.company_name}"/>
+        </h1>
+        <h2>
+            <h:outputText value="#{msg.book_flight}"/>
+        </h2>
+
+        <!--Show all validation messages--> 
+        <h:messages  style="color:red" />
+
+        <h:form>
+            <ul>
+                <li>
+                    <h:outputText value="#{msg.flight_id}: " />
+                    <h:outputText value="#{book.flight.id}" />
+                </li>
+                <li>
+                    <h:outputText value="#{msg.from}: "/>
+                    <h:outputText value="#{book.flight.from}" />
+                </li>
+                <li>
+                    <h:outputText value="#{msg.to}: "/>
+                    <h:outputText value="#{book.flight.to}" />
+                </li>
+                <li>
+                    <h:outputText value="#{msg.time}: "/>
+                    <h:outputText value="#{book.flight.date} #{book.flight.time}" />
+                </li>
+                <li>
+                    <h:outputText value="#{msg.aircraft}: "/>
+                    <h:outputText value="#{book.flight.aircraft}" />
+                </li>
+
+                <!--fill papers-->
+                <li>
+                    <h:outputText value="#{msg.firstName}: "/>
+                    <h:inputText value="#{book.firstName}" required="true" requiredMessage="First name is required">
+                        <f:validator binding="#{firstNameValidator}" />
+                    </h:inputText>
+                </li>
+                <li>
+                    <h:outputText value="#{msg.lastName}: "/>
+                    <h:inputText value="#{book.lastName}" required="true" requiredMessage="Last name is required">
+                        <f:validator binding="#{lastNameValidator}" />
+                    </h:inputText>
+                </li>
+                <li>
+                    <h:outputText value="#{msg.paperId}: "/>
+                    <h:inputText value="#{book.paperId}" required="true" requiredMessage="Paper id is required" />
+                </li>
+                <li>
+                    <h:outputText value="#{msg.seat}: "/>
+                    <h:selectOneMenu value="#{book.seatId}" >
+                        <f:selectItems value="#{book.availableSeats}" />
+                    </h:selectOneMenu>
+                </li>
+                <li>
+                    <h:commandButton action="#{book.fillReservation()}" value="Book"/>
+                </li>
+            </ul>
+        </h:form>
+    </h:body>
+</html>
+

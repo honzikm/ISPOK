@@ -1,0 +1,45 @@
+/* 
+    Document   : default
+    Created on : 18.2.2012, 11:42:07
+    Author     : Pavel Micka
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+body{
+    background-color: cornsilk;
+}
+.emphased { 
+    font-style: italic;
+}
+.image {
+    float: right;
+    margin-left: 1em;
+    margin-bottom: 1em;
+    border: 1px solid black;
+}
+
+/*select{
+    width: 150px;
+}*/
+
+p {
+    text-align: justify;
+}
+
+
+.header {
+    background-color: bisque;
+    padding: 0.2em;
+    border: 1px solid burlywood;
+    color: red;
+}
+.header li{
+    list-style: none;
+    display: inline;
+}
+
+
+fieldset {
+    border: 1px solid burlywood;
+}

@@ -1,0 +1,165 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="/admin/template/adminTemplate.xhtml" >
+
+            <ui:define name="title">
+                <title>#{msg.visitors} | #{msg.ispok}</title>
+            </ui:define>
+
+
+            <ui:define name="content">
+
+                <p:growl id="growl" showDetail="true" /> 
+
+                <h:form id="dataForm"> 
+
+                    <p:contextMenu for="visitorsTableId">
+<!--                        <p:menuitem value="#{msg.edit}" icon="ui-icon-pencil" update=":editOfficeForm" action="#{officeEdit.loadOffice()}" oncomplete="editOfficeDialog.show()"/>-->
+                        <p:menuitem value="#{msg.details}" icon="ui-icon-search" update=":detailVisitorDialogId" action="#{visitorEdit.loadVisitorDetails()}" oncomplete="PF('detailVisitorDialog').show()" />
+                        <p:menuitem value="#{msg.delete}" icon="ui-icon-trash" oncomplete="PF('deleteVisitorDialog').show()"/>
+                    </p:contextMenu> 
+
+
+                    <p:dataTable id="visitorsTableId" 
+                                 widgetVar="visitorsTable" 
+                                 var="visitor" 
+                                 value="#{visitorEdit.visitorLazyModel}" 
+                                 paginator="true" rows="25"
+                                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                 rowsPerPageTemplate="10, 25"
+                                 selectionMode="single"
+                                 selection="#{visitorEdit.selectedVisitor}"
+                                 lazy="true" 
+                                 filteredValue="#{visitorEdit.filteredVisitors}"
+                                 rowKey="#{visitor.id}"
+                                 >
+
+                        <!--<p:ajax event="rowSelect"  />--> 
+
+                        <f:facet name="header">  
+                            <p:outputPanel > 
+                                <div align="right" style="float: right">
+                                    <h:outputText value="#{msg.filter_global}: "  />  
+                                    <!--<p:inputText id="globalFilter" onkeyup="PF('officeTable').filter()"  />-->  
+                                </div>
+                                <div align="left">
+                                    <p:commandButton value="#{msg.neww}"  icon="ui-icon-star" action="#{navigation.goNewVisitor()}"/>
+                                    <p:commandButton value="#{msg.details}" icon="ui-icon-search"  update=":detailVisitorDialogId" action="#{visitorEdit.loadVisitorDetails()}" oncomplete="PF('detailVisitorDialog').show()" />
+                                    <p:commandButton value="#{msg.edit}" icon="ui-icon-pencil" action="#{visitorEdit.edit()}"/>
+                                    <p:commandButton value="#{msg.delete}" icon="ui-icon-trash" onclick="PF('deleteVisitorDialog').show()"/>
+                                </div>
+                            </p:outputPanel>  
+                        </f:facet>  
+
+                        <p:column headerText="id" sortBy="#{visitor.id}" filterBy="#{visitor.id}" filterMatchMode="startsWith">  
+                            <h:outputText value="#{visitor.id}" />  
+                        </p:column>
+
+                        <p:column sortBy="#{visitor.firstName}" filterBy="#{visitor.firstName}" filterMatchMode="startsWith" headerText="#{msg.visitor_firstname}">
+                            <h:outputText value="#{visitor.firstName}" />  
+                        </p:column>  
+
+                        <p:column sortBy="#{visitor.lastName}" filterBy="#{visitor.lastName}" headerText="#{msg.visitor_lastname}">
+                            <h:outputText value="#{visitor.lastName}" />
+                        </p:column>
+
+                        <p:column sortBy="#{visitor.birthDate}" headerText="#{msg.visitor_birthdate}">
+                            <h:outputText value="#{visitor.birthDate}" />
+                        </p:column>
+
+
+                    </p:dataTable> 
+                    <p:remoteCommand name="updateTable" update="dataForm" />
+
+
+                </h:form>
+
+            </ui:define>
+
+            <ui:define name="body">
+
+                <p:dialog widgetVar="deleteVisitorDialog" closable="true" header="#{msg.visitor_delete}" modal="true" >
+                    <h:form id="deleteVisitorForm" >
+                        <h:outputText value="#{msg.visitor_delete_confirm}" />
+                        <br/>
+                        <p:commandButton value="#{msg.yes}"
+                                         icon="ui-icon-check"
+                                         update=":growl"
+                                         action="#{visitorEdit.delete()}"
+                                         oncomplete=" PF('visitorsTable').filter(); PF('deleteVisitorDialog').hide();" />
+                        <p:commandButton value="#{msg.no}"
+                                         icon="ui-icon-close"
+                                         onclick=" PF('deleteVisitorDialog').hide();" />
+                    </h:form>
+                </p:dialog>
+
+                <p:dialog id="detailVisitorDialogId" widgetVar="detailVisitorDialog" closable="true" header="#{msg.visitor_details}" modal="true" closeOnEscape="true" resizable="false">
+                    <h:form>
+                        <table>
+                            <tr><td><h:outputLabel for="visitorId" value="#{msg.id}: "/></td><td><h:outputText id="visitorId" value="#{visitorEdit.selectedVisitor.id}" /></td></tr>
+                            <tr><td><h:outputLabel for="firstName" value="#{msg.firstName}: "/></td><td><h:outputText id="firstName" value="#{visitorEdit.selectedVisitor.firstName}" /></td></tr>
+                            <tr><td><h:outputLabel for="lastName" value="#{msg.lastName}: "/></td><td><h:outputText id="lastName" value="#{visitorEdit.selectedVisitor.lastName}" /></td></tr>
+                            <tr><td><h:outputLabel for="birthDate" value="#{msg.visitor_birthdate}: "/></td><td><h:outputText id="birthDate" value="#{visitorEdit.selectedVisitor.birthDate}" /></td></tr>
+                            <tr><td><h:outputLabel for="nin" value="#{msg.visitor_nin}: "/></td><td><h:outputText id="nin" value="#{visitorEdit.selectedVisitor.nin}" /></td></tr>
+                            <tr><td><h:outputLabel for="nickname" value="#{msg.visitor_nickname}: "/></td><td><h:outputText id="nickname" value="#{visitorEdit.selectedVisitor.nickname}"/></td></tr>
+                            <tr><td><h:outputLabel for="telephone" value="#{msg.visitor_telephone}:"/></td><td><h:outputText id="telephone" value="#{visitorEdit.selectedVisitor.telephone}" /></td></tr>
+                            <tr><td><h:outputLabel for="email" value="#{msg.email}: "/></td><td><h:outputText id="email" value="#{visitorEdit.selectedVisitor.email}" /></td></tr>
+                            <tr><td><h:outputLabel for="sex" value="#{msg.visitor_sex}: "/></td><td><h:outputText id="sex" value="#{visitorEdit.selectedVisitor.sex}" /></td></tr>
+                            <tr><td><h:outputLabel for="password" value="#{msg.password}: "/></td><td><h:outputText id="password" value="#{visitorEdit.selectedVisitor.password}" /></td></tr>
+                            <tr><td><h:outputLabel for="address" value="#{msg.domicile_address}: "/></td><td><h:outputText id="address" value="#{visitorEdit.selected}" /></td></tr>
+                            <tr><td><h:outputLabel for="city" value="#{msg.domicile_city}: "/></td><td><h:outputText id="city" value="#{visitorEdit.cityDto.name}" /></td></tr>
+                            <tr><td><h:outputLabel for="zip" value="#{msg.domicile_zip}: "/></td><td><h:outputText id="zip" value="#{visitorEdit.postalCodeDto.code}" /></td></tr>
+                            <tr><td><h:outputLabel for="region" value="#{msg.domicile_region}: "/></td><td><h:outputText id="region" value="#{visitorEdit.regionDto.name}" /></td></tr>
+                            <tr><td><h:outputLabel for="country" value="#{msg.domicile_country}: "/></td><td><h:outputText id="country" value="#{visitorEdit.countyDto.name}" /></td></tr>
+                            <tr><td><h:outputLabel for="passportId" value="#{msg.passportId}: "/></td><td><h:outputText id="passportId" value="#{visitorEdit.selectedVisitor.idNumber}" /></td></tr>
+                            <tr><td><h:outputLabel for="citizenship" value="#{msg.visitor_citizenship}: "/></td><td><h:outputText id="citizenship" value="#{visitorEdit.citizenshipDto.name}" /></td></tr>
+                            <tr>
+                                <td><h:outputLabel for="photo" value="#{msg.visitor_photo}: "/></td>
+                                <td>
+                                    <p:commandLink  oncomplete="PF('photoDialog').show()" update=":photoDialogId">
+                                        <p:graphicImage id="photo" value="#{visitorEdit.photoThumb}" cache="false" />
+                                    </p:commandLink>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="2">
+                                    <ul class="center">
+                                        <li class="inline">
+                                            <p:commandButton value="#{msg.close}" onclick="PF('detailVisitorDialog').hide()">
+                                            </p:commandButton>
+                                        </li>
+                                        <li class="inline">
+                                            <p:commandButton value="#{msg.cancel}" action="#{newVisitor.cancel()}">
+                                            </p:commandButton>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+
+                        </table>
+                    </h:form>
+                </p:dialog>
+
+                <p:dialog id="photoDialogId"  header="#{msg.cancel}: " widgetVar="photoDialog" modal="true" resizable="false" closeOnEscape="true">
+                    <p:graphicImage id="photo" value="#{visitorEdit.photo}" cache="false"/>
+                </p:dialog>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </h:body>
+</html>
+

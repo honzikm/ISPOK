@@ -1,0 +1,56 @@
+
+
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+              xmlns:ui="http://java.sun.com/jsf/facelets"
+              xmlns:sec="http://www.springframework.org/security/tags"
+              xmlns:h="http://java.sun.com/jsf/html">
+
+    <div class="header">
+        <ul>
+            <li>
+                <h:link value="#{msg.home}" outcome="/index"/>
+            </li>
+
+            <sec:authorize ifAnyGranted="ROLE_ANONYMOUS">
+                <li>
+                    <h:link value="#{msg.login}" outcome="login.xhtml"/>
+                </li>
+            </sec:authorize>
+
+
+            <sec:authorize ifAnyGranted="ROLE_USER, ROLE_ADMIN, ROLE_MANAGER, ROLE_FLOORMAN, ROLE_CASHIER, ROLE_RECEPTIONIST">
+                <li>
+                    <h:outputLink value="#{request.contextPath}/j_spring_security_logout">#{msg.logout}</h:outputLink>
+                </li>
+            </sec:authorize>
+
+            <sec:authorize ifAnyGranted="ROLE_USER">
+                <li>
+                    <h:link value="#{msg.reservations}" outcome="/user/reservations.xhtml"/>
+                </li>
+            </sec:authorize>
+
+            <sec:authorize ifAnyGranted="ROLE_MANAGER">
+                <li>
+                    <h:link value="#{msg.staff}" outcome="/admin/staffEdit.xhtml"/>
+                </li>
+                <li>
+                    <h:link value="#{msg.offices}" outcome="/admin/officeEdit.xhtml"/>
+                </li>
+                
+                <li>
+                    <h:link value="#{msg.flight_edit}" outcome="/admin/management/employees.xhtml"/>
+                </li>
+                <!--
+                <li>
+                    <h:link value="#{msg.airport_edit}" outcome="/admin/airportEdit.xhtml"/>
+                </li>
+                <li>
+                    <h:link value="#{msg.aircraft_edit}" outcome="/admin/aircraftEdit.xhtml"/>
+                </li>-->
+            </sec:authorize>
+        </ul>
+    </div>
+
+</ui:component>
+

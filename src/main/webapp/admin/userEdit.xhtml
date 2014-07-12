@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:include src="/template/head.xhtml"/>
+    <h:body>
+        <ui:include src="/template/header.xhtml"/>
+
+        <h1><h:outputText value="#{msg.ispok}"/> </h1>
+        <h2><h:outputText value="#{msg.user_edit}"/> </h2>
+        <!--Show all validation messages--> 
+        <h:messages  style="color:red" />
+
+        <h:form>
+            <fieldset>
+                <legend>#{msg.user_add}</legend>
+                <ul>
+                    <li>
+                        <h:selectManyListbox value="#{userEdit.selectedUsers}">
+                            <f:selectItems value="#{userService.allUsers}" var="a" itemValue="#{a.id}" itemLabel="#{a.username}" />
+                        </h:selectManyListbox>
+                    </li>
+                    <li>
+                        <h:commandButton action="#{userEdit.deleteSelectedUsers()}" value="#{msg.delete}"/>
+                    </li>
+                </ul>
+            </fieldset>
+        </h:form>
+
+        <h:form>
+            <fieldset>
+                <legend>#{msg.user_delete}</legend>
+                <ul>
+                    <li>
+                        <h:selectManyListbox value="#{userEdit.selectedUsers}">
+                            <f:selectItems value="#{userService.allUsers}" var="a" itemValue="#{a.id}" itemLabel="#{a.username}" />
+                        </h:selectManyListbox>
+                    </li>
+                    <li>
+                        <h:commandButton action="#{userEdit.deleteSelectedUsers()}" value="#{msg.delete}"/>
+                    </li>
+                </ul>
+            </fieldset>
+        </h:form>
+    </h:body>
+</html>
+

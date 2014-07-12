@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <ui:include src="/template/head.xhtml"/>
+
+    <h:body>
+
+        <ui:include src="/template/header.xhtml"/>
+
+        <h1>
+            <h:outputText value="#{msg.company_name}"/>
+        </h1>
+        <h2>
+            <h:outputText value="#{msg.airport_edit}"/>
+        </h2>
+
+
+        <h:form>
+            <!--Show all validation messages--> 
+            <h:messages  style="color:red" />
+            <fieldset>
+                <legend>#{msg.airport_add}</legend>
+                <ul>
+                    <li>
+                        <h:outputLabel for="city" value="#{msg.airport_city}:"/>
+                        <h:inputText id="city" value="#{airportEdit.city}" required="true" >
+                            <!--<f:validateLength maximum="255" />-->
+                        </h:inputText>
+                    </li>
+                    <li>
+                        <h:outputLabel for="country" value="#{msg.airport_country}:"/>
+                        <h:selectOneMenu id="country" value="#{airportEdit.countryId}" >
+                            <f:selectItems value="#{countryService.allCountries}" var="c" itemValue="#{c.id}" itemLabel="#{c.name}"/>
+                        </h:selectOneMenu>
+                    </li>
+                    <li>
+                        <h:commandButton action="#{airportEdit.storeAirport()}" value="Add Airport"/>
+                    </li>
+                </ul>
+            </fieldset>
+        </h:form>
+        <h:form>
+            <fieldset>
+                <legend>#{msg.airport_delete}</legend>
+                <ul>
+                    <li>
+                        <h:selectManyListbox value="#{airportEdit.selectedAirpots}">
+                            <f:selectItems value="#{airportService.allAirports}" var="a" itemValue="#{a.id}" itemLabel="#{a.countryName}, #{a.city}"/>
+                        </h:selectManyListbox>
+                    </li>
+                    <li>
+                        <h:commandButton action="#{airportEdit.deleteSelectedAirports()}" value="Delete"/>
+                    </li>
+                </ul>
+            </fieldset>
+        </h:form>
+    </h:body>
+</html>
+

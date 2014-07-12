@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+
+
+    <ui:include src="/template/head.xhtml"/>
+
+    <h:body>
+
+        <ui:include src="/template/header.xhtml"/>
+
+        <h1>
+            <h:outputText value="#{msg.ispok}"/>
+        </h1>
+
+        <!--Show all validation messages--> 
+        <h:messages  style="color:red" />
+
+        <f:view>
+            <h:form>
+                <fieldset>
+                    <legend><h:outputText value="#{msg.upcoming_tournaments}"/></legend>
+                    <!--                    <ul>
+                                            <li>
+                                                 future games 
+                                                <h:outputLabel for="from" value="#{msg.from}: "/>
+                                                <h:selectOneMenu id="from" value="#{index.fromAirportId}">
+                                                    <f:selectItems value="#{index.fromAirports}" var="a" itemValue="#{a.id}" itemLabel="#{a.city} [#{a.countryCode}]" />
+                                                </h:selectOneMenu>
+                                            </li>
+                                            <li>
+                                                to airport
+                                                <h:outputLabel for="to" value="#{msg.to}: "/>
+                                                <h:selectOneMenu id="to" value="#{index.toAirportId}">
+                                                    <f:selectItems value="#{index.toAirports}" var="b" itemValue="#{b.id}" itemLabel="#{b.city} [#{b.countryCode}]" />
+                                                </h:selectOneMenu>
+                                            </li>
+                                            <li>
+                                                day select
+                                                <h:outputLabel for="day" value="#{msg.day}: " />
+                                                <h:selectOneMenu id="day" value="#{index.selectedDay}">
+                                                    <f:selectItems value="#{index.days}"/>
+                                                </h:selectOneMenu>
+                                                month select
+                                                <h:outputLabel for="month" value="#{msg.month}: " />
+                                                <h:selectOneMenu id="month" value="#{index.selectedMonth}">
+                                                    <f:selectItems value="#{index.months}"/>
+                                                </h:selectOneMenu>
+                                                year select
+                                                <h:outputLabel for="year" value="#{msg.year}: " />
+                                                <h:selectOneMenu id="year" value="#{index.selectedYear}">
+                                                    <f:selectItems value="#{index.years}"/>
+                                                </h:selectOneMenu>
+                                                tolerance
+                                                <h:outputLabel for="tolerance" value="#{msg.tolerance}: " />
+                                                <h:selectOneMenu id="tolerance" value="#{index.selectedTolerance}">
+                                                    <f:selectItems value="#{index.dayTolerance}"/>
+                                                </h:selectOneMenu>
+                                            </li>
+                                            <li>
+                                                search button
+                                                <h:commandButton value="#{msg.search}" action="#{index.search()}" />
+                                            </li>
+                                        </ul>-->
+                </fieldset>
+            </h:form>
+        </f:view>
+
+    </h:body>
+</html>
+
