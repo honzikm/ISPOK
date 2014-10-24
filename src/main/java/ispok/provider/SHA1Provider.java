@@ -7,12 +7,7 @@ package ispok.provider;
 import java.security.MessageDigest;
 import org.springframework.stereotype.Component;
 
-/**
- * SHA1 hash functionprovider
- *
- * @author mickapa1
- */
-@Component("hashProvider")
+@Component(value = "hashProvider")
 public class SHA1Provider implements HashProvider {
 
     private static String convertToHex(byte[] data) {
@@ -38,7 +33,6 @@ public class SHA1Provider implements HashProvider {
         byte[] sha1hash = null;
         try {
             md = MessageDigest.getInstance("SHA-1");
-
             sha1hash = new byte[40];
             md.update(s.getBytes("utf8"), 0, s.length());
         } catch (Exception ex) {

@@ -13,11 +13,20 @@
             <h:form>
                 <p:toolbar>  
                     <f:facet name="left">  
-                        <p:commandButton value="#{msg.administration}" icon="ui-icon-key" />
+                        <!--<p:commandButton value="#{msg.administration}" icon="ui-icon-key" />-->
+                        <p:button value="#{msg.home}" icon="ui-icon-home" outcome="/index.xhtml"  />
                     </f:facet>
 
                     <f:facet name="right">  
-                        <p:commandButton value="#{msg.logout}" icon="ui-icon-power" action="#{employeeEdit.logout()}" />  
+<!--                        <form class="form-inline" action="j_spring_security_logout" method="post">
+                            <input type="submit" value="Log out" />
+                        </form>-->
+                                            <!--<h:outputLink value="/ispok/j_spring_security_logout">#{msg.logout}</h:outputLink>-->
+                                            <p:commandButton value="#{msg.logout}" icon="ui-icon-power" action="#{navigation.logout()}"/>
+
+
+<!--<h:outputLink value="#{pageContext.request.contextPath}/j_spring_security_logout">#{msg.logout}</h:outputLink>-->
+<!--<p:link value="#{request.contextPath}/j_spring_security_logout" outcome="#{request.contextPath}/j_spring_security_logout">lo </p:link>-->
 
  <!--<h:outputLink value="#{request.contextPath}/j_spring_security_logout">#{msg.logout}</h:outputLink>-->
                     </f:facet>

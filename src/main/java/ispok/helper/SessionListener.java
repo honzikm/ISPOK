@@ -31,7 +31,6 @@ public class SessionListener implements HttpSessionListener {
     public void sessionDestroyed(HttpSessionEvent hse) {
 
         logger.entry();
-
         logger.debug("Session destroyed: {}", hse.getSession().toString());
 
 //        Enumeration<String> attributeNames = hse.getSession().getAttributeNames();
@@ -47,5 +46,4 @@ public class SessionListener implements HttpSessionListener {
 
         logger.exit();
     }
-
 }

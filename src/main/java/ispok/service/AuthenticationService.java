@@ -83,7 +83,7 @@ public class AuthenticationService extends AbstractUserDetailsAuthenticationProv
 //                    } catch (EmptyResultDataAccessException e) {
 //                    }
 
-                    if (user == null && employee == null) {
+                    if (employee == null) {
                         throw new BadCredentialsException("Uzivatel neexistuje");
                     }
 
@@ -118,7 +118,7 @@ public class AuthenticationService extends AbstractUserDetailsAuthenticationProv
                     status.setRollbackOnly();
                     throw e;
                 } catch (Exception e) {
-                    logger.error("Error occured during retrieveUser call", e);
+                    logger.error("Error occured during retrieve User call", e);
                     status.setRollbackOnly();
                     throw new RuntimeException(e);
                 }

@@ -5,8 +5,14 @@
  */
 package ispok.pres.bb;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
  *
@@ -33,11 +39,19 @@ public class Navigation {
         return "/admin/mangement/employees.xhtml";
     }
 
-    public String logout() {
+    public void logout() {
         System.out.println("********************** LOGOUT");
-        SecurityContextHolder.clearContext();
-
-        return "/index";
+//        SecurityContextHolder.clearContext();
+        ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletRequest req = sra.getRequest();
+        try {
+            req.logout();
+        } catch (ServletException ex) {
+            Logger.getLogger(Navigation.class.getName()).log(Level.SEVERE, null, ex);
+        }
+//        SecurityContextHolder.getContext().getAuthentication().setAuthenticated(false);
+//        SecurityContextHolder.createEmptyContext();
+//        return "/ispok/index.xhtml";
     }
 
     public String goVisitors() {

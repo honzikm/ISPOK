@@ -6,7 +6,7 @@ package ispok.provider;
 
 /**
  *
- * @author mickapa1
+ * @author
  */
 public interface HashProvider {
     /**

@@ -19,7 +19,7 @@
                             http://www.springframework.org/schema/tx/spring-tx-2.5.xsd" default-autowire="byName">
     <!-- Pro konfiguraci Spring beans budou pouzity take anotace -->
     <context:annotation-config />      
-    <!-- Spring beans budou hledany v balicku cz.cvut.kbss (podpora anotaci @Component, @Repository, @Service) -->
+    <!-- Spring beans budou hledany v balicku ispok (podpora anotaci @Component, @Repository, @Service) -->
     <context:component-scan base-package="ispok"/>
     <!-- Podpora anotace @Configurable -->
     <context:spring-configured/> 

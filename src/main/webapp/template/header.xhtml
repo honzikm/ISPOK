@@ -20,7 +20,8 @@
 
             <sec:authorize ifAnyGranted="ROLE_USER, ROLE_ADMIN, ROLE_MANAGER, ROLE_FLOORMAN, ROLE_CASHIER, ROLE_RECEPTIONIST">
                 <li>
-                    <h:outputLink value="#{request.contextPath}/j_spring_security_logout">#{msg.logout}</h:outputLink>
+                    <h:outputLink value="j_spring_security_logout">#{msg.logout}</h:outputLink>
+<!--                    <h:outputLink value="#{request.contextPath}/j_spring_security_logout">#{msg.logout}</h:outputLink>-->
                 </li>
             </sec:authorize>
 
@@ -30,16 +31,16 @@
                 </li>
             </sec:authorize>
 
-            <sec:authorize ifAnyGranted="ROLE_MANAGER">
-                <li>
+            <sec:authorize  ifAnyGranted="ROLE_MANAGER, ROLE_ADMIN, ROLE_FLOORMAN, ROLE_CASHIER, ROLE_RECEPTIONIST">
+<!--                <li>
                     <h:link value="#{msg.staff}" outcome="/admin/staffEdit.xhtml"/>
                 </li>
                 <li>
                     <h:link value="#{msg.offices}" outcome="/admin/officeEdit.xhtml"/>
-                </li>
+                </li>-->
                 
                 <li>
-                    <h:link value="#{msg.flight_edit}" outcome="/admin/management/employees.xhtml"/>
+                    <h:link value="#{msg.administration}" outcome="/admin/management/employees.xhtml"/>
                 </li>
                 <!--
                 <li>

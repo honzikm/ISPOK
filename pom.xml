@@ -16,11 +16,11 @@
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <hibernate.version>4.3.4.Final</hibernate.version>
-        <spring.version>4.0.3.RELEASE</spring.version>
+        <hibernate.version>4.3.6.Final</hibernate.version>
+        <spring.version>4.1.1.RELEASE</spring.version>
         <!--<spring.version>3.2.8.RELEASE</spring.version>-->
         <!--<spring.version>3.2.3.RELEASE</spring.version>-->
-        <spring.security.version>3.2.3.RELEASE</spring.security.version>
+        <spring.security.version>3.2.5.RELEASE</spring.security.version>
         <faces.version>2.2.6</faces.version>
     </properties>
 
@@ -187,11 +187,11 @@
         </dependency>            
 
         <!-- AspectJ  -->
-        <dependency>
+        <!--        <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjrt</artifactId>
-            <version>1.7.4</version>
-        </dependency>
+            <version>1.8.2</version>
+        </dependency>-->
         
         
 
@@ -287,7 +287,7 @@
         <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
-            <version>5.0</version>
+            <version>5.1</version>
         </dependency>        
         
         
@@ -319,8 +319,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.1</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -342,10 +342,10 @@
                 napr. pomoci java agenta (predan jako parametr pri spousteni serveru].
                 Tento postup se jmenuje Load time weaving.
             -->
-            <plugin>
+<!--            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>aspectj-maven-plugin</artifactId>
-                <version>1.6</version>
+                <version>1.7</version>
                 <configuration>
                     <complianceLevel>1.7</complianceLevel>
                     <aspectLibraries>
@@ -363,7 +363,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>            
+            </plugin>            -->
         </plugins>
     </build>
     
