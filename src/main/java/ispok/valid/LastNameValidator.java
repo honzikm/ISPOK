@@ -11,7 +11,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
-import org.springframework.stereotype.Component;
 
 /**
  * Custom validator example. This validator is defined using the spring bean and
@@ -19,7 +18,7 @@ import org.springframework.stereotype.Component;
  *
  * @author user
  */
-@Component
+@FacesValidator
 public class LastNameValidator implements Validator {
 
     @Override

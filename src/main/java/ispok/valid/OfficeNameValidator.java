@@ -9,15 +9,15 @@ import java.util.ResourceBundle;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
-import org.springframework.stereotype.Component;
 
 /**
  *
  * @author Jan Mucha <j.mucha@seznam.cz>
  */
-@Component
+@FacesValidator
 public class OfficeNameValidator implements Validator {
 
     @Override
@@ -33,5 +33,6 @@ public class OfficeNameValidator implements Validator {
             throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("office_name_invalid"), bundle.getString("office_name_valid_length")));
 
         }
+        
     }
 }

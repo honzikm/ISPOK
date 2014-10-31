@@ -23,15 +23,22 @@
 
                     <p:contextMenu for="employeesTab">  
                         <!--<p:menuitem value="View" update="display" icon="ui-icon-search" oncomplete="PF('carDialog').show()"/>-->  
-                        <p:menuitem value="#{msg.edit}" icon="ui-icon-pencil" update=":editEmployeeDialogId" action="#{employeeEdit.loadEmployee()}" oncomplete="editEmployeeDialog.show()"/>
-                        <p:menuitem value="#{msg.delete}" ajax="true" update="employeesTab" icon="ui-icon-close" oncomplete="deleteEmployeeDialog.show()"/>
+                        <p:menuitem value="#{msg.edit}" icon="ui-icon-pencil" update=":editEmployeeDialogId" action="#{employeeEdit.loadEmployee()}" oncomplete="PF('editEmployeeDialog').show()"/>
+                        <p:menuitem value="#{msg.delete}" ajax="true" update="employeesTab" icon="ui-icon-close" oncomplete="PF('deleteEmployeeDialog').show()"/>
                     </p:contextMenu> 
 
 
-                    <p:dataTable id="employeesTab" widgetVar="employeeTable" var="employee" value="#{employeeEdit.employees}" 
-                                 paginator="true" rowsPerPageTemplate="10, 25, 50, 100" rows="25" 
+                    <p:dataTable id="employeesTab" 
+                                 widgetVar="employeeTable"
+                                 var="employee"
+                                 value="#{employeeEdit.employees}" 
+                                 paginator="true" 
+                                 rowsPerPageTemplate="10, 25, 50, 100"
+                                 rows="25" 
                                  filteredValue="#{employeeEdit.filteredEmployees}"
-                                 rowKey="#{employee.id}" selectionMode="multiple" selection="#{employeeEdit.selected}">  
+                                 rowKey="#{employee.id}"
+                                 selectionMode="multiple" 
+                                 selection="#{employeeEdit.selected}">  
 
                             <!--<p:ajax event="rowSelect" listener="#{employeeEdit.onRowSelect}" />--> 
 
@@ -42,9 +49,9 @@
                                     <p:inputText id="globalFilter" onkeyup="PF('employeeTable').filter()"  />  
                                 </div>
                                 <div align="left">
-                                    <p:commandButton value="#{msg.neww}" icon="ui-icon-star" onclick="newEmployee.show()"/>
-                                    <p:commandButton value="#{msg.edit}" icon="ui-icon-pencil" update=":editEmployeeDialogId" action="#{employeeEdit.loadEmployee()}" oncomplete="editEmployeeDialog.show()"/>
-                                    <p:commandButton value="#{msg.delete}" icon="ui-icon-trash" onclick="deleteEmployeeDialog.show()"/>
+                                    <p:commandButton value="#{msg.neww}" icon="ui-icon-star" update=":dialogForm" action="#{employeeEdit.clearEdit()}" onclick="PF('newEmployee').show()"/>
+                                    <p:commandButton value="#{msg.edit}" icon="ui-icon-pencil" update=":editEmployeeDialogId" action="#{employeeEdit.loadEmployee()}" oncomplete="PF('editEmployeeDialog').show()"/>
+                                    <p:commandButton value="#{msg.delete}" icon="ui-icon-trash" onclick="PF('deleteEmployeeDialog').show()"/>
                                 </div>
                             </p:outputPanel>  
                         </f:facet>  
@@ -81,13 +88,14 @@
             </ui:define>
 
             <ui:define name="body">
-                <!--
-                        <h:form>
-                            <p:commandLink ajax="true" update=":dataForm:ot" value="up" />
-                            <p:commandButton ajax="true" value="up" update=":dataForm:dataT" />
-                        </h:form>-->
-                <p:dialog id="basicDialog" header="#{msg.employee_new}" widgetVar="newEmployee" resizable="false" 
-                          closable="false" draggable="true" closeOnEscape="true" modal="true" >  
+                <p:dialog id="newEmployeeDialogId" 
+                          header="#{msg.employee_new}" 
+                          widgetVar="newEmployee" 
+                          resizable="false" 
+                          closable="false" 
+                          draggable="true" 
+                          closeOnEscape="true"
+                          modal="true" >  
                     <h:form id="dialogForm">
                         <table>
                             <tr>
@@ -96,7 +104,7 @@
                                 </td>
                                 <td>
                                     <p:inputText id="username" value="#{employeeEdit.username}" required="true" requiredMessage="#{msg.username_length_valid}">
-                                        <f:validator binding="#{usernameValidator}" />
+                                        <f:validator validatorId="usernameValidator" />
                                     </p:inputText>
                                 </td>
                                 <td>
@@ -109,7 +117,7 @@
                                 </td>
                                 <td>
                                     <p:password id="password" value="#{employeeEdit.password}" required="true" requiredMessage="#{msg.password_length_valid}"> 
-                                        <f:validator binding="#{passwordValidator}" />
+                                        <f:validator validatorId="usernameValidator" />
                                     </p:password>
                                 </td>
                                 <td>
@@ -152,18 +160,16 @@
                                 <td colspan="2">
                                     <ul>
                                         <li>
-                                            <p:commandButton value="#{msg.add}" ajax="true" update="dialogForm"     
+                                            <p:commandButton value="#{msg.add}" ajax="true" 
+                                                             update="dialogForm"     
                                                              action="#{employeeEdit.addEmployee()}" 
-                                                             oncomplete="if (args &amp;&amp; !args.validationFailed){ newEmployee.hide(); updateTable();}">
-                                                <p:resetInput target="dialogForm" />
-                                            </p:commandButton>
+                                                             oncomplete="if (args &amp;&amp; !args.validationFailed) {PF('newEmployee').hide(); updateTable();}"
+                                                             />
                                         </li>
                                         <li>
-                                            <p:commandButton value="#{msg.cancel}" oncomplete="newEmployee.hide();"  >
-                                                <!--action="#{employeeEdit.clearEdit}"-->
-                                                <!--<p:resetInput target="dialogForm" />-->
-                                                <p:ajax update="dialogForm" resetValues="true" /> 
-                                            </p:commandButton>
+                                            <p:commandButton value="#{msg.cancel}"
+                                                             oncomplete="newEmployee.hide();" 
+                                                             />
                                         </li>
                                     </ul>
                                 </td>
@@ -179,7 +185,7 @@
                         <br/>
                         <p:commandButton value="#{msg.yes}" styleClass="ui-confirmdialog-yes" 
                                          icon="ui-icon-check" action="#{employeeEdit.delete()}" oncomplete="updateTable(); deleteEmployeeDialog.hide();"/>  
-                        <p:commandButton value="#{msg.no}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" onclick="deleteEmployeeDialog.hide()"/> 
+                        <p:commandButton value="#{msg.no}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" onclick="PF('deleteEmployeeDialog').hide()"/> 
                     </h:form>
                 </p:dialog>
 
@@ -215,7 +221,7 @@
                                     </td>
                                     <td>
                                         <p:password id="chPassword" value="#{employeeEdit.password}" required="true" requiredMessage="#{msg.password_length_valid}" redisplay="false"> 
-                                            <f:validator binding="#{passwordValidator}" />
+                                            <f:validator validatorId="passwordValidator" />
                                         </p:password>
 
 <!--                                    <p:password id="password" value="#{employeeEdit.password}" required="true" requiredMessage="#{msg.password_length_valid}"> 

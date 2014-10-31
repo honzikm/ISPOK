@@ -13,9 +13,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 
 @Entity(name = "visitor")
+@Configurable(preConstruction = true, autowire = Autowire.BY_NAME)
 public class Visitor extends AbstractBusinessObject {
 
     @Column(nullable = false, name = "first_name")

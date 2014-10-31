@@ -31,7 +31,7 @@
                                 <td>
                                     <p:inputText id="firstName" value="#{newVisitor.firstName}" required="true" requiredMessage="#{msg.required}">
                                         <f:converter binding="#{stringTrimmer}" />
-                                        <f:validator binding="#{firstNameValidator}" />
+                                        <f:validator validatorId="firstNameValidator" />
                                     </p:inputText>
                                 </td>
                                 <td><p:message id="firstNameMsg" for="firstName" /></td>
@@ -41,7 +41,7 @@
                                 <td>
                                     <p:inputText id="lastName" value="#{newVisitor.lastName}" required="true" requiredMessage="#{msg.required}">
                                         <f:converter binding="#{stringTrimmer}" />
-                                        <f:validator binding="#{lastNameValidator}" />
+                                        <f:validator validatorId="lastNameValidator" />
                                     </p:inputText>
                                 </td>
                                 <td><p:message id="lastnameMsg" for="lastName" /></td>
@@ -58,7 +58,7 @@
                             <tr>
                                 <td><p:outputLabel for="nin" value="#{msg.visitor_nin}: "/></td>
                                 <td>
-                                    <p:inputText id="nin" value="#{newVisitor.nin}" required="true" requiredMessage="#{msg.visitor_nin_valid}">
+                                    <p:inputText id="nin" value="#{newVisitor.nin}" required="true" requiredMessage="#{msg.required}">
                                     </p:inputText>
                                 </td>
                                 <td><p:message id="ninMsg" for="nin" /></td>
@@ -68,7 +68,7 @@
                                 <td>
                                     <p:inputText id="nickname" value="#{newVisitor.nickname}" >
                                         <f:converter binding="#{stringTrimmer}" />
-                                        <f:validator binding="#{nicknameValidator}"/>
+                                        <f:validator validatorId="nicknameValidator"/>
                                     </p:inputText>
                                 </td>
                                 <td><p:message id="nicknameMsg" for="nickname" /></td>
@@ -78,7 +78,7 @@
                                 <td>
                                     <p:inputText id="telephone" value="#{newVisitor.telephone}">
                                         <f:converter binding="#{stringTrimmer}" />
-                                        <f:validator binding="#{telephoneValidator}" />
+                                        <f:validator validatorId="telephoneValidator" />
                                     </p:inputText>
                                 </td>
                                 <td><p:message id="telephoneMsg" for="telephone" /></td>
@@ -88,7 +88,7 @@
                                 <td>
                                     <p:inputText id="email" value="#{newVisitor.email}">
                                         <f:converter binding="#{stringTrimmer}" />
-                                        <f:validator binding="#{emailValidator}" />
+                                        <f:validator validatorId="emailValidator" />
                                     </p:inputText>
                                 </td>
                                 <td><p:message id="emailMsg" for="email" /></td>
@@ -110,7 +110,7 @@
                                 <td>
                                     <p:inputText id="password" value="#{newVisitor.password}">
 
-                                        <f:validator binding="#{passwordValidator}"/>
+                                        <f:validator validatorId="passwordValidator"/>
                                     </p:inputText>
                                 </td>
                                 <td><p:message id="passwordMsg" for="password" /></td>
@@ -120,7 +120,7 @@
                             <tr>
                                 <td><p:outputLabel for="address" value="#{msg.domicile_address}: " /></td>
                                 <td>
-                                    <p:inputText id="address" value="#{newVisitor.address}" required="true" requiredMessage="#{msg.visitor_address_valid}">
+                                    <p:inputText id="address" value="#{newVisitor.address}" required="true" requiredMessage="#{msg.required}">
                                     </p:inputText>
                                 </td>
                                 <td><p:message id="addressMag" for="address" /></td>
@@ -128,14 +128,14 @@
 
                             <tr>
                                 <td><p:outputLabel for="city" value="#{msg.domicile_city}: "/></td>
-                                <td><p:inputText id="city" value="#{newVisitor.city}" required="true" requiredMessage="#{msg.visitor_city_valid}"/></td>
+                                <td><p:inputText id="city" value="#{newVisitor.city}" required="true" requiredMessage="#{msg.required}"/></td>
                                 <td><p:message id="cityMsg" for="city" /></td>
                             </tr>
 
                             <tr>
                                 <td><p:outputLabel for="zip" value="#{msg.domicile_zip}: "/></td>
                                 <td>
-                                    <p:inputText id="zip" value="#{newVisitor.zip}" required="true" requiredMessage="#{msg.visitor_zip_valid}">
+                                    <p:inputText id="zip" value="#{newVisitor.zip}" required="true" requiredMessage="#{msg.required}">
                                     </p:inputText>
                                 </td>
                                 <td><p:message id="zipMsg" for="zip" /></td>
@@ -200,7 +200,8 @@
                                     </h:inputFile>-->
 
                                     <p:fileUpload id="photo" mode="simple" value="#{newVisitor.photoFile}" required="true" requiredMessage="hovno" >
-                                        <f:validator binding="#{visitorPhotoValidator}" />
+                                        <f:validator validatorId="visitorPhotoEmptyValidator"/>
+                                        <f:validator validatorId="visitorPhotoSizeValidator"/>
                                     </p:fileUpload>
                                 </td>
                                 <td><p:message id="photoMsg" for="photo" /></td>
@@ -224,8 +225,8 @@
                                         </li>
                                         <li class="inline">
                                             <p:commandButton value="#{msg.cancel}" 
-                                                             action="#{newVisitor.clearEdit()}"
-                                                             oncomplete="PF('confirmDialog').show();"  >
+                                                             action="#{newVisitor.clear()}"
+                                                             oncomplete="#{navigation.visitors}">
                                                 <!--<p:resetInput target="newOfficeForm" />-->
                                                 <!--<p:ajax update="newVisitorForm" resetValues="true"/>--> 
                                             </p:commandButton>

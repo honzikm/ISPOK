@@ -3,11 +3,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:c="http://java.sun.com/jsp/jstl/core">
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui">
 
     <ui:include src="/template/head.xhtml"/>
-    <h:body>
-
+    
+    <h:body onload="#{login.setAdminLogin()}">
+       
         <ui:include src="/template/header.xhtml"/>
 
         <h1>
@@ -28,10 +30,11 @@
         <h:messages  style="color:red"/>
 
         <form action="static/j_spring_security_check" method="post">
+            <input type="hidden" name="authgroup" value="admin"/>
             <ul>
-<!--                <li>
-                    <h:link value="#{msg.register}" outcome="register.xhtml"/>
-                </li>-->
+                <!--                <li>
+                                    <h:link value="#{msg.register}" outcome="register.xhtml"/>
+                                </li>-->
                 <li>
                     <h:outputLabel for="username" value="#{msg.username}: " />
                     <input id="username" type="text" name="j_username"/>
@@ -39,9 +42,10 @@
                 <li>
                     <h:outputLabel for="password" value="#{msg.password}: " />
                     <input id="password" type="password" name="j_password"/>
+                    <p:inputText id="password" type="password" 
                 </li>
                 <li>
-                    <button type="submit">#{msg.login}</button>    
+                    <button type="submit" onclick="#{login.setAdminLogin()}">#{msg.login}</button>    
                 </li>
             </ul>
         </form>

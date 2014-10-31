@@ -7,14 +7,11 @@ package ispok.bo;
 
 import ispok.dto.EmployeeDto;
 import ispok.provider.HashProvider;
-import ispok.provider.SHA1Provider;
-import javax.annotation.Resource;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
  *
@@ -115,9 +112,9 @@ public class Employee extends AbstractBusinessObject {
 
     public boolean hasPassword(String password) {
         String hashPassw;
-        if (hashProvider == null) {
-            hashProvider = new SHA1Provider();
-        }
+//        if (hashProvider == null) {
+//            hashProvider = new SHA1Provider();
+//        }
         hashPassw = hashProvider.computeHash(password + salt);
         return hashPassw.equals(this.password);
     }

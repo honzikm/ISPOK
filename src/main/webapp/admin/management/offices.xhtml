@@ -18,20 +18,30 @@
 
             <ui:define name="content">
 
-                <p:growl id="growl" showDetail="true" /> 
+                <p:growl id="growl" 
+                         showDetail="true"
+                         globalOnly="true"
+                         /> 
 
                 <h:form id="dataForm"> 
 
                     <p:contextMenu for="officesTableId">
-                        <p:menuitem value="#{msg.edit}" icon="ui-icon-pencil" update=":editOfficeForm" action="#{officeEdit.loadOffice()}" oncomplete="editOfficeDialog.show()"/>
-                        <p:menuitem value="#{msg.delete}" ajax="true" icon="ui-icon-close" update="officesTableId" oncomplete="deleteOfficeDialog.show()"/>
+                        <p:menuitem value="#{msg.edit}" icon="ui-icon-pencil" update=":editOfficeForm" action="#{officeEdit.loadOffice()}" oncomplete="PF('editOfficeDialog').show()"/>
+                        <p:menuitem value="#{msg.delete}" ajax="true" icon="ui-icon-close" update="officesTableId" oncomplete="PF('deleteOfficeDialog').show()"/>
                     </p:contextMenu> 
 
 
-                    <p:dataTable id="officesTableId" widgetVar="officesTable" var="office" value="#{officeEdit.offices}" 
-                                 paginator="true" rowsPerPageTemplate="10, 25, 50, 100" rows="25" 
+                    <p:dataTable id="officesTableId" 
+                                 widgetVar="officesTable" 
+                                 var="office" 
+                                 value="#{officeEdit.offices}" 
+                                 paginator="true" 
+                                 rowsPerPageTemplate="10, 25, 50, 100" 
+                                 rows="25" 
                                  filteredValue="#{officeEdit.filteredOffices}"
-                                 rowKey="#{office.id}" selectionMode="multiple" selection="#{officeEdit.selected}">  
+                                 rowKey="#{office.id}" 
+                                 selectionMode="multiple" 
+                                 selection="#{officeEdit.selected}">  
 
                         <!--<p:ajax event="rowSelect"  />--> 
 
@@ -42,9 +52,9 @@
                                     <p:inputText id="globalFilter" onkeyup="PF('officeTable').filter()"  />  
                                 </div>
                                 <div align="left">
-                                    <p:commandButton value="#{msg.neww}"  icon="ui-icon-star" onclick="newOfficeDialog.show()"/>
-                                    <p:commandButton value="#{msg.edit}" icon="ui-icon-pencil" update=":editOfficeForm" action="#{officeEdit.loadOffice()}" oncomplete="editOfficeDialog.show()"/>
-                                    <p:commandButton value="#{msg.delete}" icon="ui-icon-trash" onclick="deleteOfficeDialog.show()"/>
+                                    <p:commandButton value="#{msg.neww}"  icon="ui-icon-star" onclick="PF('newOfficeDialog').show()"/>
+                                    <p:commandButton value="#{msg.edit}" icon="ui-icon-pencil" update=":editOfficeForm" action="#{officeEdit.loadOffice()}" oncomplete="PF('editOfficeDialog').show()"/>
+                                    <p:commandButton value="#{msg.delete}" icon="ui-icon-trash" onclick="PF('deleteOfficeDialog').show()"/>
                                 </div>
                             </p:outputPanel>  
                         </f:facet>  
@@ -65,9 +75,14 @@
 
 
             <ui:define name="body">
-
-                <p:dialog id="newOfficeDialogId" header="#{msg.office_new}" widgetVar="newOfficeDialog" resizable="false" 
-                          closable="false" draggable="true" closeOnEscape="true" modal="true" >  
+                <p:dialog id="newOfficeDialogId" 
+                          header="#{msg.office_new}" 
+                          widgetVar="newOfficeDialog" 
+                          resizable="false" 
+                          closable="false" 
+                          draggable="true"
+                          closeOnEscape="true"
+                          modal="true" >  
                     <h:form id="newOfficeForm">
                         <table>
                             <tr>
@@ -76,7 +91,7 @@
                                 </td>
                                 <td>
                                     <p:inputText id="nameInput" value="#{officeEdit.name}" required="true" requiredMessage="#{msg.office_name_valid_length}">
-                                        <f:validator binding="#{officeNameValidator}" />
+                                        <f:validator validatorId="officeNameValidator" />
                                     </p:inputText>
                                 </td>
                                 <td>
@@ -86,14 +101,15 @@
                             <tr>
                                 <td colspan="2">
                                     <ul>
-                                        <li>
-                                            <p:commandButton value="#{msg.add}" ajax="true" update="newOfficeForm :growl"    
+                                        <li class="inline">
+                                            <p:commandButton value="#{msg.add}" ajax="true"
+                                                             update="newOfficeForm :growl"    
                                                              action="#{officeEdit.addOffice()}" 
-                                                             oncomplete="if (args &amp;&amp; !args.validationFailed){ newOfficeDialog.hide(); updateTable();}">
+                                                             oncomplete="if (args &amp;&amp; !args.validationFailed){PF('newOfficeDialog').hide(); updateTable();}">
                                             </p:commandButton>
                                         </li>
-                                        <li>
-                                            <p:commandButton value="#{msg.cancel}" action="#{officeEdit.clearEdit()}" oncomplete="newOfficeDialog.hide();"  >
+                                        <li class="inline">
+                                            <p:commandButton value="#{msg.cancel}" action="#{officeEdit.clearEdit()}" oncomplete="PF('newOfficeDialog').hide();"  >
                                                 <!--<p:resetInput target="newOfficeForm" />-->
                                                 <p:ajax update="newOfficeForm" resetValues="true"/> 
                                             </p:commandButton>
@@ -105,19 +121,29 @@
                     </h:form>
                 </p:dialog>  
 
-                <p:dialog header="#{msg.office_delete} ?" widgetVar="deleteOfficeDialog" resizable="false" 
-                          closable="false" draggable="true" closeOnEscape="true" modal="true"> 
+                <p:dialog header="#{msg.office_delete} ?" 
+                          widgetVar="deleteOfficeDialog" 
+                          resizable="false" 
+                          closable="false" 
+                          draggable="true" 
+                          closeOnEscape="true" 
+                          modal="true"> 
                     <h:form id="deleteOfficeForm" >
                         <h:outputText value="#{msg.office_delete_confirm}" />
                         <br/>
                         <p:commandButton value="#{msg.yes}" styleClass="ui-confirmdialog-yes" update=":growl"
-                                         icon="ui-icon-check" action="#{officeEdit.delete()}" oncomplete="updateTable(); deleteOfficeDialog.hide();"/>  
-                        <p:commandButton value="#{msg.no}" styleClass="ui-confirmdialog-no" icon="ui-icon-close" onclick="deleteOfficeDialog.hide()"/> 
+                                         icon="ui-icon-check" action="#{officeEdit.delete()}" oncomplete="updateTable(); PF('deleteOfficeDialog').hide();"/>  
+                        <p:commandButton value="#{msg.no}" styleClass="ui-confirmdialog-no" icon="ui-icon-close" onclick="PF('deleteOfficeDialog').hide()"/> 
                     </h:form>
                 </p:dialog>
 
-                <p:dialog header="#{msg.office_edit}" widgetVar="editOfficeDialog" resizable="false"
-                          closable="false" draggable="true" closeOnEscape="true" modal="true">
+                <p:dialog header="#{msg.office_edit}" 
+                          widgetVar="editOfficeDialog" 
+                          resizable="false"
+                          closable="false" 
+                          draggable="true" 
+                          closeOnEscape="true" 
+                          modal="true">
                     <h:form id="editOfficeForm"> 
                         <table>
                             <tr>
@@ -125,20 +151,30 @@
                                     <p:outputLabel for="editNameInput" value="#{msg.office_name}: "/>
                                 </td>
                                 <td>
-                                    <h:outputText id="editNameInput" value="#{officeEdit.name}" />
+                                    <h:inputText id="editNameInput" value="#{officeEdit.name}" required="true" requiredMessage="#{msg.required}">
+                                        <f:validator validatorId="officeNameValidator"/>
+                                    </h:inputText>
+                                </td>
+                                <td>
+                                    <p:message for="editNameInput" />
                                 </td>
                             </tr>
 
                             <tr>
-                                <td colspan="2">
+                                <td colspan="3">
                                     <ul>
-                                        <li>
-                                            <p:commandButton value="#{msg.save}" ajax="true" update="editOfficeForm :dataForm :growl"
+                                        <li class="inline">
+                                            <p:commandButton value="#{msg.save}" ajax="true"
+                                                             update=":editOfficeForm :dataForm :growl"
                                                              action="#{officeEdit.updateOffice()}" 
-                                                             oncomplete="if (args &amp;&amp; !args.validationFailed){ editOfficeDialog.hide();}" />
+                                                             oncomplete="if (args &amp;&amp; !args.validationFailed){ PF('editOfficeDialog').hide();}"
+                                                             />
                                         </li>
-                                        <li>
-                                            <p:commandButton value="#{msg.cancel}" process="@this" oncomplete="editOfficeDialog.hide();" />
+                                        <li class="inline">
+                                            <p:commandButton value="#{msg.cancel}" 
+                                                             process="@this" 
+                                                             oncomplete="PF('editOfficeDialog').hide();" 
+                                                             />
                                         </li>
                                     </ul>
                                 </td>

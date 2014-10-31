@@ -6,8 +6,9 @@ package ispok.provider;
 
 import java.security.MessageDigest;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component(value = "hashProvider")
+@Component("hashProvider")
 public class SHA1Provider implements HashProvider {
 
     private static String convertToHex(byte[] data) {

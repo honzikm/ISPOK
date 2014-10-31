@@ -36,7 +36,7 @@
                                 <td>
                                     <p:inputText id="firstName" value="#{visitorEdit.visitorDto.firstName}" required="true" requiredMessage="#{msg.required}">
                                         <f:converter binding="#{stringTrimmer}" />
-                                        <f:validator binding="#{firstNameValidator}" />
+                                        <f:validator validatorId="firstNameValidator" />
                                     </p:inputText>
                                 </td>
                                 <td><p:message id="firstNameMsg" for="firstName" /></td>
@@ -46,7 +46,7 @@
                                 <td>
                                     <p:inputText id="lastName" value="#{visitorEdit.visitorDto.lastName}" required="true" requiredMessage="#{msg.required}">
                                         <f:converter binding="#{stringTrimmer}" />
-                                        <f:validator binding="#{lastNameValidator}" />
+                                        <f:validator validatorId="lastNameValidator"/>
                                     </p:inputText>
                                 </td>
                                 <td><p:message id="lastnameMsg" for="lastName" /></td>
@@ -73,7 +73,7 @@
                                 <td>
                                     <p:inputText id="nickname" value="#{visitorEdit.visitorDto.nickname}" >
                                         <f:converter binding="#{stringTrimmer}" />
-                                        <f:validator binding="#{nicknameValidator}"/>
+                                        <f:validator validatorId="nicknameValidator"/>
                                     </p:inputText>
                                 </td>
                                 <td><p:message id="nicknameMsg" for="nickname" /></td>
@@ -83,7 +83,7 @@
                                 <td>
                                     <p:inputText id="telephone" value="#{visitorEdit.visitorDto.telephone}">
                                         <f:converter binding="#{stringTrimmer}" />
-                                        <f:validator binding="#{telephoneValidator}" />
+                                        <f:validator validatorId="telephoneValidator" />
                                     </p:inputText>
                                 </td>
                                 <td><p:message id="telephoneMsg" for="telephone" /></td>
@@ -93,7 +93,7 @@
                                 <td>
                                     <p:inputText id="email" value="#{visitorEdit.visitorDto.email}">
                                         <f:converter binding="#{stringTrimmer}" />
-                                        <f:validator binding="#{emailValidator}" />
+                                        <f:validator validatorId="emailValidator" />
                                     </p:inputText>
                                 </td>
                                 <td><p:message id="emailMsg" for="email" /></td>
@@ -115,7 +115,7 @@
                                 <td>
                                     <p:inputText id="password" value="#{visitorEdit.visitorDto.password}">
 
-                                        <f:validator binding="#{passwordValidator}"/>
+                                        <f:validator validatorId="passwordValidator"/>
                                     </p:inputText>
                                 </td>
                                 <td><p:message id="passwordMsg" for="password" /></td>
@@ -206,24 +206,24 @@
                                     </h:inputFile>-->
 
                                     <p:fileUpload id="photo" mode="simple" value="#{visitorEdit.photoFile}"> 
-                                        <f:validator binding="#{visitorPhotoSizeValidator}" />
+                                        <f:validator validatorId="visitorPhotoSizeValidator" />
                                     </p:fileUpload>
                                 </td>
                                 <td><p:message id="photoMsg" for="photo" /></td>
                             </tr>
-<!--                            <tr>
-                                <td></td>
-                                <td><h:inputFile onchange="#{visitorEdit.cancel()}" onclick="#{visitorEdit.cancel()}" /></td>
-                            </tr>-->
+                            <!--                            <tr>
+                                                            <td></td>
+                                                            <td><h:inputFile onchange="#{visitorEdit.cancel()}" onclick="#{visitorEdit.cancel()}" /></td>
+                                                        </tr>-->
 
-<!--                            <tr>
-                                <td><p:outputLabel for="currentPhoto" value="#{msg.photo_current}: " /></td>
-                                <td>
-                                    <p:commandLink oncomplete="PF('photoDialog').show()" update=":photoDialogId">
-                                        <p:graphicImage id="currentPhoto" value="#{visitorEdit.photoThumb}" cache="false" />
-                                    </p:commandLink>
-                                </td>
-                            </tr>-->
+                            <!--                            <tr>
+                                                            <td><p:outputLabel for="currentPhoto" value="#{msg.photo_current}: " /></td>
+                                                            <td>
+                                                                <p:commandLink oncomplete="PF('photoDialog').show()" update=":photoDialogId">
+                                                                    <p:graphicImage id="currentPhoto" value="#{visitorEdit.photoThumb}" cache="false" />
+                                                                </p:commandLink>
+                                                            </td>
+                                                        </tr>-->
 
 
                             <tr>

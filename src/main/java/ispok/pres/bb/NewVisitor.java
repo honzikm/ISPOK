@@ -227,7 +227,6 @@ public class NewVisitor {
         ResourceBundle rb = ResourceBundle.getBundle("ispok/pres/inter/ispok", locale);
         fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, rb.getString("visitor_added"), firstName + " " + lastName));
         clear();
-
         return "/admin/management/visitors/visitors.xhtml";
     }
 

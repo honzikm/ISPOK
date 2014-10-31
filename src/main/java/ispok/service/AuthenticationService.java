@@ -7,9 +7,12 @@ package ispok.service;
 import ispok.bo.Employee;
 import ispok.dao.GenericDao;
 import ispok.dto.EmployeeDto;
+import ispok.pres.bb.Login;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +45,8 @@ public class AuthenticationService extends AbstractUserDetailsAuthenticationProv
     private TransactionTemplate transactionTemplate;
     @Autowired
     private IEmployeeService employeeService;
+    @Autowired
+    private Login login;
 
     public AuthenticationService() {
         this.setUserCache(new NullUserCache());
@@ -65,8 +70,16 @@ public class AuthenticationService extends AbstractUserDetailsAuthenticationProv
 
             @Override
             public Object doInTransaction(TransactionStatus status) {
+
+//                RequestAttributes ra = RequestContextHolder.getRequestAttributes();
+//                System.out.println(ra.toString());
+//                Map<String,String> requestParams = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+
+//                System.out.println(origRequest.getRequestURL().toString());
                 try {
                     UserDetails ud = null;
+                    
+                    
 
                     Employee employee = null;
                     EmployeeDto employeeDto = null;

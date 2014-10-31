@@ -10,6 +10,8 @@ import ispok.helper.FacesUtil;
 import ispok.service.OfficeService;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -85,6 +87,12 @@ public class OfficeEdit implements Serializable {
             FacesUtil.addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, FacesUtil.getMessage("ispok/pres/inter/ispok", "fail"), dive.toString()));
 //            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, bundle.getString("fail"), dive.toString()));
         }
+        
+//                FacesContext fc = FacesContext.getCurrentInstance();
+//        Locale l = fc.getViewRoot().getLocale();
+//        ResourceBundle rb = ResourceBundle.getBundle("ispok/pres/inter/ispok", l);
+//        fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, rb.getString("visitor_edit_success"), "aa" + " " + "bb"));
+        
         FacesUtil.addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, FacesUtil.getMessage("ispok/pres/inter/ispok", "success"), FacesUtil.getMessage("ispok/pres/inter/ispok", "office_add_success")));
 //        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("success"), bundle.getString("office_add_success")));
         clearEdit();
