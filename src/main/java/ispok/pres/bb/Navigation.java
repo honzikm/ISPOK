@@ -53,16 +53,32 @@ public class Navigation {
 //        return "/ispok/index.xhtml";
     }
 
-    public String getVisitors() {
+    public String goVisitors() {
         return "/admin/management/visitors/visitors.xhtml";
     }
 
+    /**
+     * 
+     * @return 
+     */
     public String goEditVisitor() {
         return "/admin/management/visitors/edit.xhtml";
     }
 
+    /**
+     * 
+     * @return 
+     */
     public String goNewVisitor() {
         return "/admin/management/visitors/newvisitor.xhtml";
+    }
+
+    /**
+     * 
+     * @return 
+     */
+    public String goNewTournament() {
+        return "/admin/management/tournaments/new.xhtml";
     }
 
 }

@@ -11,6 +11,7 @@ import ispok.dto.DomicileDto;
 import ispok.dto.PostalCodeDto;
 import ispok.dto.RegionDto;
 import ispok.dto.VisitorDto;
+import ispok.helper.FacesUtil;
 import ispok.helper.ImageUtil;
 import ispok.helper.VisitorLazyDataModel;
 import ispok.service.CityService;
@@ -36,6 +37,7 @@ import javax.faces.context.FacesContext;
 import javax.imageio.ImageIO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.primefaces.context.RequestContext;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.NativeUploadedFile;
@@ -63,31 +65,18 @@ public class VisitorEdit {
     private CityService cityService;
 
     private List<VisitorDto> selected;
-
     private VisitorDto selectedVisitor;
-
     private VisitorDto visitorDto;
-
     private DomicileDto domicileDto;
-
     private CityDto cityDto;
-
     private PostalCodeDto postalCodeDto;
-
     private RegionDto regionDto;
-
     private CountryDto countryDto;
-
     private CountryDto citizenshipDto;
-
     private List<VisitorDto> filteredVisitors;
-
     private LazyDataModel<VisitorDto> visitorLazyModel;
-
     private boolean foreigner;
-
     private boolean foreignerNewVal;
-
     private NativeUploadedFile photoFile;
 
     @PostConstruct
@@ -95,7 +84,15 @@ public class VisitorEdit {
         visitorLazyModel = new VisitorLazyDataModel(visitorService);
     }
 
-    public void loadVisitorDetails() {
+    private boolean loadVisitorDetails() {
+        if (selectedVisitor == null) {
+            FacesContext context = FacesContext.getCurrentInstance();
+            ResourceBundle bundle = ResourceBundle.getBundle("ispok/pres/inter/ispok", context.getViewRoot().getLocale());
+            FacesUtil.addMessage(new FacesMessage(FacesMessage.SEVERITY_WARN, bundle.getString("warn"), bundle.getString("no_item_selected")));
+            RequestContext.getCurrentInstance().addCallbackParam("showDialog", false);
+            return false;
+        }
+
         visitorDto = visitorService.getVisitorById(selectedVisitor.getId());
         domicileDto = domicileService.getDomicileById(visitorDto.getDomicileId());
         cityDto = cityService.getCityById(domicileDto.getCityId());
@@ -109,6 +106,8 @@ public class VisitorEdit {
             foreigner = true;
         }
         foreignerNewVal = foreigner;
+        RequestContext.getCurrentInstance().addCallbackParam("showDialog", true);
+        return true;
     }
 
     public String cancel() {
@@ -125,9 +124,17 @@ public class VisitorEdit {
         foreignerNewVal = foreigner;
     }
 
-    public String edit() {
+    public void detail() {
         loadVisitorDetails();
-        return "/admin/management/visitors/edit.xhtml";
+    }
+
+    public String edit() {
+        if (loadVisitorDetails()) {
+            return "/admin/management/visitors/edit.xhtml";
+        } else {
+
+        }
+        return null;
     }
 
     public void delete() {
@@ -161,7 +168,7 @@ public class VisitorEdit {
     }
 
     public String update() {
-        
+
         logger.entry();
 
         cityService.saveCity(cityDto);
@@ -180,18 +187,18 @@ public class VisitorEdit {
         } else {
             visitorDto.setCitizenshipId(citizenshipDto.getId());
         }
-        
+
         logger.trace("Update visitor");
         visitorService.updateVisitor(visitorDto);
         logger.trace("Update visitor finish");
-        
+
         FacesContext fc = FacesContext.getCurrentInstance();
         Locale l = fc.getViewRoot().getLocale();
         ResourceBundle rb = ResourceBundle.getBundle("ispok/pres/inter/ispok", l);
         fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, rb.getString("visitor_edit_success"), selectedVisitor.getFirstName() + " " + selectedVisitor.getLastName()));
 
         logger.exit();
-        
+
         return "/admin/management/visitors/visitors.xhtml";
     }
 

@@ -7,16 +7,19 @@ package ispok.service;
 import ispok.bo.Employee;
 import ispok.dao.GenericDao;
 import ispok.dto.EmployeeDto;
+import ispok.dto.VisitorDto;
+import ispok.helper.FacesUtil;
 import ispok.pres.bb.Login;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.ResourceBundle;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
@@ -29,8 +32,6 @@ import org.springframework.security.core.userdetails.cache.NullUserCache;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.context.request.RequestContextHolder;
 
 /**
  * Authentication provider
@@ -44,7 +45,9 @@ public class AuthenticationService extends AbstractUserDetailsAuthenticationProv
     private GenericDao genericDAO;
     private TransactionTemplate transactionTemplate;
     @Autowired
-    private IEmployeeService employeeService;
+    private EmployeeService employeeService;
+    @Autowired
+    private VisitorService visitorService;
     @Autowired
     private Login login;
 
@@ -71,62 +74,52 @@ public class AuthenticationService extends AbstractUserDetailsAuthenticationProv
             @Override
             public Object doInTransaction(TransactionStatus status) {
 
-//                RequestAttributes ra = RequestContextHolder.getRequestAttributes();
-//                System.out.println(ra.toString());
-//                Map<String,String> requestParams = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-
-//                System.out.println(origRequest.getRequestURL().toString());
                 try {
                     UserDetails ud = null;
-                    
-                    
 
                     Employee employee = null;
                     EmployeeDto employeeDto = null;
+                    VisitorDto visitorDto = null;
                     ispok.bo.User user = null;
-                    try {
-                        employee = genericDAO.getByPropertyUnique("username", username, Employee.class);
-
-                        employeeDto = employeeService.getEmployeeByUsername(username);
-
-                    } catch (EmptyResultDataAccessException erdaex) {
-                    }
-//                    try {
-//                        user = genericDAO.getByPropertyUnique("username", username, ispok.bo.User.class);
-//                    } catch (EmptyResultDataAccessException e) {
-//                    }
-
-                    if (employee == null) {
-                        throw new BadCredentialsException("Uzivatel neexistuje");
-                    }
-
-                    String password = (String) upat.getCredentials();
                     List<GrantedAuthority> auths = new ArrayList<GrantedAuthority>();
 
-                    if (user != null && user.hasPassword(password)) {
-                        auths.add(new SimpleGrantedAuthority("ROLE_USER"));
-
-                        ud = new User(user.getUsername(), user.getPassword(), auths);
-                    } else if (employee != null && employee.hasPassword(password)) {
-                        if (employee.isManager() == true) {
+                    if (login.getLoginVar() == "admin") {
+                        employeeDto = employeeService.getEmployeeByUsername(upat.getName());
+                        if (employeeDto == null) {
+                            login.setLoginFailedReason(Login.INVALID_USERNAME);
+                            throw new BadCredentialsException("Username does not exist");
+                        }
+                        if (!employeeDto.hasPassword((String) upat.getCredentials())) {
+                            login.setLoginFailedReason(Login.INVALID_PASSWORD);
+                            throw new BadCredentialsException("Invalid password");
+                        }
+                        if (employeeDto.isManager()) {
                             auths.add(new SimpleGrantedAuthority("ROLE_MANAGER"));
                         }
-                        if (employee.isCashier() == true) {
+                        if (employeeDto.isCashier()) {
                             auths.add(new SimpleGrantedAuthority("ROLE_CASHIER"));
                         }
-                        if (employee.isReceptionist() == true) {
+                        if (employeeDto.isReceptionist()) {
                             auths.add(new SimpleGrantedAuthority("ROLE_RECEPTIONIST"));
                         }
-                        if (employee.isFloorman() == true) {
+                        if (employeeDto.isFloorman()) {
                             auths.add(new SimpleGrantedAuthority("ROLE_FLOORMAN"));
                         }
-                        ud = new User(employee.getUsername(), employee.getPassword(), auths);
+                        ud = new User(employeeDto.getUsername(), employeeDto.getPassword(), auths);
                     } else {
-                        AuthenticationException e = new BadCredentialsException("Neplatne heslo");
-                        throw e;
+                        visitorDto = visitorService.getVisitorByName(upat.getName());
+                        if (visitorDto == null) {
+                            login.setLoginFailedReason(Login.INVALID_USERNAME);
+                            throw new BadCredentialsException("Username does not exist");
+                        }
+                        if (!visitorDto.hasPassword((String) upat.getCredentials())) {
+                            login.setLoginFailedReason(Login.INVALID_PASSWORD);
+                            throw new BadCredentialsException("Invalid password");
+                        }
+                        auths.add(new SimpleGrantedAuthority("ROLE_VISITOR"));
                     }
-
                     return ud;
+
                 } catch (AuthenticationException e) {
                     status.setRollbackOnly();
                     throw e;
@@ -135,9 +128,64 @@ public class AuthenticationService extends AbstractUserDetailsAuthenticationProv
                     status.setRollbackOnly();
                     throw new RuntimeException(e);
                 }
-
+//
+//                try {
+//                    employee = genericDAO.getByPropertyUnique("username", username, Employee.class);
+//                    employeeDto = employeeService.getEmployeeByUsername(username);
+//
+//                } catch (EmptyResultDataAccessException erdaex) {
+//                }
+//
+//                if (employee == null) {
+//                    throw new BadCredentialsException("Uzivatel neexistuje");
+//                }
+//
+//                String password = (String) upat.getCredentials();
+////                    List<GrantedAuthority> auths = new ArrayList<GrantedAuthority>();
+//
+//                if (user != null && user.hasPassword(password)) {
+//                    auths.add(new SimpleGrantedAuthority("ROLE_USER"));
+//
+//                    ud = new User(user.getUsername(), user.getPassword(), auths);
+//                } else if (employee != null && employee.hasPassword(password)) {
+//                    if (employee.isManager() == true) {
+//                        auths.add(new SimpleGrantedAuthority("ROLE_MANAGER"));
+//                    }
+//                    if (employee.isCashier() == true) {
+//                        auths.add(new SimpleGrantedAuthority("ROLE_CASHIER"));
+//                    }
+//                    if (employee.isReceptionist() == true) {
+//                        auths.add(new SimpleGrantedAuthority("ROLE_RECEPTIONIST"));
+//                    }
+//                    if (employee.isFloorman() == true) {
+//                        auths.add(new SimpleGrantedAuthority("ROLE_FLOORMAN"));
+//                    }
+//                    ud = new User(employee.getUsername(), employee.getPassword(), auths);
+//                } else {
+//                    AuthenticationException e = new BadCredentialsException("Neplatne heslo");
+//                    throw e;
+//                }
+//
+//                return ud;
+//            }
+//            catch (AuthenticationException e
+//
+//            
+//                ) {
+//                    status.setRollbackOnly();
+//                throw e;
+//            }
+//            catch (Exception e
+//
+//            
+//                ) {
+//                    logger.error("Error occured during retrieve User call", e);
+//                status.setRollbackOnly();
+//                throw new RuntimeException(e);
+//            }
             }
-        });
+        }
+        );
     }
 
     public void setGenericDAO(GenericDao genericDAO) {

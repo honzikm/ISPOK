@@ -11,7 +11,7 @@ import javax.persistence.Entity;
 @Entity
 public class Series extends AbstractBusinessObject {
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true, length = 255)
     private String name;
 
     public Series() {

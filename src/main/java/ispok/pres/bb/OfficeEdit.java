@@ -10,11 +10,10 @@ import ispok.helper.FacesUtil;
 import ispok.service.OfficeService;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
@@ -27,22 +26,17 @@ import org.springframework.stereotype.Component;
 @SessionScoped
 public class OfficeEdit implements Serializable {
 
-    private String name;
+    private OfficeDto office = new OfficeDto();
 
     private List<OfficeDto> offices;
     private List<OfficeDto> filteredOffices;
-
     private OfficeDto[] selected;
 
     @Autowired
     private OfficeService officeService;
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public OfficeDto getOffice() {
+        return office;
     }
 
     public List<OfficeDto> getOffices() {
@@ -73,62 +67,46 @@ public class OfficeEdit implements Serializable {
     }
 
     public void addOffice() {
-        OfficeDto officeDto = new OfficeDto(name);
-
-        FacesContext context = FacesContext.getCurrentInstance();
-
         try {
-            officeService.addOffice(officeDto);
-            offices.add(officeDto);
+            OfficeDto newOffice = new OfficeDto(office);
+            newOffice.setId(officeService.addOffice(newOffice));
+            offices.add(newOffice);
             if (filteredOffices != null) {
-                filteredOffices.add(officeDto);
+                filteredOffices.add(newOffice);
             }
         } catch (DataIntegrityViolationException dive) {
-            FacesUtil.addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, FacesUtil.getMessage("ispok/pres/inter/ispok", "fail"), dive.toString()));
-//            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, bundle.getString("fail"), dive.toString()));
+            FacesUtil.addMessage(new FacesMessage(FacesMessage.SEVERITY_FATAL, FacesUtil.getString("fail"), dive.toString()));
         }
-        
-//                FacesContext fc = FacesContext.getCurrentInstance();
-//        Locale l = fc.getViewRoot().getLocale();
-//        ResourceBundle rb = ResourceBundle.getBundle("ispok/pres/inter/ispok", l);
-//        fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, rb.getString("visitor_edit_success"), "aa" + " " + "bb"));
-        
-        FacesUtil.addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, FacesUtil.getMessage("ispok/pres/inter/ispok", "success"), FacesUtil.getMessage("ispok/pres/inter/ispok", "office_add_success")));
-//        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("success"), bundle.getString("office_add_success")));
+        FacesUtil.addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, FacesUtil.getString("success"), FacesUtil.getString("success")));
         clearEdit();
     }
 
     public void updateOffice() {
-
         OfficeDto officeDto = selected[0];
-
-        officeDto.setName(name);
-
+        officeDto.setName(office.getName());
         officeService.updateOffice(officeDto);
-
-        FacesUtil.addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, FacesUtil.getMessage("ispok/pres/inter/ispok", "success"), FacesUtil.getMessage("ispok/pres/inter/ispok", "office_update_success")));
-
+        FacesUtil.addInfoMessage("success", "office_update_success");
     }
 
     public void delete() {
-
         for (OfficeDto officeDto : selected) {
             officeService.deleteOffice(officeDto.getId());
             offices.remove(officeDto);
-            if (filteredOffices != null && filteredOffices.contains(officeDto)) {
-                filteredOffices.remove(officeDto);
-            }
         }
-        FacesUtil.addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, FacesUtil.getMessage("ispok/pres/inter/ispok", "success"), FacesUtil.getMessage("ispok/pres/inter/ispok", "office_delete_success")));
-//        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("success"), bundle.getString("office_delete_success")));
-//        selected = new OfficeDto[0];
+        FacesUtil.addInfoMessage("success", "office_delete_success");
     }
 
     public void clearEdit() {
-        name = null;
+        office = new OfficeDto();
     }
 
     public void loadOffice() {
-        name = selected[0].getName();
+        if (selected.length == 0) {
+            FacesUtil.addWarnMessage("warn", "no_item_selected");
+            RequestContext.getCurrentInstance().addCallbackParam("showDialog", false);
+            return;
+        }
+        office = selected[0];
+        RequestContext.getCurrentInstance().addCallbackParam("showDialog", true);
     }
 }

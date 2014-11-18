@@ -5,41 +5,31 @@
  */
 package ispok.dto;
 
+import ispok.provider.HashProvider;
 import java.util.Date;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class VisitorDto extends AbstractDto {
 
     private String firstName;
-
     private String lastName;
-
     private Date birthDate;
-
     private String nin;
-
     private String nickname;
-
     private String telephone;
-
     private String email;
-
     private String sex;
-
     private String password;
-
     private String passwordHash;
-
     private String saltHash;
-
     private String idNumber;
-
     private Integer bonusPoints;
-
     private byte[] photo;
-
     private Long citizenshipId;
-
     private Long domicileId;
+
+    @Autowired
+    HashProvider hashProvider;
 
     public VisitorDto() {
     }
@@ -169,6 +159,12 @@ public class VisitorDto extends AbstractDto {
      */
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
+    }
+
+    public boolean hasPassword(String password) {
+        String hashPassw;
+        hashPassw = hashProvider.computeHash(password + saltHash);
+        return hashPassw.equals(this.password);
     }
 
     /**

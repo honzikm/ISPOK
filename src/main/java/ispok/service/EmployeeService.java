@@ -5,62 +5,35 @@
  */
 package ispok.service;
 
-import ispok.bo.Employee;
 import ispok.dto.EmployeeDto;
-import java.util.ArrayList;
 import java.util.List;
-import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author Jan
  */
-@Component
-public class EmployeeService extends AbstractDataAccessService implements IEmployeeService {
+@Transactional
+public interface EmployeeService {
 
-    @Override
-    public EmployeeDto getEmployeeByUsername(String username) {
-        Employee e = genericDao.getByPropertyUnique("username", username, Employee.class);
-        EmployeeDto ed = new EmployeeDto(e.getId(), e.getUsername(), e.getPassword(), e.isReceptionist(), e.isCashier(), e.isFloorman(), e.isManager());
-        return ed;
-    }
+    @Transactional
+    public boolean employeeExist(String username);
+    
+    @Transactional(readOnly = true)
+    public EmployeeDto getEmployeeByUsername(String username);
 
-    @Override
-    public Long addEmployee(EmployeeDto employeeDto) {
-        Employee e = new Employee(employeeDto);
-        return genericDao.saveOrUpdate(e).getId();
-    }
+    @Transactional(readOnly = true)
+    public List<EmployeeDto> getAllEmployees();
 
-    @Override
-    public List<EmployeeDto> getAllEmployees() {
-        List<Employee> employees = genericDao.getAll(Employee.class);
-        List<EmployeeDto> employeeDtos = new ArrayList<>(employees.size());
+//    @Transactional
+//    public Long addEmployee(String username, String password, boolean receptionist, boolean cashier, boolean floorman, boolean manager);
 
-        for (Employee e : employees) {
-            employeeDtos.add(new EmployeeDto(e));
-        }
-        return employeeDtos;
-    }
+    @Transactional
+    public Long addEmployee(EmployeeDto employeeDto);
+    
+    @Transactional
+    public void updateEmployee(EmployeeDto employeeDto);
 
-    @Override
-    public void deleteEmployee(Long id) {
-        genericDao.removeById(id, Employee.class);
-    }
-
-    @Override
-    public void updateEmployee(EmployeeDto employeeDto) {
-        Employee e = genericDao.getById(employeeDto.getId(), Employee.class);
-        String password = employeeDto.getPassword();
-        if (password != e.getPassword()) {
-            e.setPassword(password);
-            employeeDto.setPassword(e.getPassword());
-        }
-
-        e.setIsReceptionist(employeeDto.isReceptionist());
-        e.setIsCashier(employeeDto.isCashier());
-        e.setIsReceptionist(employeeDto.isFloorman());
-        e.setIsManager(employeeDto.isManager());
-
-        genericDao.saveOrUpdate(e);
-    }
+    @Transactional
+    public void deleteEmployee(Long id);
 }

@@ -38,6 +38,5 @@ public class EmailValidator implements Validator {
             throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, rb.getString("email_invalid"), rb.getString("email_invalid")));
 
         }
-       
     }
 }

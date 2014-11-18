@@ -18,6 +18,11 @@ public class OfficeDto extends AbstractDto {
     public OfficeDto() {
     }
 
+    public OfficeDto(OfficeDto officeDto) {
+        this.id = officeDto.id;
+        this.name = officeDto.name;
+    }
+
     public OfficeDto(String name) {
         this.name = name;
     }

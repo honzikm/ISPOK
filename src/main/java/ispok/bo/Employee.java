@@ -38,7 +38,7 @@ public class Employee extends AbstractBusinessObject {
     private boolean isManager;
 
     @Autowired(required = true)
-    private transient HashProvider hashProvider; //transient fields are not persisted
+    private transient HashProvider hashProvider; 
 
     public Employee() {
     }

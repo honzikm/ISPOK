@@ -16,38 +16,72 @@ import org.springframework.transaction.annotation.Transactional;
  */
 public interface VisitorService {
 
-//        @Transactional(readOnly = true)
-//    public VisitorDto getEmployeeByUsername(String username);
+    /**
+     * 
+     * @return 
+     */
     @Transactional(readOnly = true)
     public List<VisitorDto> getAllVisitors();
 
+    /**
+     * 
+     * @param name
+     * @return 
+     */
+    @Transactional(readOnly = true)
+    public VisitorDto getVisitorByName(String name);
+
+    /**
+     * 
+     * @param id
+     * @return 
+     */
     @Transactional(readOnly = true)
     public VisitorDto getVisitorById(Long id);
 
+    /**
+     * 
+     * @param visitorDto 
+     */
     @Transactional
     public void addVisitor(VisitorDto visitorDto);
 
+    /**
+     * 
+     * @param visitorDto 
+     */
     @Transactional
     public void updateVisitor(VisitorDto visitorDto);
 
+    /**
+     * 
+     * @param id 
+     */
     @Transactional
     public void deleteVisitor(Long id);
 
+    /**
+     * 
+     * @param first
+     * @param rows
+     * @param sortBy
+     * @param ascending
+     * @return 
+     */
     @Transactional
     public List<VisitorDto> getPage(int first, int rows, String sortBy, boolean ascending);
 
     @Transactional(readOnly = true)
     public Long getVisitorCount();
-    
+
     /**
      *
      * @param filters
      * @return
      */
-    @Transactional (readOnly = true)
+    @Transactional(readOnly = true)
     public Long getVisitorCount(Map<String, Object> filters);
 
-//    public <ENTITY> List<ENTITY> getPage(int first, int rows, String sortBy, boolean ascending, Class<ENTITY> clazz);
     /**
      *
      * @param first
@@ -60,4 +94,13 @@ public interface VisitorService {
     @Transactional(readOnly = true)
     public List<VisitorDto> getPage(int first, int pageSize, String sortField, boolean ascending, Map<String, Object> filters);
     
+    /**
+     *
+     * @param emaString
+     * @param toString
+     * @return 
+     */
+    @Transactional(readOnly = true)
+    public boolean emailAvailable(String emaString);
+
 }

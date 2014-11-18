@@ -7,6 +7,7 @@ package ispok.service;
 
 import ispok.bo.Tournament;
 import ispok.dao.GenericDao;
+import ispok.dao.TournamentDao;
 import ispok.dto.TournamentDto;
 import java.util.List;
 import java.util.Map;
@@ -16,12 +17,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TournamentServiceImpl implements TournamentService {
+public class TournamentServiceImpl extends AbstractDataAccessService implements TournamentService {
 
     private static final Logger logger = LogManager.getLogger();
 
     @Autowired
     GenericDao genericDao;
+
+    @Autowired
+    TournamentDao tournamentDao;
 
 //    @Override
 //    public List<TournamentDto> getAllTournaments() {
@@ -35,12 +39,14 @@ public class TournamentServiceImpl implements TournamentService {
 
     @Override
     public List<TournamentDto> getPage(int first, int pageSize, String sortField, boolean ascending, Map<String, Object> filters) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<Tournament> tournaments = tournamentDao.getPage(first, pageSize, sortField, ascending, filters);
+
+        return null;
     }
 
     @Override
-    public int getTournamentCount(Map<String, Object> filters) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Long getTournamentCount(Map<String, Object> filters) {
+        return tournamentDao.getCount(filters);
     }
 
     private TournamentDto getTournamentDao(Tournament tournament) {
@@ -62,5 +68,4 @@ public class TournamentServiceImpl implements TournamentService {
 
         return null;
     }
-
 }

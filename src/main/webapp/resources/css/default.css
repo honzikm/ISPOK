@@ -43,3 +43,7 @@ p {
 fieldset {
     border: 1px solid burlywood;
 }
+
+.errorblock{
+    color: red;
+}

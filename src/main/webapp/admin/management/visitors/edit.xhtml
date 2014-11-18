@@ -1,275 +1,515 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"   
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://xmlns.jcp.org/jsf/core"
+                 xmlns:mp ="http://myprimefaces.junkpunk.cz/facelets"
+                 template="/admin/template/adminTemplate.xhtml"
+                 >
+
+    <ui:define name="title">
+        <title>#{msg.visitor_edit} | #{msg.ispok}</title>
+    </ui:define>
 
 
-    <h:head>
-        <title>Facelet Title</title>
-    </h:head>
-    <h:body>
+    <ui:define name="centerContent">
 
-        <ui:composition template="/admin/template/adminTemplate.xhtml" >
+        <!--<p:growl id="growl" showDetail="true" />--> 
 
-            <ui:define name="title">
-                <title>#{msg.visitor_edit} | #{msg.ispok}</title>
-            </ui:define>
+        <p:panel header="#{msg.visitor_edit}" 
+                 >
+            <h:form id="editVisitorForm"
+                    enctype="multipart/form-data"
+                    >
+                <table>
+                    <tr>
+                        <td>
+                            <p:outputLabel for="id" 
+                                           value="#{msg.id}: "
+                                           />
+                        </td>
+                        <td>
+                            <h:outputText id="id" 
+                                          value="#{visitorEdit.visitorDto.id}"
+                                          />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:outputLabel for="firstName" 
+                                           value="#{msg.visitor_firstname}: "
+                                           />
+                        </td>
+                        <td>
+                            <p:inputText id="firstName" 
+                                         value="#{visitorEdit.visitorDto.firstName}"
+                                         required="true"
+                                         requiredMessage="#{msg.required}"
+                                         >
+                                <f:converter binding="#{stringTrimmer}" 
+                                             />
+                                <f:validator validatorId="firstNameValidator" 
+                                             />
+                            </p:inputText>
+                        </td>
+                        <td>
+                            <p:message id="firstNameMsg" 
+                                       for="firstName"
+                                       />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:outputLabel 
+                                for="lastName" 
+                                value="#{msg.visitor_lastname}: " 
+                                />
+                        </td>
+                        <td>
+                            <p:inputText id="lastName" 
+                                         value="#{visitorEdit.visitorDto.lastName}"
+                                         required="true" 
+                                         requiredMessage="#{msg.required}"
+                                         >
+                                <f:converter binding="#{stringTrimmer}" 
+                                             />
+                                <f:validator validatorId="lastNameValidator"
+                                             />
+                            </p:inputText>
+                        </td>
+                        <td>
+                            <p:message id="lastnameMsg" 
+                                       for="lastName"
+                                       />
+                        </td>
+                    </tr> 
+                    <tr>
+                        <td>
+                            <p:outputLabel for="birthDate"
+                                           value="#{msg.visitor_birthdate}: "
+                                           />
+                        </td>
+                        <td>
+                            <p:inputText id="birthDate" 
+                                         value="#{visitorEdit.visitorDto.birthDate}" 
+                                         required="true"
+                                         requiredMessage="#{msg.visitor_birthdate_valid}"
+                                         >
+                                <f:converter binding="#{birthDateConverter}" 
+                                             />
+                            </p:inputText>
+                        </td>
+                        <td>
+                            <p:message id="birthDateMsg"
+                                       for="birthDate" 
+                                       />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><p:outputLabel for="nin" 
+                                           value="#{msg.visitor_nin}: "
+                                           />
+                        </td>
+                        <td>
+                            <p:inputText id="nin" 
+                                         value="#{visitorEdit.visitorDto.nin}"
+                                         required="true" 
+                                         requiredMessage="#{msg.visitor_nin_valid}"
+                                         >
+                            </p:inputText>
+                        </td>
+                        <td><p:message id="ninMsg" 
+                                       for="nin" 
+                                       />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:outputLabel for="nickname"
+                                           value="#{msg.visitor_nickname}: "
+                                           />
+                        </td>
+                        <td>
+                            <p:inputText id="nickname" 
+                                         value="#{visitorEdit.visitorDto.nickname}"
+                                         >
+                                <f:converter binding="#{stringTrimmer}" 
+                                             />
+                                <f:validator validatorId="nicknameValidator"
+                                             />
+                            </p:inputText>
+                        </td>
+                        <td>
+                            <p:message id="nicknameMsg" 
+                                       for="nickname" 
+                                       />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:outputLabel for="telephone" 
+                                           value="#{msg.visitor_telephone}: "
+                                           />
+                        </td>
+                        <td>
+                            <p:inputText id="telephone" 
+                                         value="#{visitorEdit.visitorDto.telephone}"
+                                         >
+                                <f:converter binding="#{stringTrimmer}" 
+                                             />
+                                <f:validator validatorId="telephoneValidator"
+                                             />
+                            </p:inputText>
+                        </td>
+                        <td>
+                            <p:message id="telephoneMsg" 
+                                       for="telephone"
+                                       />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:outputLabel for="email" 
+                                           value="#{msg.visitor_email}: "
+                                           />
+                        </td>
+                        <td>
+                            <p:inputText id="email" 
+                                         value="#{visitorEdit.visitorDto.email}"
+                                         >
+                                <f:converter binding="#{stringTrimmer}"
+                                             />
+                                <f:validator validatorId="emailValidator"
+                                             />
+                            </p:inputText>
+                        </td>
+                        <td>
+                            <p:message id="emailMsg" 
+                                       for="email"
+                                       />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:outputLabel for="sex" 
+                                           value="#{msg.visitor_sex}: "
+                                           />
+                        </td>
+                        <td>
+                            <p:selectOneMenu id="sex" 
+                                             value="#{visitorEdit.visitorDto.sex}"
+                                             >  
+                                <f:selectItem itemLabel="---"
+                                              itemValue="" 
+                                              />  
+                                <f:selectItem itemLabel="M"
+                                              itemValue="M" 
+                                              />  
+                                <f:selectItem itemLabel="F"
+                                              itemValue="F" 
+                                              />  
+                                <f:selectItem itemLabel="X" 
+                                              itemValue="X" 
+                                              />  
+                            </p:selectOneMenu>  
+                        </td>
+                        <td>
+                            <p:message id="sexMsg" 
+                                       for="sex" 
+                                       />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:outputLabel for="password" 
+                                           value="#{msg.password}: "
+                                           />
+                        </td>
+                        <td>
+                            <p:inputText id="password" 
+                                         value="#{visitorEdit.visitorDto.password}"
+                                         >
+                                <f:validator validatorId="passwordValidator"
+                                             />
+                            </p:inputText>
+                        </td>
+                        <td>
+                            <p:message id="passwordMsg" 
+                                       for="password"
+                                       />
+                        </td>
+                    </tr>     
+                    <tr>
+                        <td colspan="2">
+                            <h:outputText value="#{msg.domicile}"
+                                          />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:outputLabel 
+                                for="address" 
+                                value="#{msg.domicile_address}: " 
+                                />
+                        </td>
+                        <td>
+                            <p:inputText id="address" 
+                                         value="#{visitorEdit.domicileDto.address1}"
+                                         required="true"
+                                         requiredMessage="#{msg.visitor_address_valid}"
+                                         />
+                        </td>
+                        <td>
+                            <p:message id="addressMag" 
+                                       for="address"
+                                       />
+                        </td>
+                    </tr>
 
+                    <tr>
+                        <td>
+                            <p:outputLabel for="city" 
+                                           value="#{msg.domicile_city}: "
+                                           />
+                        </td>
+                        <td>
+                            <p:inputText id="city" 
+                                         value="#{visitorEdit.cityDto.name}" 
+                                         required="true" 
+                                         requiredMessage="#{msg.visitor_city_valid}"
+                                         />
+                        </td>
+                        <td>
+                            <p:message id="cityMsg" 
+                                       for="city" 
+                                       />
+                        </td>
+                    </tr>
 
-            <ui:define name="content">
+                    <tr>
+                        <td>
+                            <p:outputLabel for="zip" 
+                                           value="#{msg.domicile_zip}: "
+                                           />
+                        </td>
+                        <td>
+                            <p:inputText id="zip" 
+                                         value="#{visitorEdit.postalCodeDto.code}" 
+                                         required="true" 
+                                         requiredMessage="#{msg.visitor_zip_valid}"
+                                         >
+                            </p:inputText>
+                        </td>
+                        <td>
+                            <p:message id="zipMsg" 
+                                       for="zip" 
+                                       />
+                        </td>
+                    </tr>
 
-                <!--<p:growl id="growl" showDetail="true" />--> 
+                    <tr>
+                        <td><p:outputLabel for="region"
+                                           value="#{msg.domicile_region}: "
+                                           />
+                        </td>
+                        <td>
+                            <p:inputText id="region" 
+                                         value="#{visitorEdit.regionDto.name}" 
+                                         >
+                            </p:inputText>
+                        </td>
+                        <td>
+                            <p:message id="regionMsg" 
+                                       for="region"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:outputLabel for="country" 
+                                           value="#{msg.domicile_country}: "
+                                           />
+                        </td>
+                        <td>
+                            <p:selectOneMenu id="country" 
+                                             value="#{visitorEdit.countyDto.id}"
+                                             >  
+                                <!--<f:selectItem itemLabel="Select One" itemValue="" />-->  
+                                <f:selectItems value="#{countryServiceImpl.allCountries}" 
+                                               var="country"
+                                               itemLabel="#{country.name}"
+                                               itemValue="#{country.id}"
+                                               >
+                                </f:selectItems>
+                            </p:selectOneMenu>  
+                        </td>
+                        <td>
+                            <p:message id="countryMsg"
+                                       for="country"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:outputLabel for="foreigner" 
+                                           value="#{msg.foreigner}: "
+                                           />
+                        </td>
+                        <td>
+                            <p:selectBooleanCheckbox id="foreigner" 
+                                                     value="#{visitorEdit.foreignerNewVal}" 
+                                                     >
+                                <p:ajax update="passportId, passportIdMsg, citizenship, citizenshipMsg"/>
+                            </p:selectBooleanCheckbox>
+                        </td>
+                        <td><p:message id="foreignerMsg"
+                                       for="foreigner"
+                                       />
+                        </td>
+                    </tr>
 
-                <p:panel header="#{msg.visitor_edit}" >
+                    <tr id="passportIdRow"
+                        >
+                        <td><p:outputLabel for="passportId" 
+                                           value="#{msg.passportId}: "
+                                           />
+                        </td>
+                        <td>
+                            <p:inputText id="passportId"
+                                         value="#{visitorEdit.visitorDto.idNumber}" 
+                                         required="true" 
+                                         requiredMessage="#{msg.visitor_idnumber_valid}" 
+                                         disabled="#{not visitorEdit.foreignerNewVal}"
+                                         >
+                                <f:converter binding="#{stringTrimmer}"
+                                             />
+                            </p:inputText>
+                        </td>
+                        <td><p:message id="passportIdMsg" 
+                                       for="passportId"
+                                       />
+                        </td>
+                    </tr>
 
-                    <h:form id="editVisitorForm" enctype="multipart/form-data">
-                        <table>
-                            <tr>
-                                <td><p:outputLabel for="id" value="#{msg.id}: "/></td>
-                                <td><h:outputText id="id" value="#{visitorEdit.visitorDto.id}"/></td>
-                            </tr>
-                            <tr>
-                                <td><p:outputLabel for="firstName" value="#{msg.visitor_firstname}: " /></td>
-                                <td>
-                                    <p:inputText id="firstName" value="#{visitorEdit.visitorDto.firstName}" required="true" requiredMessage="#{msg.required}">
-                                        <f:converter binding="#{stringTrimmer}" />
-                                        <f:validator validatorId="firstNameValidator" />
-                                    </p:inputText>
-                                </td>
-                                <td><p:message id="firstNameMsg" for="firstName" /></td>
-                            </tr>
-                            <tr>
-                                <td><p:outputLabel for="lastName" value="#{msg.visitor_lastname}: " /></td>
-                                <td>
-                                    <p:inputText id="lastName" value="#{visitorEdit.visitorDto.lastName}" required="true" requiredMessage="#{msg.required}">
-                                        <f:converter binding="#{stringTrimmer}" />
-                                        <f:validator validatorId="lastNameValidator"/>
-                                    </p:inputText>
-                                </td>
-                                <td><p:message id="lastnameMsg" for="lastName" /></td>
-                            </tr> 
-                            <tr>
-                                <td><p:outputLabel for="birthDate" value="#{msg.visitor_birthdate}: "/></td>
-                                <td>
-                                    <p:inputText id="birthDate" value="#{visitorEdit.visitorDto.birthDate}" required="true" requiredMessage="#{msg.visitor_birthdate_valid}">
-                                        <f:converter binding="#{birthDateConverter}" />
-                                    </p:inputText>
-                                </td>
-                                <td><p:message id="birthDateMsg" for="birthDate" /></td>
-                            </tr>
-                            <tr>
-                                <td><p:outputLabel for="nin" value="#{msg.visitor_nin}: "/></td>
-                                <td>
-                                    <p:inputText id="nin" value="#{visitorEdit.visitorDto.nin}" required="true" requiredMessage="#{msg.visitor_nin_valid}">
-                                    </p:inputText>
-                                </td>
-                                <td><p:message id="ninMsg" for="nin" /></td>
-                            </tr>
-                            <tr>
-                                <td><p:outputLabel for="nickname" value="#{msg.visitor_nickname}: "/></td>
-                                <td>
-                                    <p:inputText id="nickname" value="#{visitorEdit.visitorDto.nickname}" >
-                                        <f:converter binding="#{stringTrimmer}" />
-                                        <f:validator validatorId="nicknameValidator"/>
-                                    </p:inputText>
-                                </td>
-                                <td><p:message id="nicknameMsg" for="nickname" /></td>
-                            </tr>
-                            <tr>
-                                <td><p:outputLabel for="telephone" value="#{msg.visitor_telephone}: "/></td>
-                                <td>
-                                    <p:inputText id="telephone" value="#{visitorEdit.visitorDto.telephone}">
-                                        <f:converter binding="#{stringTrimmer}" />
-                                        <f:validator validatorId="telephoneValidator" />
-                                    </p:inputText>
-                                </td>
-                                <td><p:message id="telephoneMsg" for="telephone" /></td>
-                            </tr>
-                            <tr>
-                                <td><p:outputLabel for="email" value="#{msg.visitor_email}: "/></td>
-                                <td>
-                                    <p:inputText id="email" value="#{visitorEdit.visitorDto.email}">
-                                        <f:converter binding="#{stringTrimmer}" />
-                                        <f:validator validatorId="emailValidator" />
-                                    </p:inputText>
-                                </td>
-                                <td><p:message id="emailMsg" for="email" /></td>
-                            </tr>
-                            <tr>
-                                <td><p:outputLabel for="sex" value="#{msg.visitor_sex}: "/></td>
-                                <td>
-                                    <p:selectOneMenu id="sex" value="#{visitorEdit.visitorDto.sex}">  
-                                        <f:selectItem itemLabel="---" itemValue="" />  
-                                        <f:selectItem itemLabel="M" itemValue="M" />  
-                                        <f:selectItem itemLabel="F" itemValue="F" />  
-                                        <f:selectItem itemLabel="X" itemValue="X" />  
-                                    </p:selectOneMenu>  
-                                </td>
-                                <td><p:message id="sexMsg" for="sex" /></td>
-                            </tr>
-                            <tr>
-                                <td><p:outputLabel for="password" value="#{msg.password}: "/></td>
-                                <td>
-                                    <p:inputText id="password" value="#{visitorEdit.visitorDto.password}">
-
-                                        <f:validator validatorId="passwordValidator"/>
-                                    </p:inputText>
-                                </td>
-                                <td><p:message id="passwordMsg" for="password" /></td>
-                            </tr>     
-                            <tr><td colspan="2"><h:outputText value="#{msg.domicile}"/></td></tr>
-
-                            <tr>
-                                <td><p:outputLabel for="address" value="#{msg.domicile_address}: " /></td>
-                                <td>
-                                    <p:inputText id="address" value="#{visitorEdit.domicileDto.address1}" required="true" requiredMessage="#{msg.visitor_address_valid}">
-                                    </p:inputText>
-                                </td>
-                                <td><p:message id="addressMag" for="address" /></td>
-                            </tr>
-
-                            <tr>
-                                <td><p:outputLabel for="city" value="#{msg.domicile_city}: "/></td>
-                                <td><p:inputText id="city" value="#{visitorEdit.cityDto.name}" required="true" requiredMessage="#{msg.visitor_city_valid}"/></td>
-                                <td><p:message id="cityMsg" for="city" /></td>
-                            </tr>
-
-                            <tr>
-                                <td><p:outputLabel for="zip" value="#{msg.domicile_zip}: "/></td>
-                                <td>
-                                    <p:inputText id="zip" value="#{visitorEdit.postalCodeDto.code}" required="true" requiredMessage="#{msg.visitor_zip_valid}">
-                                    </p:inputText>
-                                </td>
-                                <td><p:message id="zipMsg" for="zip" /></td>
-                            </tr>
-
-                            <tr>
-                                <td><p:outputLabel for="region" value="#{msg.domicile_region}: "/></td>
-                                <td>
-                                    <p:inputText id="region" value="#{visitorEdit.regionDto.name}" >
-                                    </p:inputText>
-                                </td>
-                                <td><p:message id="regionMsg" for="region"/></td>
-                            </tr>
-
-                            <tr>
-                                <td><p:outputLabel for="country" value="#{msg.domicile_country}: "/></td>
-                                <td>
-                                    <p:selectOneMenu id="country" value="#{visitorEdit.countyDto.id}">  
-                                        <!--<f:selectItem itemLabel="Select One" itemValue="" />-->  
-                                        <f:selectItems value="#{countryServiceImpl.allCountries}" var="country" itemLabel="#{country.name}" itemValue="#{country.id}">
-                                        </f:selectItems>
-                                    </p:selectOneMenu>  
-                                </td>
-                                <td><p:message id="countryMsg" for="country"/></td>
-                            </tr>
-
-                            <tr>
-                                <td><p:outputLabel for="foreigner" value="#{msg.foreigner}: "/></td>
-                                <td>
-                                    <p:selectBooleanCheckbox id="foreigner" value="#{visitorEdit.foreignerNewVal}" >
-                                        <p:ajax update="passportId, passportIdMsg, citizenship, citizenshipMsg"/>
-                                    </p:selectBooleanCheckbox>
-                                </td>
-                                <td><p:message id="foreignerMsg" for="foreigner"/></td>
-                            </tr>
-
-                            <tr id="passportIdRow">
-                                <td><p:outputLabel for="passportId" value="#{msg.passportId}: "/></td>
-                                <td>
-                                    <p:inputText id="passportId" value="#{visitorEdit.visitorDto.idNumber}" required="true" requiredMessage="#{msg.visitor_idnumber_valid}" disabled="#{not visitorEdit.foreignerNewVal}">
-                                        <f:converter binding="#{stringTrimmer}" />
-                                    </p:inputText>
-                                </td>
-                                <td><p:message id="passportIdMsg" for="passportId" /></td>
-                            </tr>
-
-                            <tr id="citizenshipRow">
-                                <td><p:outputLabel for="citizenship" value="#{msg.visitor_citizenship}: "/></td>
-                                <td>
-                                    <p:selectOneMenu id="citizenship" value="#{visitorEdit.citizenshipDto.id}" disabled="#{not visitorEdit.foreignerNewVal}">  
-                                        <!--<f:selectItem itemLabel="Select One" itemValue="" />-->  
-                                        <f:selectItems value="#{countryServiceImpl.allCountries}" var="country" itemLabel="#{country.name}" itemValue="#{country.id}"/>  
-                                    </p:selectOneMenu>  
-                                </td>
-                                <td><p:message id="citizenshipMsg" for="citizenship" /></td>
-                            </tr>
-
-                            <tr>
-                                <td><p:outputLabel for="photo" value="#{msg.visitor_photo}: "/></td>
-                                <td>
+                    <tr id="citizenshipRow"
+                        >
+                        <td>
+                            <p:outputLabel for="citizenship" 
+                                           value="#{msg.visitor_citizenship}: "
+                                           />
+                        </td>
+                        <td>
+                            <p:selectOneMenu id="citizenship" 
+                                             value="#{visitorEdit.citizenshipDto.id}"
+                                             disabled="#{not visitorEdit.foreignerNewVal}"
+                                             >  
+                                <!--<f:selectItem itemLabel="Select One" itemValue="" />-->  
+                                <f:selectItems value="#{countryServiceImpl.allCountries}" 
+                                               var="country" 
+                                               itemLabel="#{country.name}" 
+                                               itemValue="#{country.id}"
+                                               />  
+                            </p:selectOneMenu>  
+                        </td>
+                        <td><p:message id="citizenshipMsg"
+                                       for="citizenship" 
+                                       />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><p:outputLabel for="photo"
+                                           value="#{msg.visitor_photo}: "
+                                           />
+                        </td>
+                        <td>
 <!--                                    <h:inputFile id="photo" value="#{visitorEdit.photoFile}" required="true" requiredMessage="hovno">
-                                        <f:validator binding="#{visitorPhotoValidator}" />
-                                    </h:inputFile>-->
+                                <f:validator binding="#{visitorPhotoValidator}" />
+                            </h:inputFile>-->
 
-                                    <p:fileUpload id="photo" mode="simple" value="#{visitorEdit.photoFile}"> 
-                                        <f:validator validatorId="visitorPhotoSizeValidator" />
-                                    </p:fileUpload>
-                                </td>
-                                <td><p:message id="photoMsg" for="photo" /></td>
-                            </tr>
-                            <!--                            <tr>
-                                                            <td></td>
-                                                            <td><h:inputFile onchange="#{visitorEdit.cancel()}" onclick="#{visitorEdit.cancel()}" /></td>
-                                                        </tr>-->
+                            <p:fileUpload id="photo" mode="simple" 
+                                          value="#{visitorEdit.photoFile}"
+                                          > 
+                                <f:validator validatorId="visitorPhotoSizeValidator" 
+                                             />
+                            </p:fileUpload>
+                        </td>
+                        <td><p:message id="photoMsg" 
+                                       for="photo"
+                                       />
+                        </td>
+                    </tr>
+                    <!--                            <tr>
+                                                    <td></td>
+                                                    <td><h:inputFile onchange="#{visitorEdit.cancel()}" onclick="#{visitorEdit.cancel()}" /></td>
+                                                </tr>-->
 
-                            <!--                            <tr>
-                                                            <td><p:outputLabel for="currentPhoto" value="#{msg.photo_current}: " /></td>
-                                                            <td>
-                                                                <p:commandLink oncomplete="PF('photoDialog').show()" update=":photoDialogId">
-                                                                    <p:graphicImage id="currentPhoto" value="#{visitorEdit.photoThumb}" cache="false" />
-                                                                </p:commandLink>
-                                                            </td>
-                                                        </tr>-->
-
-
-                            <tr>
-                                <td colspan="2">
-                                    <ul class="center">
-                                        <li class="inline">
-                                            <p:commandButton value="#{msg.update}" 
-                                                             ajax="false"
-                                                             update="newVisitorForm"
-                                                             action="#{visitorEdit.updateSummary()}">                          
-                                                             <!--action="#{visitorEdit.addVisitor()}"--> 
-
-                                                <!--<p:ajax update=":growl" />-->
-                                            </p:commandButton>
-                                        </li>
-                                        <li class="inline">
-                                            <p:commandButton value="#{msg.reset}" action="#{visitorEdit.reset()}" update="editVisitorForm" ajax="true" process="@this" resetValues="true" />
-                                        </li>
-                                        <li class="inline">
-                                            <p:commandButton value="#{msg.cancel}" action="#{visitorEdit.cancel()}" >
-                                                <!--oncomplete="PF('confirmDialog').show();"  >-->
-                                                <!--<p:resetInput target="newOfficeForm" />-->
-                                                <!--<p:ajax update="newVisitorForm" resetValues="true"/>--> 
-                                            </p:commandButton>
-                                        </li>
-                                    </ul>
-                                </td>
-                            </tr>
-
-                        </table>
-                    </h:form>
-
-                </p:panel>
-
-            </ui:define>
-
-            <ui:define name="body">
-                <p:dialog id="photoDialogId"  header="#{msg.cancel}: " widgetVar="photoDialog" modal="true" resizable="false" closeOnEscape="true">
-                    <p:graphicImage id="photo" value="#{visitorEdit.photo}" cache="false"/>
-                </p:dialog>
-            </ui:define>
-
-        </ui:composition>
-
-    </h:body>
+                    <!--                            <tr>
+                                                    <td><p:outputLabel for="currentPhoto" value="#{msg.photo_current}: " /></td>
+                                                    <td>
+                                                        <p:commandLink oncomplete="PF('photoDialog').show()" update=":photoDialogId">
+                                                            <p:graphicImage id="currentPhoto" value="#{visitorEdit.photoThumb}" cache="false" />
+                                                        </p:commandLink>
+                                                    </td>
+                                                </tr>-->
 
 
-</html>
+                    <tr>
+                        <td colspan="2"
+                            >
+                            <ul class="center inline"
+                                >
+                                <li>
+                                    <p:commandButton value="#{msg.update}" 
+                                                     ajax="false"
+                                                     update="newVisitorForm"
+                                                     action="#{visitorEdit.updateSummary()}"
+                                                     >                          
+                                                     <!--action="#{visitorEdit.addVisitor()}"--> 
+                                        <!--<p:ajax update=":growl" />-->
+                                    </p:commandButton>
+                                </li>
+                                <li>
+                                    <p:commandButton value="#{msg.reset}" 
+                                                     action="#{visitorEdit.reset()}" 
+                                                     update="editVisitorForm"
+                                                     ajax="true" 
+                                                     process="@this"
+                                                     resetValues="true" 
+                                                     />
+                                </li>
+                                <li>
+                                    <p:commandButton value="#{msg.cancel}" 
+                                                     action="#{visitorEdit.cancel()}"
+                                                     >
+                                        <!--oncomplete="PF('confirmDialog').show();"  >-->
+                                        <!--<p:resetInput target="newOfficeForm" />-->
+                                        <!--<p:ajax update="newVisitorForm" resetValues="true"/>--> 
+                                    </p:commandButton>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
 
+                </table>
+            </h:form>
+
+        </p:panel>
+
+    </ui:define>
+
+    <ui:define name="bodyCOntent"
+               >
+        <p:dialog id="photoDialogId"  
+                  header="#{msg.cancel}: "
+                  widgetVar="photoDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  closeOnEscape="true"
+                  >
+            <p:graphicImage id="photo" 
+                            value="#{visitorEdit.photo}"
+                            cache="false"
+                            />
+        </p:dialog>
+    </ui:define>
+
+</ui:composition>

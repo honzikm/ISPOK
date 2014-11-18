@@ -6,7 +6,7 @@
 package ispok.pres.bb;
 
 import ispok.helper.FacesUtil;
-import ispok.service.IEmployeeService;
+import ispok.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
@@ -28,7 +28,7 @@ public class StaffEdit {
     private Long[] selectedEmployees;
 
     @Autowired
-    IEmployeeService employeeService;
+    EmployeeService employeeService;
 
     public void addEmployee() {
         try {

@@ -15,8 +15,9 @@
     
     <context-param>
         <param-name>javax.faces.FACELETS_LIBRARIES</param-name>
-        <param-value>/WEB-INF/springsecurity.taglib.xml</param-value>
+        <param-value>/WEB-INF/springsecurity.taglib.xml;/WEB-INF/myPrimefaces.taglib.xml</param-value>
     </context-param>
+   
 
     <listener>
         <description>Nahodi Spring context po startu serveru</description>
@@ -50,6 +51,7 @@
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
+    
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>*.jsf</url-pattern>

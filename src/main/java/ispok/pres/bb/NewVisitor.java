@@ -6,13 +6,15 @@
 package ispok.pres.bb;
 
 import ispok.dto.CityDto;
+import ispok.dto.CountryDto;
 import ispok.dto.DomicileDto;
 import ispok.dto.PostalCodeDto;
 import ispok.dto.RegionDto;
 import ispok.dto.VisitorDto;
-import ispok.helper.FacesUtil;
 import ispok.helper.ImageUtil;
+import ispok.helper.PasswordUtil;
 import ispok.service.CityService;
+import ispok.service.CountryService;
 import ispok.service.DomicileService;
 import ispok.service.PostalCodeService;
 import ispok.service.RegionService;
@@ -43,46 +45,28 @@ public class NewVisitor {
     private static final Logger logger = LogManager.getLogger();
 
     private String firstName;
-
     private String lastName;
-
     private Date birthDate;
-
     private String nin;
-
     private String nickname;
-
     private String telephone;
-
     private String email;
-
     private String sex;
-
     private String passportId;
-
     private Long citizenshipId;
-
     private String address;
-
     private String city;
-
     private String postalCode;
-
     private String region;
-
     private String password;
-
     private Long countryId;
-
     private boolean foreigner;
-
     private NativeUploadedFile photoFile;
-
     private byte[] normalizedPhotoData;
     private byte[] thumbPhotoData;
 
-    private StreamedContent photo;
-    private StreamedContent photoThumbnail;
+//    private StreamedContent photo;
+//    private StreamedContent photoThumbnail;
 
     private Long id;
 
@@ -97,7 +81,13 @@ public class NewVisitor {
     private DomicileService domicileService;
     @Autowired
     private VisitorService visitorService;
+    @Autowired
+    private CountryService countryService;
 
+    /**
+     *
+     * @return
+     */
     public String addVisitor() {
 
         PostalCodeDto postalCodeDto = new PostalCodeDto(postalCode);
@@ -215,6 +205,10 @@ public class NewVisitor {
             visitorDto.setPhoto(new byte[0]);
         }
 
+        if ("".equals(password)) {
+            password = PasswordUtil.GetRandomPassword();
+        }
+
         visitorService.addVisitor(visitorDto);
         id = visitorDto.getId();
 
@@ -230,11 +224,23 @@ public class NewVisitor {
         return "/admin/management/visitors/visitors.xhtml";
     }
 
-    public String cancel() {
+    /**
+     * 
+     * @return 
+     */
+    public String delete() {
         visitorService.deleteVisitor(id);
-        return "/admin/management/visitors/newvisitor.xhtml";
+        return "/admin/management/visitors/visitors.xhtml";
     }
 
+//    public String back() {
+//        visitorService.deleteVisitor(id);
+//        return "/admin/management/visitors/newvisitor.xhtml";
+//    }
+
+    /**
+     * 
+     */
     public void clear() {
         logger.trace("Entering Clear()");
         id = null;
@@ -559,4 +565,8 @@ public class NewVisitor {
         this.firstName = firstName;
     }
 
+    public String getCountry() {
+        CountryDto countryDto = countryService.getCountryById(countryId);
+        return countryDto.getName();
+    }
 }

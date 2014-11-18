@@ -148,13 +148,44 @@ public class GenericHibernateJpaDao implements GenericDao {
     @Override
     public <ENTITY> ENTITY getByPropertyUnique(String property, Object value, Class<ENTITY> clazz) {
         ENTITY e;
+        Object o = null;
         if (value == null) {
-            e = clazz.cast(getEntityManager().createQuery("FROM " + clazz.getSimpleName() + " WHERE " + property + " IS NULL").getSingleResult());
+            try {
+                o = getEntityManager().createQuery("FROM " + clazz.getSimpleName() + " WHERE " + property + " IS NULL").getSingleResult();
+            } catch (Exception ex) {
+                return null;
+            }
+//            e = clazz.cast(getEntityManager().createQuery("FROM " + clazz.getSimpleName() + " WHERE " + property + " IS NULL").getSingleResult());
         } else {
-            e = clazz.cast(getEntityManager().createQuery("FROM " + clazz.getSimpleName() + " WHERE " + property + " = :value").setParameter("value", value).getSingleResult());
+            try {
+                o = getEntityManager().createQuery("FROM " + clazz.getSimpleName() + " WHERE " + property + " = :value").setParameter("value", value).getSingleResult();
+            } catch (Exception ex) {
+                logger.catching(ex);
+                return null;
+            }
+//            e = clazz.cast(getEntityManager().createQuery("FROM " + clazz.getSimpleName() + " WHERE " + property + " = :value").setParameter("value", value).getSingleResult());
         }
+        e = clazz.cast(o);
         return e;
     }
+//    @Override
+//    public <ENTITY> ENTITY getByPropertyUnique(String property, Object value, Class<ENTITY> clazz) {
+//        Session session = getEntityManager().unwrap(Session.class);
+//
+////        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+////        CriteriaQuery cq;
+////        cq = cb.createQuery(clazz);
+////        
+////        criteria.
+//
+//        ENTITY e;
+//        if (value == null) {
+//            e = clazz.cast(getEntityManager().createQuery("FROM " + clazz.getSimpleName() + " WHERE " + property + " IS NULL").getSingleResult());
+//        } else {
+//            e = clazz.cast(getEntityManager().createQuery("FROM " + clazz.getSimpleName() + " WHERE " + property + " = :value").setParameter("value", value).getSingleResult());
+//        }
+//        return e;
+//    }
 
     @Override
     public <ENTITY> List<ENTITY> getPage(int from, int maxResults, Class<ENTITY> clazz) {

@@ -9,7 +9,6 @@ import ispok.bo.Country;
 import ispok.bo.Domicile;
 import ispok.bo.Visitor;
 import ispok.dao.VisitorDao;
-import ispok.dao.VisitorHibernateJpaDao;
 import ispok.dto.VisitorDto;
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,6 +32,7 @@ public class VisitorServiceImpl extends AbstractDataAccessService implements Vis
     private CountryService countryService;
     @Autowired
     private VisitorDao visitorDao;
+
 
     @Override
     public List<VisitorDto> getAllVisitors() {
@@ -170,7 +170,7 @@ public class VisitorServiceImpl extends AbstractDataAccessService implements Vis
 
         visitor.setDomicile(domicile);
         visitor.setCitizenship(country);
-        
+
         genericDao.saveOrUpdate(visitor);
 
         logger.exit();
@@ -191,4 +191,22 @@ public class VisitorServiceImpl extends AbstractDataAccessService implements Vis
         return visitorDao.getCount(filters, Visitor.class);
     }
 
+    @Override
+    public VisitorDto getVisitorByName(String name) {
+
+        Visitor v = genericDao.getByPropertyUnique("username", name, Visitor.class);
+        if (v == null) {
+            return null;
+        }
+        return getVisitorDto(v);
+    }
+
+    @Override
+    public boolean emailAvailable(String email) {
+        Visitor v = genericDao.getByPropertyUnique("email", email, Visitor.class);
+        if(v == null){
+            return true;
+        }
+        return false;
+    }
 }

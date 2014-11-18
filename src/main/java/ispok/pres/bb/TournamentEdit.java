@@ -7,13 +7,21 @@ package ispok.pres.bb;
 
 import ispok.dto.TournamentDto;
 import ispok.helper.TournamentLazyDataModel;
+import ispok.service.TournamentService;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.bean.SessionScoped;
 import org.primefaces.model.LazyDataModel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component
+@SessionScoped
 public class TournamentEdit {
+    
+    @Autowired
+    private TournamentService tournamentService;
 
     private LazyDataModel<TournamentDto> tournamentLazyModel;
     private TournamentDto selectedTournament;
@@ -21,7 +29,7 @@ public class TournamentEdit {
 
     @PostConstruct
     public void init() {
-        tournamentLazyModel = new TournamentLazyDataModel();
+        tournamentLazyModel = new TournamentLazyDataModel(tournamentService);
     }
 
     public LazyDataModel<TournamentDto> getTournamentLazyModel() {

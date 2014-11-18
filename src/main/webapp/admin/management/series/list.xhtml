@@ -1,0 +1,181 @@
+
+
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"   
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://xmlns.jcp.org/jsf/core"
+                 xmlns:mp ="http://myprimefaces.junkpunk.cz/facelets"
+                 template="/admin/template/adminTemplate.xhtml"
+                 >
+
+    <ui:define name="title">
+        <title>#{msg.series} | #{msg.ispok}</title>
+    </ui:define>
+
+
+
+
+    <ui:define name="centerContent">
+
+        <p:growl id="growl"
+                 showDetail="true"
+                 globalOnly="true"
+                 />
+
+        <!--                <p:confirmDialog global="true">
+                            <p:commandButton value="Yes"
+                                             type="button"
+                                             styleClass="ui-confirmdialog-yes" 
+                                             icon="ui-icon-check"
+                                             update=":growl"
+                                             >
+                                <p:ajax update=":growl" />
+                            </p:commandButton>
+                   
+                            <p:commandButton value="No"
+                                             type="button" 
+                                             styleClass="ui-confirmdialog-no"
+                                             icon="ui-icon-close"
+                                             />
+                        </p:confirmDialog>-->
+
+        <h:form> 
+
+            <p:dataTable id="seriesTableId"
+                         widgetVar="seriesTable"
+                         var="series"
+                         value="#{seriesEdit.seriesLazyDataModel}"
+                         paginator="true"
+                         rows="25"
+                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                         rowsPerPageTemplate="10, 25"
+                         selectionMode="single"
+                         selection="#{seriesEdit.selectedSeries}"
+                         lazy="true" 
+                         filteredValue="#{seriesEdit.filteredSeries}"
+                         rowKey="#{series.id}"
+                         >
+
+                <f:facet name="header">
+                    <p:outputPanel>
+                        <div align="right" 
+                             style="float:right"
+                             >
+                            <h:outputText value="#{msg.filter_global}"
+                                          />
+                        </div>
+                        <div align="left">
+                            <p:commandButton value = "#{msg.neww}"
+                                             icon ="ui-icon-star"
+                                             oncomplete ="PF('newSeriesDialog').show()"
+                                             />
+                            <p:commandButton value="#{msg.edit}"
+                                             icon="ui-icon-pencil"
+                                             onclick ="PF('editSeriesDialog').show()"
+                                             />
+                            <p:commandButton value="#{msg.delete}"
+                                             icon="ui-icon-trash"
+                                             update=":growl seriesTableId"
+                                             action="#{seriesEdit.delete()}"
+                                             >
+<!--                                        <p:confirm header="#{msg.series_delete}" 
+                                           message="Are you sure?"
+                                           icon="ui-icon-alert" 
+                                           />-->
+                            </p:commandButton>
+                        </div>
+                    </p:outputPanel>
+                </f:facet>
+
+                <p:column headerText="#{msg.id}"
+                          sortBy="#{series.id}"
+                          filterBy="#{series.id}"
+                          filterMatchMode="startsWith"
+                          >
+                    <h:outputText value="#{series.id}"
+                                  />
+                </p:column>
+                <p:column headerText="#{msg.series_name}"
+                          sortBy="#{series.name}"
+                          filterBy="#{series.name}"
+                          filterMatchMode="startsWith"
+                          >
+                    <h:outputText value="#{series.name}"
+                                  />
+                </p:column>
+
+            </p:dataTable>
+            <p:remoteCommand name="updateTable"
+                             update="seriesTableId" 
+                             />
+        </h:form>
+    </ui:define>
+
+
+    <ui:define name="bodyContent">
+        <p:dialog widgetVar="newSeriesDialog"
+                  header="#{msg.series_new}"
+                  modal="true"
+                  resizable="false"
+                  position="center, top"
+                  closeOnEscape="true"
+                  closable="false"
+                  >
+
+            <h:form id="newSeriesForm">
+                <table>
+                    <tr>
+                        <td>
+                            <p:outputLabel for="name"
+                                           value="#{msg.series_name}: "
+                                           />
+                        </td>
+                        <td>
+                            <p:inputText id="name"
+                                         value="#{seriesEdit.name}"
+                                         required="true"
+                                         requiredMessage="#{msg.required}"
+                                         >
+                                <f:validator validatorId="seriesNameValidator"
+                                             />
+                            </p:inputText>
+                        </td>
+                        <td>
+                            <p:message for="name" 
+                                       />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <ul class="center inline">
+                                <li>
+                                    <p:commandButton value="#{msg.add}"
+                                                     action="#{seriesEdit.add()}"
+                                                     update="newSeriesForm :growl @(#seriesTableId)"
+                                                     oncomplete="if (!args.validationFailed){PF('newSeriesDialog').hide();}"
+                                                     />
+                                </li>
+                                <li>
+                                    <p:commandButton value="#{msg.cancel}"
+                                                     action="#{seriesEdit.clear()}"
+                                                     oncomplete="PF('newSeriesDialog').hide();"
+                                                     >
+                                        <p:ajax update=":newSeriesForm"
+                                                resetValues="true"
+                                                />
+                                    </p:commandButton>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog header="#{msg.series_delete}"
+                  >
+        </p:dialog>
+    </ui:define>
+
+</ui:composition>

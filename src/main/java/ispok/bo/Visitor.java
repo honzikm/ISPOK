@@ -6,6 +6,7 @@
 package ispok.bo;
 
 import ispok.provider.HashProvider;
+import ispok.service.TournamentService;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 
-@Entity(name = "visitor")
+@Entity
 @Configurable(preConstruction = true, autowire = Autowire.BY_NAME)
 public class Visitor extends AbstractBusinessObject {
 
@@ -34,7 +35,7 @@ public class Visitor extends AbstractBusinessObject {
     private String nickname;
     @Column
     private String telephone;
-    @Column(unique = true)
+    @Column(nullable = false, unique = true)
     private String email;
     @Column(length = 1)
     private String sex;
@@ -58,7 +59,7 @@ public class Visitor extends AbstractBusinessObject {
 
     @Autowired
     @Transient
-    private HashProvider hashProvider; //transient fields are not persisted
+    private HashProvider hashProvider; 
 
     public Visitor() {
     }

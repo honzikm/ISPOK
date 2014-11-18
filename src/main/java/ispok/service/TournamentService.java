@@ -18,7 +18,6 @@ public interface TournamentService {
 
 //    @Transactional(readOnly = true)
 //    public List<TournamentDto> getAllTournaments();
-
     @Transactional(readOnly = true)
     public TournamentDto getTournamentById(Long id);
 
@@ -26,5 +25,5 @@ public interface TournamentService {
     public List<TournamentDto> getPage(int first, int pageSize, String sortField, boolean ascending, Map<String, Object> filters);
 
     @Transactional(readOnly = true)
-    public int getTournamentCount(Map<String, Object> filters);
+    public Long getTournamentCount(Map<String, Object> filters);
 }

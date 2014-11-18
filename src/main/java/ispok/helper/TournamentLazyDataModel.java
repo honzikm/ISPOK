@@ -7,7 +7,6 @@ package ispok.helper;
 
 import ispok.dto.TournamentDto;
 import ispok.service.TournamentService;
-import ispok.service.VisitorService;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -16,24 +15,26 @@ import org.apache.logging.log4j.Logger;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortMeta;
 import org.primefaces.model.SortOrder;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
 
+/**
+ *
+ * @author Jan
+ */
 public class TournamentLazyDataModel extends LazyDataModel<TournamentDto> {
 
-    private static Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger();
 
-    @Autowired
     private TournamentService tournamentService;
-
-    public TournamentLazyDataModel() {
-    }
 
 //    @Override
 //    public TournamentDto getRowData(String rowKey) {
 //        return tournamentService.getTournamentById(Long.parseLong(rowKey));
 //    }
 //    
+    public TournamentLazyDataModel(TournamentService tournamentService) {
+        this.tournamentService = tournamentService;
+    }
+
     @Override
     public Object getRowKey(TournamentDto tournamentDto) {
         return tournamentDto.getId();
@@ -60,7 +61,7 @@ public class TournamentLazyDataModel extends LazyDataModel<TournamentDto> {
 
         List<TournamentDto> tournamentDtos = tournamentService.getPage(first, pageSize, sortField, ascending, filters);
 
-        int matchesCount = tournamentService.getTournamentCount(filters);
+        int matchesCount = tournamentService.getTournamentCount(filters).intValue();
 
         logger.debug("Matches found: {}", matchesCount);
 

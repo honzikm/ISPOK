@@ -5,7 +5,7 @@
 package ispok.valid;
 
 import ispok.dto.EmployeeDto;
-import ispok.service.IEmployeeService;
+import ispok.service.EmployeeService;
 import java.util.ResourceBundle;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -26,7 +26,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 public class UsernameValidator implements Validator {
 
     @Autowired
-    IEmployeeService employeeService;
+    EmployeeService employeeService;
 
     @Override
     public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {

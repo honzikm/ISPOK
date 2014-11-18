@@ -1,0 +1,148 @@
+
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"   
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://xmlns.jcp.org/jsf/core"
+                 xmlns:mp ="http://myprimefaces.junkpunk.cz/facelets"
+                 template="/admin/template/adminTemplate.xhtml"
+                 >
+
+    <ui:define name="title">
+        <title>#{msg.tournament_new} | #{msg.ispok}</title>
+    </ui:define>
+
+    <ui:define name="centerContent">
+
+        <p:growl id="growl" 
+                 showDetail="true" 
+                 globalOnly="true"
+                 /> 
+
+        <h:form id="newTournamentForm">
+
+            <table>
+                <tr>
+                    <td>
+                        <p:outputLabel for="name"
+                                       value="#{msg.tournament_name}"
+                                       />
+                    </td>
+                    <td>
+                        <p:inputText id="name"
+                                     value="#{newTournament.name}"
+                                     required="true"
+                                     requiredMessage="#{msg.required}"
+                                     />
+                    </td>
+                    <td>
+                        <p:message for="name"
+                                   />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p:outputLabel for="place"
+                                       value="#{msg.place}"
+                                       />
+                    </td>
+                    <td>
+                        <p:inputText id="place"
+                                     value="#{newTournament.place}"
+                                     required="true"
+                                     requiredMessage="#{msg.required}"
+                                     />
+                    </td>
+                    <td>
+                        <p:message for="place"
+                                   />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p:outputLabel for="series"
+                                       value="#{msg.tournament_series}"
+                                       />
+                    </td>
+                    <td>
+                        <p:inputText id="series"
+                                     value="#{newTournament.series}"
+                                     />
+                    </td>
+                    <td>
+                        <p:message for="serie"
+                                   />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p:outputLabel for="start"
+                                       value="#{msg.tournament_start}"
+                                       />
+                    </td>
+                    <td>
+                        <p:calendar id="start"
+                                    required="true"
+                                    requiredMessage="#{msg.required}"
+                                    />
+                    </td>
+                    <td>
+                        <p:message for="start"
+                                   />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p:outputLabel for="lateReg"
+                                       value="#{msg.tournament_latereg}"
+                                       />
+                    </td>
+                    <td>
+                        <p:calendar id="lateReg"
+                                    required="true"
+                                    requiredMessage="#{msg.required}"
+                                    />
+                    </td>
+                    <td>
+                        <p:message for="lateReg"
+                                   />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p:outputLabel for="buyin"
+                                       value="#{msg.buyin}"
+                                       />
+                    </td>
+                    <td>
+                        <p:inputText id="buyn"
+                                     required="true"
+                                     requiredMessage="#{msg.required}"
+                                     />
+                    </td>
+                    <td>
+                        <p:message for="buyin"
+                                   />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p:outputLabel for="addon"
+                                       value="#{msg.addon}"
+                                       />
+                    </td>
+                    <td>
+                        <p:inputText id="addon"
+                                     />
+                    </td>
+                    <td>
+                        <p:message for="addon"
+                                   />
+                    </td>
+                </tr>
+
+            </table>
+
+        </h:form>
+    </ui:define>
+</ui:composition>

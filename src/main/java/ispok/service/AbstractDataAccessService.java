@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
- * @author mickapa1
+ * @author jan mucha
  */
 public abstract class AbstractDataAccessService {
     @Autowired

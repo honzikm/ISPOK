@@ -1,87 +1,110 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
-    <h:head>
-        <title>Facelet Title</title>
-    </h:head>
-    <h:body>
 
-        <ui:composition template="/admin/template/adminTemplate.xhtml">  
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"   
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://xmlns.jcp.org/jsf/core"
+                 xmlns:mp ="http://myprimefaces.junkpunk.cz/facelets"
+                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                 template="/admin/template/adminTemplate.xhtml"
+                 >
 
-            <ui:define name="title">
-                <title>#{msg.offices} | #{msg.ispok}</title>
-            </ui:define>
+    <ui:define name="title">
+        <title>#{msg.offices} | #{msg.ispok}</title>
+    </ui:define>
 
-            <ui:define name="content" >
+    <ui:define name="centerContent" >
 
-                <p:panel header="#{msg.visitor_new_created}" >
+        <p:panel header="#{msg.visitor_new_created}" >
 
-                    <h:form>
-                        <table>
-                            <tr><td><h:outputLabel for="visitorId" value="#{msg.id}: "/></td><td><h:outputText id="visitorId" value="#{newVisitor.id}" /></td></tr>
-                            <tr><td><h:outputLabel for="firstName" value="#{msg.firstName}: "/></td><td><h:outputText id="firstName" value="#{newVisitor.firstName}" /></td></tr>
-                            <tr><td><h:outputLabel for="lastName" value="#{msg.lastName}: "/></td><td><h:outputText id="lastName" value="#{newVisitor.lastName}" /></td></tr>
-                            <tr><td><h:outputLabel for="birthDate" value="#{msg.visitor_birthdate}: "/></td><td><h:outputText id="birthDate" value="#{newVisitor.birthDate}" /></td></tr>
-                            <tr><td><h:outputLabel for="nin" value="#{msg.visitor_nin}: "/></td><td><h:outputText id="nin" value="#{newVisitor.nin}" /></td></tr>
-                            <tr><td><h:outputLabel for="nickname" value="#{msg.visitor_nickname}: "/></td><td><h:outputText id="nickname" value="#{newVisitor.nickname}"/></td></tr>
-                            <tr><td><h:outputLabel for="telephone" value="#{msg.visitor_telephone}:"/></td><td><h:outputText id="telephone" value="#{newVisitor.telephone}" /></td></tr>
-                            <tr><td><h:outputLabel for="email" value="#{msg.email}: "/></td><td><h:outputText id="email" value="#{newVisitor.email}" /></td></tr>
-                            <tr><td><h:outputLabel for="sex" value="#{msg.visitor_sex}: "/></td><td><h:outputText id="sex" value="#{newVisitor.sex}" /></td></tr>
-                            <tr><td><h:outputLabel for="password" value="#{msg.password}: "/></td><td><h:outputText id="password" value="#{newVisitor.password}" /></td></tr>
-                            <tr><td><h:outputLabel for="address" value="#{msg.domicile_address}: "/></td><td><h:outputText id="address" value="#{newVisitor.address}" /></td></tr>
-                            <tr><td><h:outputLabel for="city" value="#{msg.domicile_city}: "/></td><td><h:outputText id="city" value="#{newVisitor.city}" /></td></tr>
-                            <tr><td><h:outputLabel for="zip" value="#{msg.domicile_zip}: "/></td><td><h:outputText id="zip" value="#{newVisitor.zip}" /></td></tr>
-                            <tr><td><h:outputLabel for="region" value="#{msg.domicile_region}: "/></td><td><h:outputText id="region" value="#{newVisitor.region}" /></td></tr>
-                            <tr><td><h:outputLabel for="country" value="#{msg.domicile_country}: "/></td><td><h:outputText id="country" value="#{newVisitor.countryId}" /></td></tr>
-                            <c:if test="#{newVisitor.foreigner}" >
-                                <tr><td><h:outputLabel for="passportId" value="#{msg.passportId}: "/></td><td><h:outputText id="passportId" value="#{newVisitor.passportId}" /></td></tr>
-                                <tr><td><h:outputLabel for="citizenship" value="#{msg.visitor_citizenship}: "/></td><td><h:outputText id="citizenship" value="#{newVisitor.citizenshipId}" /></td></tr>
-                            </c:if>
-                            <tr>
-                                <td><h:outputLabel for="photo" value="#{msg.visitor_photo}: "/></td>
-                                <td>
-                                    <p:commandLink  oncomplete="PF('photoDialog').show()" update=":photoDialogId">
-                                        <p:graphicImage id="photo" value="#{newVisitor.photoThumbnail}" cache="false" />
-                                    </p:commandLink>
-                                </td>
-                            </tr>
+            <h:form>
+                <table>
+                    <tr><td><h:outputLabel for="visitorId" value="#{msg.id}: "/></td><td><h:outputText id="visitorId" value="#{newVisitor.id}" /></td></tr>
+                    <tr><td><h:outputLabel for="firstName" value="#{msg.firstName}: "/></td><td><h:outputText id="firstName" value="#{newVisitor.firstName}" /></td></tr>
+                    <tr><td><h:outputLabel for="lastName" value="#{msg.lastName}: "/></td><td><h:outputText id="lastName" value="#{newVisitor.lastName}" /></td></tr>
+                    <tr><td><h:outputLabel for="birthDate" value="#{msg.visitor_birthdate}: "/></td><td><h:outputText id="birthDate" value="#{newVisitor.birthDate}" /></td></tr>
+                    <tr><td><h:outputLabel for="nin" value="#{msg.visitor_nin}: "/></td><td><h:outputText id="nin" value="#{newVisitor.nin}" /></td></tr>
+                    <tr><td><h:outputLabel for="nickname" value="#{msg.visitor_nickname}: "/></td><td><h:outputText id="nickname" value="#{newVisitor.nickname}"/></td></tr>
+                    <tr><td><h:outputLabel for="telephone" value="#{msg.visitor_telephone}:"/></td><td><h:outputText id="telephone" value="#{newVisitor.telephone}" /></td></tr>
+                    <tr><td><h:outputLabel for="email" value="#{msg.email}: "/></td><td><h:outputText id="email" value="#{newVisitor.email}" /></td></tr>
+                    <tr><td><h:outputLabel for="sex" value="#{msg.visitor_sex}: "/></td><td><h:outputText id="sex" value="#{newVisitor.sex}" /></td></tr>
+                    <tr><td><h:outputLabel for="password" value="#{msg.password}: "/></td><td><h:outputText id="password" value="#{newVisitor.password}" /></td></tr>
+                    <tr><td><h:outputLabel for="address" value="#{msg.domicile_address}: "/></td><td><h:outputText id="address" value="#{newVisitor.address}" /></td></tr>
+                    <tr><td><h:outputLabel for="city" value="#{msg.domicile_city}: "/></td><td><h:outputText id="city" value="#{newVisitor.city}" /></td></tr>
+                    <tr><td><h:outputLabel for="zip" value="#{msg.domicile_zip}: "/></td><td><h:outputText id="zip" value="#{newVisitor.zip}" /></td></tr>
+                    <tr><td><h:outputLabel for="region" value="#{msg.domicile_region}: "/></td><td><h:outputText id="region" value="#{newVisitor.region}" /></td></tr>
+                    <tr><td><h:outputLabel for="country" value="#{msg.domicile_country}: "/></td><td><h:outputText id="country" value="#{newVisitor.country}" /></td></tr>
+                    <c:if test="#{newVisitor.foreigner}" >
+                        <tr><td><h:outputLabel for="passportId" value="#{msg.passportId}: "/></td><td><h:outputText id="passportId" value="#{newVisitor.passportId}" /></td></tr>
+                        <tr><td><h:outputLabel for="citizenship" value="#{msg.visitor_citizenship}: "/></td><td><h:outputText id="citizenship" value="#{newVisitor.citizenshipId}" /></td></tr>
+                    </c:if>
+                    <tr>
+                        <td><h:outputLabel for="photo"
+                                           value="#{msg.visitor_photo}: "
+                                           />
+                        </td>
+                        <td>
+                            <p:commandLink  oncomplete="PF('photoDialog').show()" 
+                                            update=":photoDialogId"
+                                            >
+                                <p:graphicImage id="photo"
+                                                value="#{newVisitor.photoThumbnail}" 
+                                                cache="false"
+                                                />
+                            </p:commandLink>
+                        </td>
+                    </tr>
 
-                            <tr>
-                                <td colspan="2">
-                                    <ul class="center">
-                                        <li class="inline">
-                                            <p:commandButton value="#{msg.ok}" action="#{newVisitor.complete()}">
-                                                <!--<p:ajax update=":growl" />-->
-                                            </p:commandButton>
-                                        </li>
-                                        <li class="inline">
-                                            <p:commandButton value="#{msg.cancel}" action="#{newVisitor.cancel()}">
-                                                <!--<p:resetInput target="newOfficeForm" />-->
-                                                <!--<p:ajax update="newVisitorForm" resetValues="true"/>--> 
-                                            </p:commandButton>
-                                        </li>
-                                    </ul>
-                                </td>
-                            </tr>
+                    <tr>
+                        <td colspan="2"
+                            >
+                            <ul class="center, inline"
+                                >
+                                <li>
+                                    <p:commandButton value="#{msg.ok}"
+                                                     action="#{newVisitor.complete()}"
+                                                     >
+                                        <!--<p:ajax update=":growl" />-->
+                                    </p:commandButton>
+                                </li>
+                                <li>
+                                    <p:commandButton value="#{msg.back}"
+                                                     action="#{newVisitor.delete()}"
+                                                     >
+                                    </p:commandButton>
+                                </li>
+                                <!--<li>-->
+<!--                                            <p:commandButton value="#{msg.cancel}" 
+                                                     action="#{newVisitor.cancel()}"
+                                                     >-->
+                                <!--<p:resetInput target="newOfficeForm" />-->
+                                <!--<p:ajax update="newVisitorForm" resetValues="true"/>--> 
+                                <!--</p:commandButton>-->
+                                <!--</li>-->
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+            </h:form>
+        </p:panel>
 
-                        </table>
-                    </h:form>
-                </p:panel>
+    </ui:define>
 
-            </ui:define>
+    <ui:define name="bodyContent" 
+               >
+        <p:dialog id="photoDialogId" 
+                  header="#{msg.cancel}: "
+                  widgetVar="photoDialog"
+                  modal="true"
+                  resizable="false" 
+                  closeOnEscape="true" 
+                  position="center"
+                  >
+            <p:graphicImage id="photo" 
+                            value="#{newVisitor.photo}" 
+                            cache="false"
+                            />
+        </p:dialog>
+    </ui:define>
 
-            <ui:define name="body" >
-                <p:dialog id="photoDialogId"  header="#{msg.cancel}: " widgetVar="photoDialog" modal="true" resizable="false" closeOnEscape="true" position="center">
-                    <p:graphicImage id="photo" value="#{newVisitor.photo}" cache="false"/>
-                </p:dialog>
-
-            </ui:define>
-
-        </ui:composition>
-    </h:body>
-</html>
-
+</ui:composition>
