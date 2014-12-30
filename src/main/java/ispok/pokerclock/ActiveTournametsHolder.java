@@ -10,7 +10,6 @@ import ispok.dto.PayoutPlaceDto;
 import ispok.dto.PayoutStructureDto;
 import ispok.dto.TournamentDto;
 import ispok.dto.TournamentStructureDto;
-import ispok.pokerclock.TournamentController;
 import ispok.service.PayoutStructureService;
 import ispok.service.TournamentService;
 import ispok.service.TournamentStructureService;

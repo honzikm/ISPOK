@@ -8,18 +8,12 @@ import ispok.bo.Employee;
 import ispok.dao.GenericDao;
 import ispok.dto.EmployeeDto;
 import ispok.dto.VisitorDto;
-import ispok.helper.FacesUtil;
 import ispok.pres.bb.Login;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
@@ -93,6 +87,7 @@ public class AuthenticationService extends AbstractUserDetailsAuthenticationProv
                             login.setLoginFailedReason(Login.INVALID_PASSWORD);
                             throw new BadCredentialsException("Invalid password");
                         }
+                        auths.add(new SimpleGrantedAuthority("ROLE_EMPLOYEE"));
                         if (employeeDto.isManager()) {
                             auths.add(new SimpleGrantedAuthority("ROLE_MANAGER"));
                         }
@@ -107,7 +102,7 @@ public class AuthenticationService extends AbstractUserDetailsAuthenticationProv
                         }
                         ud = new User(employeeDto.getUsername(), employeeDto.getPassword(), auths);
                     } else {
-                        visitorDto = visitorService.getVisitorByName(upat.getName());
+                        visitorDto = visitorService.getVisitorByNickname(upat.getName());
                         if (visitorDto == null) {
                             login.setLoginFailedReason(Login.INVALID_USERNAME);
                             throw new BadCredentialsException("Username does not exist");
@@ -128,6 +123,7 @@ public class AuthenticationService extends AbstractUserDetailsAuthenticationProv
                     status.setRollbackOnly();
                     throw new RuntimeException(e);
                 }
+//                return null;
 //
 //                try {
 //                    employee = genericDAO.getByPropertyUnique("username", username, Employee.class);
@@ -170,14 +166,14 @@ public class AuthenticationService extends AbstractUserDetailsAuthenticationProv
 //            }
 //            catch (AuthenticationException e
 //
-//            
+//
 //                ) {
 //                    status.setRollbackOnly();
 //                throw e;
 //            }
 //            catch (Exception e
 //
-//            
+//
 //                ) {
 //                    logger.error("Error occured during retrieve User call", e);
 //                status.setRollbackOnly();

@@ -29,7 +29,7 @@ public interface VisitorService {
      * @return
      */
     @Transactional(readOnly = true)
-    public VisitorDto getVisitorByName(String name);
+    public VisitorDto getVisitorByNickname(String name);
 
     /**
      *

@@ -4,16 +4,6 @@
  */
 package ispok.pres.bb;
 
-import java.io.IOException;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.stereotype.Component;
 
 /**
@@ -92,6 +82,10 @@ public class Login {
         loginVar = "admin";
     }
 
+    public void setVisitorLogin() {
+        loginVar = "visitor";
+    }
+
 //    public String login() throws ServletException, IOException {
 //        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
 //        RequestDispatcher dispatcher = ((ServletRequest) context.getRequest()).getRequestDispatcher("static/j_spring_security_check");
@@ -104,7 +98,7 @@ public class Login {
 //        dispatcher.forward(request, response);
 //        FacesContext.getCurrentInstance().responseComplete();
 //        return "index.xhtml";
-//        
+//
 //                    Authentication request = new UsernamePasswordAuthenticationToken(this.getUserName(), this.getPassword());
 //            Authentication result = authenticationManager.authenticate(request);
 //            SecurityContextHolder.getContext().setAuthentication(result);

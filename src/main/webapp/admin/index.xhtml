@@ -2,9 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:c="http://java.sun.com/jsp/jstl/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:ui="http://java.sun.com/jsf/facelets">
 
     <ui:include src="/template/head.xhtml"/>
 
@@ -19,21 +17,21 @@
             <h:outputText value="#{msg.admin_login}" />
         </h2>
 
-<!--        <c:if test="${not empty param}">  
-            <div class="errorblock">  
-                
-                #{msg.login.failed}. <br/>
-                <c:if test="#{login.loginFailedReason == 1}">
-                    #{msg.login.invalid.username}.
-                </c:if>
-                <c:if test="#{login.loginFailedReason == 3}">
-                    #{msg.login.invalid.password}.
-                </c:if>
+<!--        <c:if test="${not empty param}">
+            <div class="errorblock">
 
-                Your login attempt was not successful, try again.<br/>
-                ${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}  
-            </div>  
-        </c:if>  -->
+        #{msg.login.failed}. <br/>
+        <c:if test="#{login.loginFailedReason == 1}">
+        #{msg.login.invalid.username}.
+    </c:if>
+    <c:if test="#{login.loginFailedReason == 3}">
+        #{msg.login.invalid.password}.
+    </c:if>
+
+    Your login attempt was not successful, try again.<br/>
+        ${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}
+    </div>
+</c:if>  -->
 
         <!-- login stranka pak musi obsahovat form s acion="static/j_spring_security_check" method="post", a dvema inputy: name="j_username", "j_password" -->
         <h:messages  style="color:red"/>
@@ -52,7 +50,7 @@
                     <input id="password" type="password" name="j_password"/>
                 </li>
                 <li>
-                    <button type="submit">#{msg.login}</button>    
+                    <button type="submit">#{msg.login}</button>
                 </li>
             </ul>
         </form>
@@ -63,28 +61,28 @@
                                             <h:link value="#{msg.register}" outcome="register.xhtml"/>
                                         </li>
                         <li>
-                            <p:outputLabel for="j_username" 
+                            <p:outputLabel for="j_username"
                                            value="#{msg.username}: "
                                            />
-                            <p:inputText id="j_username" 
-                                         type="text" 
+                            <p:inputText id="j_username"
+                                         type="text"
                                          value="#{login.username}"
                                          />
                         </li>
                         <li>
-                            <p:outputLabel for="j_password" 
+                            <p:outputLabel for="j_password"
                                            value="#{msg.password}: "
                                            />
                             <input id="password" type="password" name="j_password"/>
-                            <p:inputText id="j_password" 
-                                         type="password" 
+                            <p:inputText id="j_password"
+                                         type="password"
                                          value="#{login.password}"
                                          />
                         </li>
                         <li>
-                            <p:commandButton action="#{login.login()}" 
+                            <p:commandButton action="#{login.login()}"
                                              value="#{msg.login}"
-                                             />    
+                                             />
                         </li>
                     </ul>
                 </h:form>-->

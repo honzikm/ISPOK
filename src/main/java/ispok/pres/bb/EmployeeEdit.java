@@ -48,9 +48,9 @@ public class EmployeeEdit implements Serializable {
     private String selectedSize;
 
     public List<EmployeeDto> getEmployees() {
-        if (employees == null) {
-            employees = employeeService.getAllEmployees();
-        }
+//        if (employees == null) {
+        employees = employeeService.getAllEmployees();
+//        }
         return employees;
     }
 
@@ -141,7 +141,7 @@ public class EmployeeEdit implements Serializable {
             }
         }
         selected = new EmployeeDto[0];
-        
+
         FacesUtil.addInfoMessage("success", "employee_delete_success");
     }
 

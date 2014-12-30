@@ -21,10 +21,11 @@ public class EmployeeServiceImpl extends AbstractDataAccessService implements Em
 
     @Override
     public EmployeeDto getEmployeeByUsername(String username) {
-        Employee e = genericDao.getByPropertyUnique("username", username, Employee.class);
-        if (e == null) {
+        List<Employee> employees = genericDao.getByProperty("username", username, Employee.class);
+        if (employees.isEmpty()) {
             return null;
         }
+        Employee e = employees.get(0);
         EmployeeDto ed = new EmployeeDto(e.getId(), e.getUsername(), e.getPassword(), e.getSalt(), e.isReceptionist(), e.isCashier(), e.isFloorman(), e.isManager());
         return ed;
     }
@@ -55,7 +56,7 @@ public class EmployeeServiceImpl extends AbstractDataAccessService implements Em
     public void updateEmployee(EmployeeDto employeeDto) {
         Employee e = genericDao.getById(employeeDto.getId(), Employee.class);
         String password = employeeDto.getPassword();
-        if (password != e.getPassword()) {
+        if (password.equals(e.getPassword())) {
             e.setPassword(password);
             employeeDto.setPassword(e.getPassword());
         }

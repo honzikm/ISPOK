@@ -33,7 +33,6 @@ public class VisitorServiceImpl extends AbstractDataAccessService implements Vis
     @Autowired
     private VisitorDao visitorDao;
 
-
     @Override
     public List<VisitorDto> getAll() {
         List<Visitor> visitors = genericDao.getAll(Visitor.class);
@@ -192,19 +191,19 @@ public class VisitorServiceImpl extends AbstractDataAccessService implements Vis
     }
 
     @Override
-    public VisitorDto getVisitorByName(String name) {
+    public VisitorDto getVisitorByNickname(String nickname) {
 
-        Visitor v = genericDao.getByPropertyUnique("username", name, Visitor.class);
-        if (v == null) {
+        List<Visitor> visitors = genericDao.getByProperty("nickname", nickname, Visitor.class);
+        if (visitors.isEmpty()) {
             return null;
         }
-        return getVisitorDto(v);
+        return getVisitorDto(visitors.get(0));
     }
 
     @Override
     public boolean emailAvailable(String email) {
         Visitor v = genericDao.getByPropertyUnique("email", email, Visitor.class);
-        if(v == null){
+        if (v == null) {
             return true;
         }
         return false;

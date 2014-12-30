@@ -18,7 +18,7 @@
             </sec:authorize>
 
 
-            <sec:authorize ifAnyGranted="ROLE_USER, ROLE_ADMIN, ROLE_MANAGER, ROLE_FLOORMAN, ROLE_CASHIER, ROLE_RECEPTIONIST">
+            <sec:authorize ifAnyGranted=" ROLE_VISITOR, ROLE_EMPLOYEE, ROLE_ADMIN, ROLE_MANAGER, ROLE_FLOORMAN, ROLE_CASHIER, ROLE_RECEPTIONIST">
                 <li>
                     <h:outputLink value="j_spring_security_logout">#{msg.logout}</h:outputLink>
 <!--                    <h:outputLink value="#{request.contextPath}/j_spring_security_logout">#{msg.logout}</h:outputLink>-->
@@ -27,28 +27,13 @@
 
             <sec:authorize ifAnyGranted="ROLE_USER">
                 <li>
-                    <h:link value="#{msg.reservations}" outcome="/user/reservations.xhtml"/>
                 </li>
             </sec:authorize>
 
-            <sec:authorize  ifAnyGranted="ROLE_MANAGER, ROLE_ADMIN, ROLE_FLOORMAN, ROLE_CASHIER, ROLE_RECEPTIONIST">
-<!--                <li>
-                    <h:link value="#{msg.staff}" outcome="/admin/staffEdit.xhtml"/>
-                </li>
-                <li>
-                    <h:link value="#{msg.offices}" outcome="/admin/officeEdit.xhtml"/>
-                </li>-->
-                
+            <sec:authorize  ifAnyGranted="ROLE_EMPLOYEE, ROLE_MANAGER, ROLE_ADMIN, ROLE_FLOORMAN, ROLE_CASHIER, ROLE_RECEPTIONIST">
                 <li>
                     <h:link value="#{msg.administration}" outcome="/admin/management/employees/employees.xhtml"/>
                 </li>
-                <!--
-                <li>
-                    <h:link value="#{msg.airport_edit}" outcome="/admin/airportEdit.xhtml"/>
-                </li>
-                <li>
-                    <h:link value="#{msg.aircraft_edit}" outcome="/admin/aircraftEdit.xhtml"/>
-                </li>-->
             </sec:authorize>
         </ul>
     </div>
