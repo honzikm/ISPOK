@@ -15,25 +15,21 @@ import org.apache.logging.log4j.Logger;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortMeta;
 import org.primefaces.model.SortOrder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author Jan
  */
+
+@Component(value = "tournamentLazyDataModel")
 public class TournamentLazyDataModel extends LazyDataModel<TournamentDto> {
 
     private static final Logger logger = LogManager.getLogger();
 
+    @Autowired
     private TournamentService tournamentService;
-
-//    @Override
-//    public TournamentDto getRowData(String rowKey) {
-//        return tournamentService.getTournamentById(Long.parseLong(rowKey));
-//    }
-//    
-    public TournamentLazyDataModel(TournamentService tournamentService) {
-        this.tournamentService = tournamentService;
-    }
 
     @Override
     public Object getRowKey(TournamentDto tournamentDto) {
@@ -61,19 +57,12 @@ public class TournamentLazyDataModel extends LazyDataModel<TournamentDto> {
 
         List<TournamentDto> tournamentDtos = tournamentService.getPage(first, pageSize, sortField, ascending, filters);
 
-        int matchesCount = tournamentService.getTournamentCount(filters).intValue();
+        int matchesCount = tournamentService.getCount(filters).intValue();
 
         logger.debug("Matches found: {}", matchesCount);
 
         this.setRowCount(matchesCount);
         return tournamentDtos;
-    }
-
-    @Override
-    public List<TournamentDto> load(int first, int pageSize, List<SortMeta> multiSortMeta, Map<String, Object> filters) {
-
-//        multiSortMeta.
-        return null;
     }
 
 }

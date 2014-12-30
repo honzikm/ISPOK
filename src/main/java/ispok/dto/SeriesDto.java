@@ -12,6 +12,7 @@ package ispok.dto;
 public class SeriesDto extends AbstractDto {
 
     private String name;
+    private String info;
 
     /**
      *
@@ -26,6 +27,30 @@ public class SeriesDto extends AbstractDto {
      */
     public SeriesDto(String name) {
         this.name = name;
+    }
+
+    public SeriesDto(SeriesDto seriesDto) {
+        this.id = seriesDto.id;
+        this.name = seriesDto.name;
+        this.info = seriesDto.info;
+    }
+
+    /**
+     * Get the value of info
+     *
+     * @return the value of info
+     */
+    public String getInfo() {
+        return info;
+    }
+
+    /**
+     * Set the value of info
+     *
+     * @param info new value of info
+     */
+    public void setInfo(String info) {
+        this.info = info;
     }
 
     /**

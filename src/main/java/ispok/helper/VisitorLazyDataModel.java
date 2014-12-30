@@ -15,17 +15,21 @@ import org.apache.logging.log4j.Logger;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 import static org.primefaces.model.SortOrder.ASCENDING;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component(value = "visitorLazyDataModel")
 public class VisitorLazyDataModel extends LazyDataModel<VisitorDto> {
 
     private static Logger logger = LogManager.getLogger();
 
+    @Autowired
     private VisitorService visitorService;
 
-    public VisitorLazyDataModel(VisitorService visitorService) {
-        logger.debug("Visitor service: {}", visitorService);
-        this.visitorService = visitorService;
-    }
+//    public VisitorLazyDataModel(VisitorService visitorService) {
+//        logger.debug("Visitor service: {}", visitorService);
+//        this.visitorService = visitorService;
+//    }
 
     @Override
     public VisitorDto getRowData(String rowKey) {

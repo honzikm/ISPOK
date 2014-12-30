@@ -1,0 +1,598 @@
+
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://xmlns.jcp.org/jsf/core"
+                 xmlns:mp ="http://myprimefaces.junkpunk.cz/facelets"
+                 template="/admin/template/adminTemplate.xhtml"
+                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="title">
+        <title>#{msg.tournament_manager} | #{msg.ispok}</title>
+    </ui:define>
+
+
+    <ui:define name="centerContent"
+               >
+
+        <p:growl id="growl"
+                 showDetail="true"
+                 globalOnly="true"
+                 />
+
+        <p:panel header="#{msg.tournament_manager}"
+                 >
+            <h:form>
+                <table>
+                    <tr>
+                        <td>
+                            <p:outputLabel for="office"
+                                           value="#{msg.office_select}:"
+                                           />
+                        </td>
+                        <td>
+                            <p:selectOneMenu id="office"
+                                             value="#{tournamentManager.officeId}"
+                                             >
+                                <f:selectItems value="#{tournamentManager.allOffices}"
+                                               var="of"
+                                               itemLabel="#{of.name}"
+                                               itemValue="#{of.id}"
+                                               />
+                                <p:ajax update="tournament"
+                                        process="office"
+                                        partialSubmit="true"
+                                        event="change"
+                                        />
+                            </p:selectOneMenu>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:outputLabel value="#{msg.tournament_select}:"
+                                           for="tournament"
+                                           />
+                        </td>
+                        <td>
+                            <p:selectOneMenu id="tournament"
+                                             value="#{tournamentManager.tournamentId}"
+                                             >
+                                <f:selectItems value="#{tournamentManager.activeTournaments}"
+                                               var="at"
+                                               itemLabel="#{at.name} #{at.start}"
+                                               itemValue="#{at.id}"
+                                               />
+                                <p:ajax update=":pokerClock tournament :payoutsDialogId"
+                                        partialSubmit="true"
+                                        process="@this tournament"
+                                        event="change"
+                                        />
+                            </p:selectOneMenu>
+                        </td>
+                    </tr>
+                    <!--                <tr>
+                                        <td>
+                                            <h:outputText value="#{msg.info}:"
+                                                          />
+                                        </td>
+                                        <td>
+                                            <h:outputText id="info"
+                                                          value="#{cashgameManager.cashgame.info}"
+                                                          />
+                                        </td>
+                                    </tr>-->
+
+
+                </table>
+
+                <ul class="inline">
+                    <li>
+                        <!--                        <p:clock autoSync="true"
+                                                         mode="server"
+                                                         />-->
+                    </li>
+                </ul>
+
+                <ul class="inline">
+                    <li>
+                        <p:commandButton value="#{msg.player_add}"
+                                         oncomplete="PF('addPlayerDialog').show()"
+                                         partialSubmit="true"
+                                         process="@this"
+                                         />
+                    </li>
+                    <li>
+                        <p:commandButton value="#{msg.players}"
+                                         oncomplete="PF('playersDialog').show()"
+                                         partialSubmit="true"
+                                         process="@this"
+                                         />
+                    </li>
+                    <li>
+                        <p:commandButton id="payoutsButton"
+                                         value="#{msg.payouts}"
+                                         action="#{tournamentManager.loadPayouts()}"
+                                         oncomplete="PF('payoutsDialog').show()"
+                                         partialSubmit="true"
+                                         process="@this"
+                                         update=":payoutsDialogId"
+                                         />
+                    </li>
+                </ul>
+            </h:form>
+
+            <h:form>
+                <p:poll interval="1"
+                        update=":pokerClock"
+                        async="true"
+                        partialSubmit="true"
+                        process="@this"
+                        />
+            </h:form>
+
+            <p:panel id="pokerClock"
+                     header="#{msg.poker_clock}"
+                     >
+
+                <table>
+                    <tr>
+                        <td>
+                            <p:outputLabel value="#{msg.entries}: "
+                                           for="entries"
+                                           />
+                        </td>
+                        <td>
+                            <h:outputText id="entries"
+                                          value="#{tournamentManager.entries}"
+                                          />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:outputLabel value="#{msg.players}: "
+                                           for="playersCnt"
+                                           />
+                        </td>
+                        <td>
+                            <h:outputText id="playersCnt"
+                                          value="#{tournamentManager.playersCount}"
+                                          />
+                        </td>
+                    </tr>
+                    <tr id="xx">
+                        <td>
+                            <c:choose>
+                                <c:when test="#{not tournamentManager.isBreak()}"
+                                        >
+                                    <p:outputLabel value="#{msg.level_time_left}: "
+                                                   for="time"
+                                                   />
+                                </c:when>
+                                <c:otherwise>
+                                    <p:outputLabel value="#{msg.break_time_left}: "
+                                                   for="time"
+                                                   />
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+                        <td>
+                            <h:outputText id="time"
+                                          value="#{tournamentManager.time}"
+                                          />
+                        </td>
+                        <td>
+                            <c:if test="#{tournamentManager.isBreak()}"
+                                  >
+                                <h:outputText value="#{msg.on_break}"
+                                              style="color:red"
+                                              />
+                            </c:if>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td>
+                            <p:outputLabel for="level"
+                                           value="#{msg.level}: "
+                                           />
+                        </td>
+                        <td>
+                            <h:outputText id="level"
+                                          value="#{tournamentManager.levelDto.number}"
+                                          />
+                        </td>
+                        <td>
+                            <p:outputLabel for="duration"
+                                           value="#{msg.duration}: "
+                                           />
+                        </td>
+                        <td>
+                            <h:outputText id="duration"
+                                          value="#{tournamentManager.levelDto.duration}"
+                                          />
+                        </td>
+                        <td>
+                            <p:outputLabel for="breakDuration"
+                                           value="#{msg.level_break}: "
+                                           />
+                        </td>
+                        <td>
+                            <h:outputText id="breakDuration"
+                                          value="#{tournamentManager.levelDto.breakDuration}"
+                                          />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <p:outputLabel for="smallBlind"
+                                           value="#{msg.smallblind}: "
+                                           />
+                        </td>
+                        <td>
+                            <h:outputText id="smallBlind"
+                                          value="#{tournamentManager.levelDto.smallBlind}"
+                                          />
+                        </td>
+                        <td>
+                            <p:outputLabel for="bigBlind"
+                                           value="#{msg.bigblind}: "
+                                           />
+                        </td>
+                        <td>
+                            <h:outputText id="bigBlind"
+                                          value="#{tournamentManager.levelDto.bigBlind}"
+                                          />
+                        </td>
+                        <td>
+                            <p:outputLabel for="ante"
+                                           value="#{msg.ante}: "
+                                           />
+                        </td>
+                        <td>
+                            <h:outputText id="ante"
+                                          value="#{tournamentManager.levelDto.bigBlind}"
+                                          />
+                        </td>
+                    </tr>
+                </table>
+
+                <ul class="center inline"
+                    >
+                    <li>
+                        <p:commandButton icon="ui-icon-seek-prev"
+                                         action="#{tournamentManager.prevLevel()}"
+                                         partialSubmit="true"
+                                         process="@this"
+                                         />
+                    </li>
+                    <li>
+                        <p:commandButton icon="ui-icon-stop"
+                                         />
+                    </li>
+                    <li>
+                        <p:commandButton icon="ui-icon-pause"
+                                         action="#{tournamentManager.pause()}"
+                                         partialSubmit="true"
+                                         process="@this"
+                                         />
+                    </li>
+                    <li>
+                        <p:commandButton icon="ui-icon-play"
+                                         action="#{tournamentManager.start()}"
+                                         partialSubmit="true"
+                                         process="@this"
+                                         />
+                    </li>
+                    <li>
+                        <p:commandButton icon="ui-icon-seek-next"
+                                         action="#{tournamentManager.nextLevel()}"
+                                         partialSubmit="true"
+                                         process="@this"
+                                         />
+                    </li>
+                </ul>
+            </p:panel>
+        </p:panel>
+
+    </ui:define>
+
+    <ui:define name="bodyContent"
+               >
+
+
+        <p:dialog widgetVar="playersDialog"
+                  modal="false"
+                  header="#{msg.players}"
+                  closeOnEscape="true"
+                  width="600"
+                  >
+            <p:dataTable id="playersTable"
+                         value="#{tournamentManager.players}"
+                         var="player"
+                         paginator="true"
+                         rows="25"
+                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                         rowsPerPageTemplate="10, 25"
+                         lazy="true"
+                         rowKey="#{player.id}"
+                         >
+
+                <p:column headerText="#{msg.id}"
+                          >
+                    <h:outputText value="#{player.id}"
+                                  />
+                </p:column>
+                <p:column headerText="#{msg.firstName}"
+                          >
+                    <h:outputText value="#{player.firstName}"
+                                  />
+                </p:column>
+                <p:column headerText="#{msg.lastName}"
+                          >
+                    <h:outputText value="#{player.lastName}"
+                                  />
+                </p:column>
+                <p:column headerText="#{msg.visitor_birthdate}"
+                          >
+                    <h:outputText value="#{player.birthDate}"
+                                  />
+                </p:column>
+                <p:column width="15"
+                          >
+                    <p:commandLink title="#{msg.details}"
+                                   styleClass="ui-icon ui-icon-search"
+                                   partialSubmit="true"
+                                   process="@this"
+                                   update=":growl"
+                                   />
+                </p:column>
+                <p:column width="15"
+                          >
+                    <p:commandLink title="#{msg.player_remove}"
+                                   styleClass="ui-icon ui-icon-minusthick"
+                                   action="#{tournamentManager.removePlayer(player.id)}"
+                                   partialSubmit="true"
+                                   process="@this"
+                                   update=":growl :entries :playersCnt :playersTable"
+                                   />
+                </p:column>
+                <p:column width="15"
+                          >
+                    <p:commandLink title="#{msg.player_sitout}"
+                                   styleClass="ui-icon ui-icon-eject"
+                                   action="#{tournamentManager.sitout(player.id)}"
+                                   partialSubmit="true"
+                                   process="@this"
+                                   update=":growl :entries :playersCnt :playersTable"
+                                   />
+                </p:column>
+            </p:dataTable>
+        </p:dialog>
+
+        <p:dialog widgetVar="addPlayerDialog"
+                  modal="false"
+                  header="#{msg.player_add}"
+                  closeOnEscape="true"
+                  width="600"
+                  >
+
+            <p:dataTable value="#{tournamentManager.visitorLazyDataModel}"
+                         var="visitor"
+                         paginator="true"
+                         rows="25"
+                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                         rowsPerPageTemplate="10, 25"
+                         lazy="true"
+                         rowKey="#{visitor.id}"
+                         >
+
+                <p:column headerText="#{msg.id}"
+                          >
+                    <h:outputText value="#{visitor.id}"
+                                  />
+                </p:column>
+                <p:column headerText="#{msg.firstName}"
+                          >
+                    <h:outputText value="#{visitor.firstName}"
+                                  />
+                </p:column>
+                <p:column headerText="#{msg.lastName}"
+                          >
+                    <h:outputText value="#{visitor.lastName}"
+                                  />
+                </p:column>
+                <p:column headerText="#{msg.visitor_birthdate}"
+                          >
+                    <h:outputText value="#{visitor.birthDate}"
+                                  />
+                </p:column>
+                <p:column width="15"
+                          >
+                    <p:commandLink title="#{msg.details}"
+                                   styleClass="ui-icon ui-icon-search"
+                                   partialSubmit="true"
+                                   process="@this"
+                                   update=":growl"
+                                   />
+                </p:column>
+                <p:column width="15"
+                          >
+                    <p:commandLink title="#{msg.player_add}"
+                                   styleClass="ui-icon ui-icon-plusthick"
+                                   action="#{tournamentManager.addPlayer(visitor.id)}"
+                                   partialSubmit="true"
+                                   process="@this"
+                                   update=":growl :entries :playersCnt :playersTable"
+                                   />
+                </p:column>
+            </p:dataTable>
+
+        </p:dialog>
+
+        <p:dialog id="payoutsDialogId"
+                  widgetVar="payoutsDialog"
+                  modal="false"
+                  header="#{msg.payouts}"
+                  closeOnEscape="true"
+                  width="600"
+                  >
+            <h:form id="payoutsForm">
+
+                <table>
+                    <tr>
+                        <td>
+                            <p:outputLabel for="payoutStructure"
+                                           value="#{msg.payout_structure}:"
+                                           />
+                        </td>
+                        <td>
+                            <p:selectOneMenu id="payoutStructure"
+                                             value="#{tournamentManager.payoutStructureId}"
+                                             >
+                                <f:selectItems value="#{tournamentManager.payoutStructures}"
+                                               var="ps"
+                                               itemLabel="#{ps.name}"
+                                               itemValue="#{ps.id}"
+                                               />
+                                <p:ajax partialSubmit="true"
+                                        process="@this"
+                                        event="change"
+                                        update="payoutsTable"
+                                        />
+                            </p:selectOneMenu>
+                        </td>
+                        <td>
+                            <p:commandButton value="#{msg.load}"
+                                             action="#{tournamentManager.loadPayoutStructure()}"
+                                             process="@this"
+                                             update="payoutsTable"
+                                             />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:outputLabel for="prizePool"
+                                           value="#{msg.prizepool} (#{tournamentManager.entryPrizePool})"
+                                           />
+                        </td>
+                        <td>
+                            <p:inputText id="prizePool"
+                                         value="#{tournamentManager.prizePoll}"
+                                         style="width: 80px"
+                                         />
+                        </td>
+                        <td>
+                            <p:commandButton value="#{msg.calculate}"
+                                             action="#{tournamentManager.calculatePayouts()}"
+                                             partialSubmit="true"
+                                             process="@this prizePool"
+                                             update="payoutsTable prizePool"
+                                             />
+                        </td>
+                        <td>
+                            <p:commandButton value="#{msg.reset}"
+                                             action="#{tournamentManager.loadPayouts()}"
+                                             partialSubmit="true"
+                                             process="@this"
+                                             update="payoutStructure payoutsTable prizePool"
+                                             />
+                        </td>
+                        <td>
+                            <p:commandButton value="#{msg.save}"
+                                             action="#{tournamentManager.savePayouts()}"
+                                             partialSubmit="true"
+                                             process="@this"
+                                             update=":growl"
+                                             />
+                            <!--oncomplete="PF('payoutsDialog').hide()"-->
+                        </td>
+                    </tr>
+                    <!--                    <tr>
+                                            <td>
+                                                <p:outputLabel for="totalSum"
+                                                               value="#{msg.totalsum}"
+                                                               />
+                                            </td>
+                                            <td>
+                                                <h:outputText id="totalSum"
+                                                              value="#{tournamentManager.payoutSum}"
+                                                              />
+                                            </td>
+                                        </tr>-->
+                </table>
+
+                <p:remoteCommand name="onCellEdit"
+                                 action="#{tournamentManager.calculatePayoutsPercent}"
+                                 update=":payoutsForm:prizePool :payoutsForm:payoutsTable"
+                                 />
+                <p:dataTable id="payoutsTable"
+                             value="#{tournamentManager.payoutPlaces}"
+                             var="payoutPlace"
+                             paginator="true"
+                             rows="25"
+                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                             rowsPerPageTemplate="10, 25"
+                             rowKey="#{payoutPlace.place}"
+                             editable="true"
+                             editMode="cell"
+                             >
+                    <p:ajax event="cellEdit"
+                            oncomplete="onCellEdit()"
+                            />
+                    <p:column headerText="#{msg.place}"
+                              >
+                        <h:outputText value="#{payoutPlace.place}"
+                                      />
+                    </p:column>
+                    <p:column headerText="%"
+                              >
+                        <h:outputText value="#{payoutPlace.percent}"
+                                      />
+                    </p:column>
+                    <p:column headerText="#{msg.money}"
+                              >
+                        <p:cellEditor>
+                            <f:facet name="output"
+                                     >
+                                <h:outputText value="#{payoutPlace.money}"
+                                              />
+                            </f:facet>
+                            <f:facet name="input"
+                                     >
+                                <p:spinner value="#{payoutPlace.money}"
+                                           min="0"
+                                           >
+                                </p:spinner>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column width="15"
+                              >
+                        <p:commandLink title="#{msg.details}"
+                                       styleClass="ui-icon ui-icon-minusthick"
+                                       action="#{tournamentManager.removePayoutPlace(payoutPlace.place)}"
+                                       partialSubmit="true"
+                                       process="@this"
+                                       update=":payoutsForm:payoutsTable :payoutsForm:prizePool"
+                                       />
+                    </p:column>
+                    <p:column width="15"
+                              >
+                        <p:commandLink title="#{msg.player_add}"
+                                       styleClass="ui-icon ui-icon-plusthick"
+                                       action="#{tournamentManager.addPayoutPlace(payoutPlace.place)}"
+                                       partialSubmit="true"
+                                       process="@this"
+                                       update=":payoutsForm:payoutsTable"
+                                       />
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </p:dialog>
+
+    </ui:define>
+
+</ui:composition>

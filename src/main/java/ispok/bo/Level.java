@@ -18,12 +18,20 @@ public class Level extends AbstractBusinessObject {
 
     @Column(nullable = false)
     private int duration;
-
     @Column(nullable = false, name = "break_duration")
     private int breakDuration;
-
     @ManyToOne(optional = false)
     private Betset betset;
+
+
+    public Level() {
+    }
+
+    public Level(int duration, int breakDuration, Betset betset) {
+        this.duration = duration;
+        this.breakDuration = breakDuration;
+        this.betset = betset;
+    }
 
     /**
      * Get the value of betset

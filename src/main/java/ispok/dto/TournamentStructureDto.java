@@ -5,6 +5,9 @@
  */
 package ispok.dto;
 
+import ispok.bo.TournamentStructure;
+import java.util.List;
+
 /**
  *
  * @author Jan Mucha <j.mucha@seznam.cz>
@@ -12,6 +15,27 @@ package ispok.dto;
 public class TournamentStructureDto extends AbstractDto {
 
     private String name;
+    private List<Long> levelIds;
+
+
+
+    /**
+     * Get the value of levelId
+     *
+     * @return the value of levelId
+     */
+    public List<Long> getLevelIds() {
+        return levelIds;
+    }
+
+    /**
+     * Set the value of levelId
+     *
+     * @param levelId new value of levelId
+     */
+    public void setLevelIds(List<Long> levelId) {
+        this.levelIds = levelId;
+    }
 
     /**
      * Get the value of name

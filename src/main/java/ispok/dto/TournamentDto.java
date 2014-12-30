@@ -16,13 +16,49 @@ public class TournamentDto extends AbstractDto {
     private float buyin;
     private float addon;
     private int bonusPoints;
-    private Long seriesId;
-    private Long placeId;
-    private Long tournamentStructureId;
+    private Long seriesId = (long) 0;
+    private Long placeId = (long) 0;
+    private Long tournamentStructureId = (long) 0;
     private int levelNumber;
     private int levelTime;
+    private Long payoutStructureId = (long) 0;
 
     public TournamentDto() {
+    }
+
+    public TournamentDto(TournamentDto tdto) {
+        this.id = tdto.getId();
+        this.name = tdto.getName();
+        this.start = tdto.getStart();
+        this.lateReg = tdto.getLateReg();
+        this.finish = tdto.getFinish();
+        this.buyin = tdto.getBuyin();
+        this.addon = tdto.getAddon();
+        this.bonusPoints = tdto.getBonusPoints();
+        this.seriesId = tdto.getSeriesId();
+        this.placeId = tdto.getPlaceId();
+        this.tournamentStructureId = tdto.getTournamentStructureId();
+        this.levelNumber = tdto.getLevelNumber();
+        this.levelTime = tdto.getLevelTime();
+        this.payoutStructureId = tdto.getPayoutStructureId();
+    }
+
+    /**
+     * Get the value of payoutStructureId
+     *
+     * @return the value of payoutStructureId
+     */
+    public Long getPayoutStructureId() {
+        return payoutStructureId;
+    }
+
+    /**
+     * Set the value of payoutStructureId
+     *
+     * @param payoutStructureId new value of payoutStructureId
+     */
+    public void setPayoutStructureId(Long payoutStructureId) {
+        this.payoutStructureId = payoutStructureId;
     }
 
     /**

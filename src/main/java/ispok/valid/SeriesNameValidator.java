@@ -5,8 +5,10 @@
  */
 package ispok.valid;
 
+import ispok.dto.SeriesDto;
+import ispok.helper.FacesUtil;
+import ispok.service.CommonService;
 import ispok.service.SeriesService;
-import java.util.ResourceBundle;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -29,15 +31,24 @@ public class SeriesNameValidator implements Validator {
 
     @Override
     public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
-        ResourceBundle rb = ResourceBundle.getBundle("ispok/pres/inter/ispok", fc.getViewRoot().getLocale());
 
         String string = (String) o;
         string = string.trim();
-        if (string.length() < 4 || string.length() > 255) {
-            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, rb.getString("series_name_invalid"), rb.getString("series_name_invalid")));
+
+        Object param = uic.getAttributes().get("seriesId");
+        Long id = new Long(0);
+
+        if (param != null) {
+            id = (Long) param;
         }
-        if (seriesService.nameExists(string)) {
-            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, rb.getString("series_name_exist"), rb.getString("series_name_exist")));
+
+        if (string.length() < 4 || string.length() > 255) {
+            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, FacesUtil.getString("series_name_invalid"), FacesUtil.getString("series_name_invalid")));
+        }
+
+        SeriesDto seriesTmp = seriesService.getByName(string);
+        if (seriesTmp != null && !seriesTmp.getId().equals(id)) {
+            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, FacesUtil.getString("series_name_exist"), FacesUtil.getString("series_name_exist")));
         }
     }
 }

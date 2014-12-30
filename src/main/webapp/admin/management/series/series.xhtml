@@ -23,25 +23,7 @@
                  globalOnly="true"
                  />
 
-        <!--                <p:confirmDialog global="true">
-                            <p:commandButton value="Yes"
-                                             type="button"
-                                             styleClass="ui-confirmdialog-yes" 
-                                             icon="ui-icon-check"
-                                             update=":growl"
-                                             >
-                                <p:ajax update=":growl" />
-                            </p:commandButton>
-                   
-                            <p:commandButton value="No"
-                                             type="button" 
-                                             styleClass="ui-confirmdialog-no"
-                                             icon="ui-icon-close"
-                                             />
-                        </p:confirmDialog>-->
-
-        <h:form> 
-
+        <h:form id="dataForm"> 
             <p:dataTable id="seriesTableId"
                          widgetVar="seriesTable"
                          var="series"
@@ -68,21 +50,21 @@
                         <div align="left">
                             <p:commandButton value = "#{msg.neww}"
                                              icon ="ui-icon-star"
+                                             update=":newSeriesForm"
+                                             action="#{seriesEdit.clear()}"
                                              oncomplete ="PF('newSeriesDialog').show()"
                                              />
                             <p:commandButton value="#{msg.edit}"
                                              icon="ui-icon-pencil"
-                                             onclick ="PF('editSeriesDialog').show()"
+                                             update=":editSeriesForm"
+                                             action="#{seriesEdit.loadSelected()}"
+                                             oncomplete ="PF('editSeriesDialog').show()"
                                              />
                             <p:commandButton value="#{msg.delete}"
                                              icon="ui-icon-trash"
                                              update=":growl seriesTableId"
                                              action="#{seriesEdit.delete()}"
                                              >
-<!--                                        <p:confirm header="#{msg.series_delete}" 
-                                           message="Are you sure?"
-                                           icon="ui-icon-alert" 
-                                           />-->
                             </p:commandButton>
                         </div>
                     </p:outputPanel>
@@ -104,6 +86,13 @@
                     <h:outputText value="#{series.name}"
                                   />
                 </p:column>
+                <p:column headerText="#{msg.info}"
+
+                          >
+                    <h:outputText  value="#{series.info}"
+                                   />
+                </p:column>
+
 
             </p:dataTable>
             <p:remoteCommand name="updateTable"
@@ -114,6 +103,7 @@
 
 
     <ui:define name="bodyContent">
+
         <p:dialog widgetVar="newSeriesDialog"
                   header="#{msg.series_new}"
                   modal="true"
@@ -123,7 +113,8 @@
                   closable="false"
                   >
 
-            <h:form id="newSeriesForm">
+            <h:form id="newSeriesForm"
+                    >
                 <table>
                     <tr>
                         <td>
@@ -133,7 +124,7 @@
                         </td>
                         <td>
                             <p:inputText id="name"
-                                         value="#{seriesEdit.name}"
+                                         value="#{seriesEdit.series.name}"
                                          required="true"
                                          requiredMessage="#{msg.required}"
                                          >
@@ -147,21 +138,39 @@
                         </td>
                     </tr>
                     <tr>
+                        <td>
+                            <p:outputLabel for="info"
+                                           value="#{msg.info}"
+                                           />
+                        </td>
+                        <td>
+                            <p:inputText id="info"
+                                         value="#{seriesEdit.series.info}"
+                                         maxlength="255"
+                                         validatorMessage="#{msg.info_invalid_length}"
+                                         />
+                        </td>
+                        <td>
+                            <p:message for="info"
+                                       />
+                        </td>
+                    </tr>
+
+                    <tr>
                         <td colspan="2">
                             <ul class="center inline">
                                 <li>
                                     <p:commandButton value="#{msg.add}"
                                                      action="#{seriesEdit.add()}"
-                                                     update="newSeriesForm :growl @(#seriesTableId)"
+                                                     update="newSeriesForm :growl :dataForm"
                                                      oncomplete="if (!args.validationFailed){PF('newSeriesDialog').hide();}"
                                                      />
                                 </li>
                                 <li>
                                     <p:commandButton value="#{msg.cancel}"
-                                                     action="#{seriesEdit.clear()}"
                                                      oncomplete="PF('newSeriesDialog').hide();"
                                                      >
-                                        <p:ajax update=":newSeriesForm"
+                                        <p:ajax update="newSeriesForm"
                                                 resetValues="true"
                                                 />
                                     </p:commandButton>
@@ -173,9 +182,92 @@
             </h:form>
         </p:dialog>
 
-        <p:dialog header="#{msg.series_delete}"
+        <p:dialog widgetVar="editSeriesDialog"
+                  header="#{msg.series_edit}"
+                  modal="true"
+                  resizable="false"
+                  position="center, top"
+                  closeOnEscape="true"
+                  closable="true"
                   >
+
+            <h:form id="editSeriesForm"
+                    >
+                <table>
+                    <tr>
+                        <td>
+                            <p:outputLabel for="editName"
+                                           value="#{msg.series_name}: "
+                                           />
+                        </td>
+                        <td>
+                            <p:inputText id="editName"
+                                         value="#{seriesEdit.series.name}"
+                                         required="true"
+                                         requiredMessage="#{msg.required}"
+                                         >
+                                <f:attribute name="seriesId"
+                                             value="#{seriesEdit.series.id}"
+                                             />
+                                <f:validator validatorId="seriesNameValidator"
+                                             />
+                            </p:inputText>
+                        </td>
+                        <td>
+                            <p:message for="editName" 
+                                       />
+                        </td>
+                        <tr>
+                            <td>
+                                <p:outputLabel for="editInfo"
+                                               value="#{msg.info}"
+                                               />
+                            </td>
+                            <td>
+                                <p:inputText id="editInfo"
+                                             value="#{seriesEdit.series.info}"
+                                             maxlength="255"
+                                             validatorMessage="#{msg.info_invalid_length}"
+                                             />
+                            </td>
+                            <td>
+                                <p:message for="editInfo"
+                                           />
+                            </td>
+                        </tr>
+
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <ul class="center inline">
+                                <li>
+                                    <p:commandButton value="#{msg.save}"
+                                                     action="#{seriesEdit.update()}"
+                                                     update=":growl :dataForm"
+                                                     oncomplete="if (!args.validationFailed){PF('editSeriesDialog').hide();}"
+                                                     />
+                                </li>
+                                <li>
+                                    <p:commandButton value="#{msg.cancel}"
+                                                     oncomplete="PF('editSeriesDialog').hide();"
+                                                     >
+                                    </p:commandButton>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+            </h:form>
         </p:dialog>
+
+        <mp:confirmDialog widgetVar="confirmDialog" 
+                          header="#{msg.office_delete}" 
+                          message="#{msg.office_delete_confirm}"
+                          actionBean="#{officeEdit}"
+                          actionMethod="delete"
+                          update=":dataForm :growl"
+                          />
+
     </ui:define>
 
 </ui:composition>

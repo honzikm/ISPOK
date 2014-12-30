@@ -35,7 +35,7 @@ public class VisitorServiceImpl extends AbstractDataAccessService implements Vis
 
 
     @Override
-    public List<VisitorDto> getAllVisitors() {
+    public List<VisitorDto> getAll() {
         List<Visitor> visitors = genericDao.getAll(Visitor.class);
         List<VisitorDto> visitorDtos = new ArrayList<>(visitors.size());
 

@@ -1,0 +1,348 @@
+
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"   
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://xmlns.jcp.org/jsf/core"
+                 xmlns:mp ="http://myprimefaces.junkpunk.cz/facelets"
+                 template="/admin/template/adminTemplate.xhtml"
+                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="title">
+        <title>#{msg.cashgame_manager} | #{msg.ispok}</title>
+    </ui:define>
+
+
+    <ui:define name="centerContent"
+               >
+
+        <p:growl id="growl" 
+                 showDetail="true"
+                 globalOnly="true"
+                 /> 
+
+        <p:panel header="#{msg.cashgame_manager}" >
+            <table>
+                <tr>
+                    <td>
+                        <p:outputLabel for="office"
+                                       value="#{msg.office_select}:"
+                                       />
+                    </td>
+                    <td>
+                        <p:selectOneMenu id="office"
+                                         value="#{cashgameManager.officeId}"
+                                         >
+<!--                            <f:selectItem itemLabel="#{msg.none}"
+                                          itemLabel=""
+                                          />-->
+                            <f:selectItems value="#{cashgameManager.allOffices}"
+                                           var="of"
+                                           itemLabel="#{of.name}"
+                                           itemValue="#{of.id}"
+                                           />
+                            <p:ajax update="cashgame info bigBlind smallBlind ante minBuyin maxBuyin rake maxRake chillTime points activeVisitorsTableId" 
+                                    process="office"
+                                    partialSubmit="true"
+                                    />
+                        </p:selectOneMenu>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p:outputLabel value="#{msg.cashgame_select}:"
+                                       for="cashgame"
+                                       />
+                    </td>
+                    <td>
+                        <p:selectOneMenu id="cashgame"
+                                         value="#{cashgameManager.cashgameId}"
+                                         >
+                            <f:selectItems value="#{cashgameManager.cashgames}"
+                                           var="cg"
+                                           itemLabel="#{cg.name}"
+                                           itemValue="#{cg.id}"
+                                           />
+                            <p:ajax update="info bigBlind smallBlind ante minBuyin maxBuyin rake maxRake chillTime points :activeVisitorsTableId"
+                                    process="cashgame" 
+                                    event="change" 
+                                    partialSubmit="true"
+                                    />
+                        </p:selectOneMenu>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h:outputText value="#{msg.info}:"
+                                      />
+                    </td>
+                    <td>
+                        <h:outputText id="info"
+                                      value="#{cashgameManager.cashgame.info}"
+                                      />
+                    </td>
+                </tr>
+
+            </table>
+
+
+            <table width="400px">
+                <tr>
+                    <td>
+                        <h:outputText value="#{msg.bigblind}:"
+                                      />
+                    </td>
+                    <td>
+                        <h:outputText id="bigBlind"
+                                      value="#{cashgameManager.cashgame.bigBlind}"
+                                      />
+                    </td>
+                    <td>
+                        <h:outputText value="#{msg.smallblind}:"
+                                      />
+                    </td>
+                    <td>
+                        <h:outputText id="smallBlind"
+                                      value="#{cashgameManager.cashgame.smallBlind}"
+                                      />
+                    </td>
+                    <td>
+                        <h:outputText value="#{msg.ante}:"
+                                      />
+                    </td>
+                    <td>
+                        <h:outputText id="ante"
+                                      value="#{cashgameManager.cashgame.ante}"
+                                      />
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <h:outputText value="#{msg.buyin_min}:"
+                                      />
+                    </td>
+                    <td>
+                        <h:outputText id="minBuyin"
+                                      value="#{cashgameManager.cashgame.minBuyin}"
+                                      />
+                    </td>
+                    <td>
+                        <h:outputText value="#{msg.buyin_max}:"
+                                      />
+                    </td>
+                    <td>
+                        <h:outputText id="maxBuyin"
+                                      value="#{cashgameManager.cashgame.maxBuyin}"
+                                      />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h:outputText value="#{msg.rake}:"
+                                      />
+                    </td>
+                    <td>
+                        <h:outputText id="rake"
+                                      value="#{cashgameManager.cashgame.rake}"
+                                      />
+                    </td>
+                    <td>
+                        <h:outputText value="#{msg.rake_max}:"
+                                      />
+                    </td>
+                    <td>
+                        <h:outputText id="maxRake"
+                                      value="#{cashgameManager.cashgame.maxRake}"
+                                      />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h:outputText value="#{msg.chillout}:"
+                                      />
+                    </td>
+                    <td>
+                        <h:outputText id="chillTime"
+                                      value="#{cashgameManager.cashgame.chillTime}"
+                                      />
+                    </td>
+                    <td>
+                        <h:outputText value="#{msg.points}:"
+                                      />
+                    </td>
+                    <td>
+                        <h:outputText id="points"
+                                      value="#{cashgameManager.cashgame.points}"
+                                      />
+                    </td>
+                </tr>
+            </table>
+
+            <!--            <p:selectManyMenu id="basic" 
+                                          value="#{selectManyView.selectedOptions}"
+            
+                                          >
+                            <f:selectItems value="#{cashgameManager.activeVisitors}"
+                                           />
+                        </p:selectManyMenu>-->
+            <p>
+                <h:outputText value="#{msg.players_ingame}:"
+                              />
+            </p>
+            <!--<h:form id="activeVisitors">-->
+            <p:dataTable id="activeVisitorsTableId"
+                         widgetVar="activeVisitorsDataTable"
+                         value="#{cashgameManager.players}"
+                         var="player"
+                         paginator="true" 
+                         rows="25"
+                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                         rowsPerPageTemplate="10, 25"
+                         rowKey="#{player.id}"
+                         >
+                <p:column headerText="#{msg.id}"
+                          >  
+    <!--                    sortBy="#{activeVisitor.id}" 
+                    filterBy="#{activeVisitor.id}"
+                    filterMatchMode="startsWith"-->
+                    <h:outputText value="#{player.id}" 
+                                  />  
+                </p:column>
+                <p:column headerText="#{msg.firstName}"
+                          >
+                    <h:outputText value="#{player.firstName}"
+                                  />
+                </p:column>
+                <p:column headerText="#{msg.lastName}"
+                          >
+                    <h:outputText value="#{player.lastName}"
+                                  />
+                </p:column>
+                <p:column headerText="#{msg.visitor_birthdate}"
+                          >
+                    <h:outputText value="#{player.birthDate}"
+                                  />
+                </p:column>
+                <p:column  width="15"
+                           >
+                    <p:commandLink id="detailPlayer"
+                                   title="View Detail"
+                                   styleClass="ui-icon ui-icon-search"
+                                   process="detailPlayer"
+                                   partialSubmit="true"
+                                   >
+                    </p:commandLink>
+                </p:column>
+
+                <p:column width="15"
+                          >   
+                    <p:commandLink id="removeLink"
+                                   title="#{msg.remove}" 
+                                   styleClass="ui-icon ui-icon-minusthick" 
+                                   action="#{cashgameManager.removeVisitor(player.id)}"
+                                   partialSubmit="true"
+                                   process="removeLink"
+                                   >
+                    </p:commandLink>
+                </p:column>
+            </p:dataTable>
+            <!--</h:form>-->
+            <p>
+                <h:outputText value="#{msg.visitors}:"
+                              />
+            </p>
+            <!--<h:form>-->
+        <!--                <p:outputLabel value="#{msg.search}:" for="search" />
+                <p:autoComplete id="search" 
+                                queryDelay="500" 
+                                value="#{cashgameManager.autoCompleteText}" 
+                                completeMethod="#{cashgameManager.completeText}"
+                                effect="blind" 
+                                />-->
+            <p:dataTable id="visitorsTableId" 
+                         widgetVar="visitorsTable" 
+                         var="visitor" 
+                         value="#{visitorEdit.visitorLazyModel}" 
+                         paginator="true" 
+                         rows="25"
+                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                         rowsPerPageTemplate="10, 25"
+                         lazy="true" 
+                         filteredValue="#{visitorEdit.filteredVisitors}"
+                         rowKey="#{visitor.id}"
+                         >
+                <!--                                                 selectionMode="single"
+                                             selection="#{visitorEdit.selectedVisitor}"-->
+
+                <p:column headerText="#{msg.id}"
+                          sortBy="#{visitor.id}" 
+                          filterBy="#{visitor.id}"
+                          filterMatchMode="startsWith"
+                          >  
+                    <h:outputText value="#{visitor.id}" 
+                                  />  
+                </p:column>
+
+                <p:column   headerText="#{msg.visitor_firstname}"
+                            sortBy="#{visitor.firstName}"
+                            filterBy="#{visitor.firstName}" 
+                            filterMatchMode="startsWith" 
+
+                            >
+                    <h:outputText value="#{visitor.firstName}"
+                                  />  
+                </p:column>  
+
+                <p:column sortBy="#{visitor.lastName}"
+                          filterBy="#{visitor.lastName}" 
+                          headerText="#{msg.visitor_lastname}"
+                          >
+                    <h:outputText value="#{visitor.lastName}"
+                                  />
+                </p:column>
+
+                <p:column sortBy="#{visitor.birthDate}" 
+                          headerText="#{msg.visitor_birthdate}"
+                          >
+                    <h:outputText value="#{visitor.birthDate}" 
+                                  />
+                </p:column>
+
+                <p:column  width="15"
+                           >
+                    <!--                        <p:commandButton icon="ui-icon-search"
+                                                             />-->
+                    <p:commandLink  id="detailVisitor"
+                                    title="View Detail" 
+                                    styleClass="ui-icon ui-icon-search"
+                                    partialSubmit="true"
+                                    process="detailVisitor"
+                                    >
+                    </p:commandLink>
+                </p:column>
+
+                <p:column width="15"
+                          >   
+                    <p:commandLink  id="addLink"
+                                    title="#{msg.player_add}" 
+                                    styleClass="ui-icon ui-icon-plusthick" 
+                                    action="#{cashgameManager.addVisitor(visitor.id)}"
+                                    partialSubmit="true"
+                                    process="addLink"
+                                    >
+                    </p:commandLink>
+                </p:column>
+
+            </p:dataTable> 
+        </p:panel>
+        <!--</h:form>-->
+
+    </ui:define>
+
+    <ui:define name="bodyContent"
+               >
+
+    </ui:define>
+
+</ui:composition> 

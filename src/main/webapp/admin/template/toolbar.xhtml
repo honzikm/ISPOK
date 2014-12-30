@@ -9,7 +9,18 @@
         <p:toolbar>  
             <f:facet name="left">  
                 <!--<p:commandButton value="#{msg.administration}" icon="ui-icon-key" />-->
-                <p:button value="#{msg.home}" icon="ui-icon-home" outcome="/index.xhtml"  />
+                <p:button value="#{msg.home}" 
+                          icon="ui-icon-home" 
+                          outcome="/index.xhtml"
+                          />
+                <p:button value="#{msg.cashgame_manager}" 
+                          icon="ui-icon-star" 
+                          outcome="/admin/management/cashgameManager/cashgameManager.xhtml" 
+                          />
+                <p:button value="#{msg.tournament_manager}"
+                          icon="ui-icon-star" 
+                          outcome="/admin/management/tournamentManager/tournamentManager.xhtml" 
+                          />
             </f:facet>
 
             <f:facet name="right">  

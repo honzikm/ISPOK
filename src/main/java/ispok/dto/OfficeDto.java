@@ -5,7 +5,10 @@
  */
 package ispok.dto;
 
+import ispok.bo.Cashgame;
 import ispok.bo.Office;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -14,6 +17,26 @@ import ispok.bo.Office;
 public class OfficeDto extends AbstractDto {
 
     private String name;
+    private String info;
+    private List<Long> cashgameIds;
+
+    /**
+     * Get the value of cashgameIds
+     *
+     * @return the value of cashgameIds
+     */
+    public List<Long> getCashgameIds() {
+        return cashgameIds;
+    }
+
+    /**
+     * Set the value of cashgameIds
+     *
+     * @param cashgameIds new value of cashgameIds
+     */
+    public void setCashgameIds(List<Long> cashgameIds) {
+        this.cashgameIds = cashgameIds;
+    }
 
     public OfficeDto() {
     }
@@ -30,6 +53,29 @@ public class OfficeDto extends AbstractDto {
     public OfficeDto(Office office) {
         this.id = office.getId();
         this.name = office.getName();
+        this.info = office.getInfo();
+        this.cashgameIds = new ArrayList<Long>(office.getCashgames().size());
+        for (Cashgame c : office.getCashgames()) {
+            cashgameIds.add(c.getId());
+        }
+    }
+
+    /**
+     * Get the value of info
+     *
+     * @return the value of info
+     */
+    public String getInfo() {
+        return info;
+    }
+
+    /**
+     * Set the value of info
+     *
+     * @param info new value of info
+     */
+    public void setInfo(String info) {
+        this.info = info;
     }
 
     public String getName() {

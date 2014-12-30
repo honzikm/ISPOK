@@ -24,6 +24,15 @@ public class Betset extends AbstractBusinessObject {
     @Column(nullable = false)
     private float ante;
 
+    public Betset() {
+    }
+
+    public Betset(float bigBlind, float smallBlind, float ante) {
+        this.bigBlind = bigBlind;
+        this.smallBlind = smallBlind;
+        this.ante = ante;
+    }
+
     /**
      * Get the value of ante
      *

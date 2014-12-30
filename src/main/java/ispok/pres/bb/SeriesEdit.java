@@ -9,11 +9,8 @@ import ispok.dto.SeriesDto;
 import ispok.helper.FacesUtil;
 import ispok.service.SeriesService;
 import java.util.List;
-import java.util.ResourceBundle;
-import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.primefaces.model.LazyDataModel;
@@ -39,30 +36,14 @@ public class SeriesEdit {
     @Autowired
     private LazyDataModel<SeriesDto> seriesLazyDataModel;
 
-    private String name;
-    private ResourceBundle rb;
+    private SeriesDto series = new SeriesDto();
 
-    @PostConstruct
-    private void init() {
-        rb = ResourceBundle.getBundle("ispok/pres/inter/ispok", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+    public SeriesDto getSeries() {
+        return series;
     }
 
-    /**
-     * Get the value of name
-     *
-     * @return the value of name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Set the value of name
-     *
-     * @param name new value of name
-     */
-    public void setName(String name) {
-        this.name = name;
+    public void setSeries(SeriesDto series) {
+        this.series = series;
     }
 
     /**
@@ -110,14 +91,25 @@ public class SeriesEdit {
     }
 
     public void clear() {
-        name = null;
+        series = new SeriesDto();
     }
 
     public void add() {
-//        ResourceBundle rb = ResourceBundle.getBundle("ispok/pres/inter/ispok", facesContext.getViewRoot().getLocale());
-        SeriesDto seriesDto = new SeriesDto(name);
+        SeriesDto seriesDto = new SeriesDto(series);
         seriesService.add(seriesDto);
-        FacesUtil.addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, rb.getString("success"), rb.getString("series_added")));
+        FacesUtil.addInfoMessage("success", "series_added");
+    }
+
+    public void loadSelected() {
+        if (selectedSeries == null) {
+            FacesUtil.addWarnMessage("warn", "no_item_selected");
+            return;
+        }
+        series = new SeriesDto(selectedSeries);
+    }
+
+    public void update() {
+        seriesService.save(series);
     }
 
     /**
@@ -125,10 +117,10 @@ public class SeriesEdit {
      */
     public void delete() {
         if (selectedSeries == null) {
-            FacesUtil.addMessage(new FacesMessage(FacesMessage.SEVERITY_WARN, rb.getString("warn"), rb.getString("no_item_selected")));
+            FacesUtil.addWarnMessage("warn", "no_item_selected");
             return;
         }
         seriesService.remove(selectedSeries.getId());
-        FacesUtil.addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, rb.getString("success"), rb.getString("series") + " \"" + selectedSeries.getName() + "\" " + rb.getString("series_delete_success")));
+        FacesUtil.addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, FacesUtil.getString("success"), FacesUtil.getString("series") + " \"" + selectedSeries.getName() + "\" " + FacesUtil.getString("series_delete_success")));
     }
 }

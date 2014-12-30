@@ -17,13 +17,22 @@ import org.springframework.transaction.annotation.Transactional;
 public interface TournamentService {
 
 //    @Transactional(readOnly = true)
-//    public List<TournamentDto> getAllTournaments();
+//    public List<TournamentDto> getAll();
     @Transactional(readOnly = true)
-    public TournamentDto getTournamentById(Long id);
+    public TournamentDto getById(Long id);
 
     @Transactional(readOnly = true)
     public List<TournamentDto> getPage(int first, int pageSize, String sortField, boolean ascending, Map<String, Object> filters);
 
     @Transactional(readOnly = true)
-    public Long getTournamentCount(Map<String, Object> filters);
+    public Long getCount(Map<String, Object> filters);
+
+    @Transactional
+    public void save(TournamentDto tdto);
+
+    @Transactional
+    public List<TournamentDto> getAll();
+
+    @Transactional
+    public void delete(Long id);
 }

@@ -47,15 +47,28 @@ public class Tournament extends AbstractBusinessObject {
 
     @ManyToOne
     private TournamentStructure tournamentStructure;
-    
-    
+
+    @ManyToOne
+    private PayoutStructure payoutStructure;
+
     private int levelNumber;
     private int levelTime;
-
+    
+    
+    
+    
     /**
      *
      */
     public Tournament() {
+    }
+
+    public PayoutStructure getPayoutStructure() {
+        return payoutStructure;
+    }
+
+    public void setPayoutStructure(PayoutStructure payoutStructure) {
+        this.payoutStructure = payoutStructure;
     }
 
     public String getName() {
@@ -165,8 +178,6 @@ public class Tournament extends AbstractBusinessObject {
     public void setLevelNumber(int levelNumber) {
         this.levelNumber = levelNumber;
     }
-
-    
 
     /**
      * Get the value of levelTime

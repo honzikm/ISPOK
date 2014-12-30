@@ -16,6 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public interface SeriesService {
+    
+    @Transactional(readOnly = true)
+    public List<SeriesDto> getAll();
 
     @Transactional(readOnly = true)
     public List<SeriesDto> getPage(int first, int pageSize, String sortField, boolean ascending, Map<String, Object> filters);
@@ -34,5 +37,11 @@ public interface SeriesService {
 
     @Transactional
     public void remove(Long id);
+
+    @Transactional(readOnly = true)
+    public SeriesDto getByName(String string);
+
+    @Transactional
+    public void save(SeriesDto series);
 
 }

@@ -31,11 +31,11 @@ public class Navigation {
      * @return
      */
     public String goAdminEmployees() {
-        return "/admin/management/employees.xhtml";
+        return "/admin/management/employees/employees.xhtml";
     }
 
     public String goAdminOffices() {
-        return "/admin/mangement/employees.xhtml";
+        return "/admin/mangement/offices/offices.xhtml";
     }
 
     public void logout() {
@@ -58,27 +58,31 @@ public class Navigation {
     }
 
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
     public String goEditVisitor() {
         return "/admin/management/visitors/edit.xhtml";
     }
 
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
     public String goNewVisitor() {
         return "/admin/management/visitors/newvisitor.xhtml";
     }
 
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
     public String goNewTournament() {
-        return "/admin/management/tournaments/new.xhtml";
+        return "/admin/management/tournaments/newTournament.xhtml";
+    }
+
+    public String goTournamentStructures() {
+        return "/admin/management/tournaments/tournamentStructures.xhtml";
     }
 
 }

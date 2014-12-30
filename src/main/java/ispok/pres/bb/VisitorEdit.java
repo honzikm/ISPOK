@@ -63,6 +63,8 @@ public class VisitorEdit {
     private PostalCodeService postalCodeService;
     @Autowired
     private CityService cityService;
+    @Autowired
+    private LazyDataModel<VisitorDto> visitorLazyModel;
 
     private List<VisitorDto> selected;
     private VisitorDto selectedVisitor;
@@ -74,14 +76,14 @@ public class VisitorEdit {
     private CountryDto countryDto;
     private CountryDto citizenshipDto;
     private List<VisitorDto> filteredVisitors;
-    private LazyDataModel<VisitorDto> visitorLazyModel;
+
     private boolean foreigner;
     private boolean foreignerNewVal;
     private NativeUploadedFile photoFile;
 
     @PostConstruct
     public void init() {
-        visitorLazyModel = new VisitorLazyDataModel(visitorService);
+//        visitorLazyModel = new VisitorLazyDataModel(visitorService);
     }
 
     private boolean loadVisitorDetails() {

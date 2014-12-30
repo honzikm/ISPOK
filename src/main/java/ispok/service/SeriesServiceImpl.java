@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
 public class SeriesServiceImpl implements SeriesService {
 
     @Autowired
-    GenericDao genericDao;
+    private GenericDao genericDao;
 
     @Override
     public List<SeriesDto> getPage(int first, int pageSize, String sortField, boolean ascending, Map<String, Object> filters) {
@@ -42,6 +42,7 @@ public class SeriesServiceImpl implements SeriesService {
     private SeriesDto getSeriesDto(Series s) {
         SeriesDto seriesDto = new SeriesDto(s.getName());
         seriesDto.setId(s.getId());
+        seriesDto.setInfo(s.getInfo());
         return seriesDto;
     }
 
@@ -64,6 +65,7 @@ public class SeriesServiceImpl implements SeriesService {
     public void add(SeriesDto seriesDto) {
         Series series = new Series();
         series.setName(seriesDto.getName());
+        series.setInfo(seriesDto.getInfo());
         Long id = genericDao.saveOrUpdate(series).getId();
         seriesDto.setId(id);
     }
@@ -71,5 +73,35 @@ public class SeriesServiceImpl implements SeriesService {
     @Override
     public void remove(Long id) {
         genericDao.removeById(id, Series.class);
+    }
+
+    @Override
+    public SeriesDto getByName(String name) {
+        Series series = genericDao.getByPropertyUnique("name", name, Series.class);
+        if (series == null) {
+            return null;
+        }
+        return getSeriesDto(series);
+    }
+
+    @Override
+    public void save(SeriesDto seriesDto) {
+        Series series = genericDao.getById(seriesDto.getId(), Series.class);
+        if (series == null) {
+            series = new Series();
+        }
+        series.setName(seriesDto.getName());
+        series.setInfo(seriesDto.getInfo());
+        seriesDto.setId(genericDao.saveOrUpdate(series).getId());
+    }
+
+    @Override
+    public List<SeriesDto> getAll() {
+        List<Series> serieses = genericDao.getAll(Series.class);
+        List<SeriesDto> seriesDtos = new ArrayList<>(serieses.size());
+        for (Series s : serieses) {
+            seriesDtos.add(getSeriesDto(s));
+        }
+        return seriesDtos;
     }
 }

@@ -3,17 +3,16 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:f="http://xmlns.jcp.org/jsf/core"
                 >
     <h:form>
         <p:menu>  
             <p:menuitem value="#{msg.employees}" 
                         icon="ui-icon-person" 
-                        outcome="/admin/management/employees.xhtml" 
+                        outcome="/admin/management/employees/employees.xhtml" 
                         />
             <p:menuitem value="#{msg.offices}"
                         icon="ui-icon-calculator"
-                        outcome="/admin/management/offices.xhtml"
+                        outcome="/admin/management/offices/offices.xhtml"
                         />
             <p:menuitem value="#{msg.visitors}" 
                         icon="ui-icon-contact" 
@@ -21,11 +20,24 @@
                         />
             <p:menuitem value="#{msg.tournaments}"
                         icon="ui-icon-star" 
-                        outcome="/admin/management/tournaments/list.xhtml" 
+                        outcome="/admin/management/tournaments/tournaments.xhtml" 
+                        />
+            <p:menuitem value="#{msg.t_structures}"
+                        icon="ui-icon-flag"
+                        outcome="/admin/management/tournaments/tournamentStructures.xhtml" 
+                        />
+            <p:menuitem value="#{msg.payout_structures}"
+                        icon="ui-icon-flag"
+                        outcome="/admin/management/tournaments/payoutStructures.xhtml" 
                         />
             <p:menuitem value="#{msg.series}"
                         icon="ui-icon-flag"
-                        outcome="/admin/management/series/list.xhtml"
+                        outcome="/admin/management/series/series.xhtml"
+                        />
+
+            <p:menuitem value="#{msg.cashgames}"
+                        icon="ui-icon-star"
+                        outcome="/admin/management/cashgames/cashgames.xhtml"
                         />
         </p:menu>  
         <!--                <p:selectOneButton >  

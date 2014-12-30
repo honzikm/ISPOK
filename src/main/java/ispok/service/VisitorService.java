@@ -17,56 +17,56 @@ import org.springframework.transaction.annotation.Transactional;
 public interface VisitorService {
 
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
     @Transactional(readOnly = true)
-    public List<VisitorDto> getAllVisitors();
+    public List<VisitorDto> getAll();
 
     /**
-     * 
+     *
      * @param name
-     * @return 
+     * @return
      */
     @Transactional(readOnly = true)
     public VisitorDto getVisitorByName(String name);
 
     /**
-     * 
+     *
      * @param id
-     * @return 
+     * @return
      */
     @Transactional(readOnly = true)
     public VisitorDto getVisitorById(Long id);
 
     /**
-     * 
-     * @param visitorDto 
+     *
+     * @param visitorDto
      */
     @Transactional
     public void addVisitor(VisitorDto visitorDto);
 
     /**
-     * 
-     * @param visitorDto 
+     *
+     * @param visitorDto
      */
     @Transactional
     public void updateVisitor(VisitorDto visitorDto);
 
     /**
-     * 
-     * @param id 
+     *
+     * @param id
      */
     @Transactional
     public void deleteVisitor(Long id);
 
     /**
-     * 
+     *
      * @param first
      * @param rows
      * @param sortBy
      * @param ascending
-     * @return 
+     * @return
      */
     @Transactional
     public List<VisitorDto> getPage(int first, int rows, String sortBy, boolean ascending);
@@ -93,12 +93,12 @@ public interface VisitorService {
      */
     @Transactional(readOnly = true)
     public List<VisitorDto> getPage(int first, int pageSize, String sortField, boolean ascending, Map<String, Object> filters);
-    
+
     /**
      *
      * @param emaString
      * @param toString
-     * @return 
+     * @return
      */
     @Transactional(readOnly = true)
     public boolean emailAvailable(String emaString);

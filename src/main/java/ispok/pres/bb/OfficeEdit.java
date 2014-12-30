@@ -12,7 +12,6 @@ import java.io.Serializable;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -41,7 +40,7 @@ public class OfficeEdit implements Serializable {
 
     public List<OfficeDto> getOffices() {
         if (offices == null) {
-            offices = officeService.getAllOffices();
+            offices = officeService.getAll();
         }
         return offices;
     }
@@ -69,6 +68,7 @@ public class OfficeEdit implements Serializable {
     public void addOffice() {
         try {
             OfficeDto newOffice = new OfficeDto(office);
+            newOffice.setInfo(office.getInfo());
             newOffice.setId(officeService.addOffice(newOffice));
             offices.add(newOffice);
             if (filteredOffices != null) {
@@ -84,6 +84,7 @@ public class OfficeEdit implements Serializable {
     public void updateOffice() {
         OfficeDto officeDto = selected[0];
         officeDto.setName(office.getName());
+        officeDto.setInfo(office.getInfo());
         officeService.updateOffice(officeDto);
         FacesUtil.addInfoMessage("success", "office_update_success");
     }

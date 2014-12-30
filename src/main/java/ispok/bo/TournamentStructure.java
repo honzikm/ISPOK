@@ -5,8 +5,11 @@
  */
 package ispok.bo;
 
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 /**
  *
@@ -17,6 +20,17 @@ public class TournamentStructure extends AbstractBusinessObject {
 
     @Column(nullable = false)
     private String name;
+
+    @OneToMany(mappedBy = "tournamentStructure")
+    private List<TournamentStructureLevel> numberedLevels;
+
+    public List<TournamentStructureLevel> getLevels() {
+        return numberedLevels;
+    }
+
+    public void setLevels(List<TournamentStructureLevel> levels) {
+        this.numberedLevels = levels;
+    }
 
     /**
      * Get the value of name

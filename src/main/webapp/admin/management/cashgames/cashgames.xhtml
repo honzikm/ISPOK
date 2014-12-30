@@ -1,0 +1,402 @@
+
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"   
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://xmlns.jcp.org/jsf/core"
+                 xmlns:mp ="http://myprimefaces.junkpunk.cz/facelets"
+                 template="/admin/template/adminTemplate.xhtml"
+
+                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="title">
+        <title>#{msg.cashgame} | #{msg.ispok}</title>
+    </ui:define>
+
+
+    <ui:define name="centerContent"
+               >
+
+        <p:growl id="growl" 
+                 showDetail="true"
+                 globalOnly="true"
+                 /> 
+
+        <h:form id="dataForm"
+                > 
+
+            <p:dataTable id="cashgamesTableId" 
+                         widgetVar="cashgamesTable" 
+                         var="cashgame" 
+                         value="#{cashgameEdit.cashgameLazyDataModel}" 
+                         paginator="true" 
+                         rowsPerPageTemplate="10, 25, 50, 100" 
+                         rows="25" 
+                         filteredValue="#{cashgameEdit.filtered}"
+                         rowKey="#{cashgame.id}" 
+                         selectionMode="single" 
+                         selection="#{cashgameEdit.selected}"
+                         lazy="true"
+                         >  
+                <f:facet name="header">  
+                    <p:outputPanel > 
+                        <div align="right"
+                             style="float: right"
+                             >
+                            <h:outputText value="#{msg.name_filter}: " 
+                                          />  
+                            <p:inputText id="globalFilter" 
+                                         onkeyup="PF('cashgameTable').filter()"  
+                                         />  
+                        </div>
+                        <div align="left">
+                            <p:commandButton value="#{msg.neww}"  
+                                             icon="ui-icon-star"
+                                             action="#{cashgameEdit.newCg()}"
+                                             update=":newCashgameDialogId"
+                                             oncomplete="PF('newCashgameDialog').show()"
+                                             />
+                            <p:commandButton value="#{msg.edit}"
+                                             icon="ui-icon-pencil" 
+                                             action="#{cashgameEdit.editCg()}"
+                                             update=":newCashgameDialogId :growl" 
+                                             oncomplete="if(args.showDialog){PF('newCashgameDialog').show()}"
+                                             />
+                            <p:commandButton value="#{msg.delete}" 
+                                             icon="ui-icon-trash" 
+                                             update=":growl"
+                                             action="#{cashgameEdit.editCg}"
+                                             oncomplete="if(args.showDialog){PF('confirmDialog').show()}"
+                                             >
+                            </p:commandButton>
+                        </div>
+                    </p:outputPanel>  
+                </f:facet>  
+
+                <p:column sortBy="#{cashgame.id}"
+                          headerText="#{msg.id}"
+                          >  
+                    <h:outputText value="#{cashgame.id}" 
+                                  />  
+                </p:column>
+
+                <p:column sortBy="#{cashgame.name}" 
+                          filterBy="#{cashgame.name}" 
+                          headerText="#{msg.office_name}"
+                          >  
+                    <h:outputText value="#{cashgame.name}" 
+                                  />  
+                </p:column> 
+                <p:column headerText="#{msg.info}"
+                          >
+                    <h:outputText value="#{cashgame.info}"
+                                  />
+                </p:column>
+
+            </p:dataTable> 
+        </h:form>
+    </ui:define>
+
+    <ui:define name="bodyContent"
+               >
+        <p:dialog id="newCashgameDialogId"
+                  header="#{cashgameEdit.dialogHeader}"
+                  widgetVar="newCashgameDialog"
+                  resizable="false"
+                  closable="false"
+                  draggable="true"
+                  closeOnEscape="true"
+                  modal="true"
+                  >
+            <h:form id="newCashgameForm"
+                    >
+                <table>
+                    <tr>
+                        <td>
+                            <p:outputLabel for="name"
+                                           value="#{msg.cashgame_name}:"
+                                           />
+                        </td>
+                        <td>
+                            <p:inputText  id="name"
+                                          value="#{cashgameEdit.cashgame.name}"
+                                          required="true"
+                                          requiredMessage="#{msg.required}"
+                                          maxlength="255"
+                                          validatorMessage="#{msg.cashgame_name_length_invalid}"
+                                          />
+                        </td>
+                        <td>
+                            <p:message for="name"
+                                       />
+                        </td>                        
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:outputLabel for="info"
+                                           value="#{msg.info}:"
+                                           />
+                        </td>
+                        <td>
+                            <p:inputText  id="info"
+                                          value="#{cashgameEdit.cashgame.info}"
+                                          maxlength="255"
+                                          validatorMessage="#{msg.cashgame_info_length_invalid}"
+                                          />
+                        </td>
+                        <td>
+                            <p:message for="info"
+                                       />
+                        </td>                        
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:outputLabel for="office"
+                                           value="#{msg.office}:"
+                                           />
+                        </td>
+                        <td>
+                            <p:selectOneMenu id="office"
+                                             value="#{cashgameEdit.cashgame.officeId}"
+                                             required="true"
+                                             requiredMessage="#{msg.required}"
+                                             disabled="#{cashgameEdit.editing}"
+                                             >
+                                <f:selectItems   value="#{officeServiceImpl.all}"
+                                                 var="office"
+                                                 itemLabel="#{office.name}"
+                                                 itemValue="#{office.id}"
+                                                 />
+                            </p:selectOneMenu>
+                        </td>
+                        <td>
+                            <p:message for="office"
+                                       />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:outputLabel for="bigBlind"
+                                           value="#{msg.bigblind}:"
+                                           >
+                            </p:outputLabel>
+                        </td>
+                        <td>
+                            <p:inputText id="bigBlind"
+                                         value="#{cashgameEdit.cashgame.bigBlind}"
+                                         disabled="#{cashgameEdit.editing}"
+                                         >
+                                <f:converter converterId="positiveFloatConverter"/>
+                            </p:inputText>
+                        </td>
+                        <td>
+                            <p:message for="bigBlind"
+                                       />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:outputLabel for="smallBlind"
+                                           value="#{msg.smallblind}:"
+                                           />
+                        </td>
+                        <td>
+                            <p:inputText id="smallBlind"
+                                         value="#{cashgameEdit.cashgame.smallBlind}"
+                                         disabled="#{cashgameEdit.editing}"
+                                         >
+                                <f:converter converterId="positiveFloatConverter"/>
+                            </p:inputText>
+                        </td>
+                        <td>
+                            <p:message for="smallBlind"
+                                       />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:outputLabel for="ante"
+                                           value="#{msg.ante}:"
+                                           />
+                        </td>
+                        <td>
+                            <p:inputText id="ante"
+                                         value="#{cashgameEdit.cashgame.ante}"
+                                         disabled="#{cashgameEdit.editing}"
+                                         >
+                                <f:converter converterId="positiveFloatConverter"/>
+                            </p:inputText>
+                        </td>
+                        <td>
+                            <p:message for="ante"
+                                       />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:outputLabel for="minBuyin"
+                                           value="#{msg.buyin_min}:"
+                                           />
+                        </td>
+                        <td>
+                            <p:inputText id="minBuyin"
+                                         value="#{cashgameEdit.cashgame.minBuyin}"
+                                         >
+                                <f:converter converterId="positiveFloatConverter"/>
+                            </p:inputText>
+                        </td>
+                        <td>
+                            <p:message for="minBuyin"
+                                       />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:outputLabel for="maxBuyin"
+                                           value="#{msg.buyin_max}:"
+                                           />
+                        </td>
+                        <td>
+                            <p:inputText id="maxBuyin"
+                                         value="#{cashgameEdit.cashgame.maxBuyin}"
+                                         >
+                                <f:converter converterId="positiveFloatConverter"/>
+                            </p:inputText>
+                        </td>
+                        <td>
+                            <p:message for="maxBuyin"
+                                       />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:outputLabel for="rake"
+                                           value="#{msg.rake}:"
+                                           />
+                        </td>
+                        <td>
+                            <p:inputText id="rake"
+                                         value="#{cashgameEdit.cashgame.rake}"
+                                         >
+                                <f:converter converterId="positiveFloatConverter"/>
+                            </p:inputText>
+                            %
+                        </td>
+                        <td>
+                            <p:message for="rake"
+                                       />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:outputLabel for="maxRake"
+                                           value="#{msg.rake_max}:"
+                                           />
+                        </td>
+                        <td>
+                            <p:inputText id="maxRake"
+                                         value="#{cashgameEdit.cashgame.maxRake}"
+                                         >
+                                <f:converter converterId="positiveFloatConverter"/>
+                            </p:inputText>
+                        </td>
+                        <td>
+                            <p:message for="maxRake"
+                                       />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:outputLabel for="chillTime"
+                                           value="#{msg.chillout}:"
+                                           />
+                        </td>
+                        <td>
+                            <p:inputText id="chillTime"
+                                         value="#{cashgameEdit.cashgame.chillTime}"
+                                         >
+                            </p:inputText>
+                            min
+                        </td>
+                        <td>
+                            <p:message for="chillTime"
+                                       />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:outputLabel for="points"
+                                           value="#{msg.points}:"
+                                           />
+                        </td>
+                        <td>
+                            <p:inputText id="points"
+                                         value="#{cashgameEdit.cashgame.points}"
+                                         />
+                        </td>
+                        <td>
+                            <p:message for="points"
+                                       />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:outputLabel for="enabled"
+                                           value="#{msg.enabled}:"
+                                           />
+                        </td>
+                        <td>
+                            <p:selectBooleanCheckbox id="enabled"
+                                                     value="#{cashgameEdit.cashgame.enabled}"
+                                                     />
+                        </td>
+                        <td>
+                            <p:message for="enabled"
+                                       />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <ul class="center, inline">
+                                <li>
+                                    <p:commandButton value="#{cashgameEdit.firstButtonText}" 
+                                                     update="newCashgameForm :growl :dataForm"    
+                                                     action="#{cashgameEdit.save()}" 
+                                                     oncomplete="if(!args.validationFailed){PF('newCashgameDialog').hide()}"
+                                                     >
+                                    </p:commandButton>
+                                </li>
+                                <!--this sequence works!-->
+                                <li>
+                                    <p:commandButton value="#{msg.reset}" 
+                                                     update="newCashgameForm"
+                                                     process="@this" 
+                                                     resetValues="true"
+                                                     />
+                                </li>
+
+                                <!--this clear sequence works completely!-->
+                                <li>
+                                    <p:commandButton value="#{msg.cancel}" 
+                                                     resetValues="true"
+                                                     update="newCashgameForm"
+                                                     oncomplete="PF('newCashgameDialog').hide();"
+                                                     />
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+            </h:form>
+        </p:dialog>
+
+        <mp:confirmDialog widgetVar="confirmDialog" 
+                          header="#{msg.cashgame_delete}" 
+                          message="#{msg.cashgame_delete_confirm}"
+                          actionBean="#{cashgameEdit}"
+                          actionMethod="delete"
+                          update=":dataForm :growl"
+                          />
+
+    </ui:define>
+</ui:composition> 

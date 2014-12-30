@@ -51,6 +51,10 @@ public class FacesUtil {
     public static void addWarnMessage(String summaryKey, String detailKey) {
         addMessage(FacesMessage.SEVERITY_WARN, summaryKey, detailKey);
     }
+    
+    public static void addErrorMessage(String summaryKey, String detailKey) {
+        addMessage(FacesMessage.SEVERITY_FATAL, summaryKey, detailKey);
+    }
 
     /**
      * Get message from the specified bundle
@@ -62,7 +66,7 @@ public class FacesUtil {
     public static String getMessage(String bundleName, String key) {
         return ResourceBundle.getBundle(bundleName).getString(key);
     }
-
+    
     public static String getString(String key) {
         return ResourceBundle.getBundle("ispok/pres/inter/ispok").getString(key);
     }

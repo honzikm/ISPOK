@@ -107,7 +107,7 @@
                     </p:outputPanel>  
                 </f:facet>  
 
-                <p:column filterStyle="" 
+                <p:column sortBy="#{office.id}"
                           headerText="#{msg.id}"
                           >  
                     <h:outputText value="#{office.id}" 
@@ -120,7 +120,12 @@
                           >  
                     <h:outputText value="#{office.name}" 
                                   />  
-                </p:column>  
+                </p:column> 
+                <p:column headerText="#{msg.info}"
+                          >
+                    <h:outputText value="#{office.info}"
+                                  />
+                </p:column>
 
             </p:dataTable> 
             <p:remoteCommand name="updateTable"
@@ -159,6 +164,24 @@
                         <td>
                             <p:message id="msgName" 
                                        for="nameInput" /> 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:outputLabel for="info"
+                                           value="#{msg.info}"
+                                           />
+                        </td>
+                        <td>
+                            <p:inputText id="info"
+                                         value="#{officeEdit.office.info}"
+                                         maxlength="255"
+                                         validatorMessage="#{msg.info_invalid_length}"
+                                         />
+                        </td>
+                        <td>
+                            <p:message for="info"
+                                       />
                         </td>
                     </tr>
                     <tr>
@@ -212,6 +235,24 @@
                         </td>
                         <td>
                             <p:message for="editNameInput" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:outputLabel for="editInfo"
+                                           value="#{msg.info}"
+                                           />
+                        </td>
+                        <td>
+                            <p:inputText id="editInfo"
+                                         value="#{officeEdit.office.info}"
+                                         maxlength="255"
+                                         validatorMessage="#{msg.info_invalid_length}"
+                                         />
+                        </td>
+                        <td>
+                            <p:message for="editInfo"
+                                       />
                         </td>
                     </tr>
 

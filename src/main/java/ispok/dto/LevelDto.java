@@ -9,9 +9,90 @@ public class LevelDto extends AbstractDto {
 
     private int duration;
     private int breakDuration;
-    private Long betsetId;
+    private float bigBlind;
+    private float smallBlind;
+    private float ante;
+    private int number;
 
     public LevelDto() {
+        duration = 0;
+        breakDuration = 0;
+        bigBlind = 0;
+        smallBlind = 0;
+        ante = 0;
+        number = 0;
+    }
+
+    /**
+     * Get the value of number
+     *
+     * @return the value of number
+     */
+    public int getNumber() {
+        return number;
+    }
+
+    /**
+     * Set the value of number
+     *
+     * @param number new value of number
+     */
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    /**
+     * Get the value of ante
+     *
+     * @return the value of ante
+     */
+    public float getAnte() {
+        return ante;
+    }
+
+    /**
+     * Set the value of ante
+     *
+     * @param ante new value of ante
+     */
+    public void setAnte(float ante) {
+        this.ante = ante;
+    }
+
+    /**
+     * Get the value of smallBlind
+     *
+     * @return the value of smallBlind
+     */
+    public float getSmallBlind() {
+        return smallBlind;
+    }
+
+    /**
+     * Set the value of smallBlind
+     *
+     * @param smallBlind new value of smallBlind
+     */
+    public void setSmallBlind(float smallBlind) {
+        this.smallBlind = smallBlind;
+    }
+
+    /**
+     * Get the value of bigBlind
+     *
+     * @return the value of bigBlind
+     */
+    public float getBigBlind() {
+        return bigBlind;
+    }
+
+    /**
+     * Set the value of bigBlind
+     *
+     * @param bigBlind new value of bigBlind
+     */
+    public void setBigBlind(float bigBlind) {
+        this.bigBlind = bigBlind;
     }
 
     /**
@@ -48,24 +129,6 @@ public class LevelDto extends AbstractDto {
      */
     public void setBreakDuration(int breakDuration) {
         this.breakDuration = breakDuration;
-    }
-
-    /**
-     * Get the value of betsetId
-     *
-     * @return the value of betsetId
-     */
-    public Long getBetsetId() {
-        return betsetId;
-    }
-
-    /**
-     * Set the value of betsetId
-     *
-     * @param betsetId new value of betsetId
-     */
-    public void setBetsetId(Long betsetId) {
-        this.betsetId = betsetId;
     }
 
 }

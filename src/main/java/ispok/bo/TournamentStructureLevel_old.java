@@ -10,18 +10,55 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
-@Entity(name = "tournamentstructure_level")
-public class TournamentStructureLevel {
+//@Entity(name = "tournamentstructure_level")
+public class TournamentStructureLevel_old extends AbstractBusinessObject {
 
-    @EmbeddedId
-    private TournamentStructureLevelId id = new TournamentStructureLevelId();
+//    @EmbeddedId
+//    private TournamentStructureLevelId id = new TournamentStructureLevelId();
+//    @ManyToOne
+    private Level level;
+
+//    @ManyToOne
+    private TournamentStructure tournamentStructure;
+
+    /**
+     * Get the value of tournamentStructure
+     *
+     * @return the value of tournamentStructure
+     */
+    public TournamentStructure getTournamentStructure() {
+        return tournamentStructure;
+    }
+
+    /**
+     * Set the value of tournamentStructure
+     *
+     * @param tournamentStructure new value of tournamentStructure
+     */
+    public void setTournamentStructure(TournamentStructure tournamentStructure) {
+        this.tournamentStructure = tournamentStructure;
+    }
+
+    /**
+     * Get the value of level
+     *
+     * @return the value of level
+     */
+    public Level getLevel() {
+        return level;
+    }
+
+    /**
+     * Set the value of level
+     *
+     * @param level new value of level
+     */
+    public void setLevel(Level level) {
+        this.level = level;
+    }
 
     @Column
     private int levelNumber;
-
-    public TournamentStructureLevelId getId() {
-        return id;
-    }
 
     public int getLevelNumber() {
         return levelNumber;

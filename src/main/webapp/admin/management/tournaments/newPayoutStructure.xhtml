@@ -1,0 +1,145 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"   
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://xmlns.jcp.org/jsf/core"
+                 xmlns:mp ="http://myprimefaces.junkpunk.cz/facelets"
+                 template="/admin/template/adminTemplate.xhtml"
+                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                 >
+
+    <ui:define name="title">
+        <title>#{msg.payout_structure_new} | #{msg.ispok}</title>
+    </ui:define>
+
+    <ui:define name="centerContent">
+
+        <p:growl id="growl" 
+                 showDetail="true" 
+                 globalOnly="true"
+                 /> 
+
+        <p:panel header="#{msg.payout_structure_new}"
+                 >
+
+            <h:form id="newStructureForm">
+
+
+                <ul class="inline">
+                    <p:outputLabel value="#{msg.name}: "
+                                   for="name"
+                                   />
+
+                    <p:inputText id="name"
+                                 value="#{payoutStructureEdit.payoutStructure.name}"
+                                 />
+                </ul>
+
+
+                <p:dataTable id="payoutTable"
+                             var="payout"
+                             value="#{payoutStructureEdit.places}"
+                             editable="true"
+                             editMode="cell"
+                             >
+
+                    <!--                    <f:facet name="header">
+                                            <div align="right"
+                                                 >
+                                                <p:commandButton id="resetButton"
+                                                                 value="#{msg.reset}"  
+                                                                 action="#{tournamentStructureEdit.clear()}"
+                                                                 partialSubmit="true"
+                                                                 process="resetButton"
+                                                                 update="levelTable"
+                                                                 />
+                                            </div>
+                                        </f:facet>-->
+
+                    <p:column headerText="#{msg.place}"
+                              >
+                        <h:outputText value="#{payout.place}"
+                                      />
+                    </p:column>
+
+                    <p:column headerText="%"
+                              >
+                        <p:cellEditor>
+                            <f:facet name="output"
+                                     >
+                                <h:outputText value="#{payout.percent}"
+                                              />
+                            </f:facet>
+                            <f:facet name="input"
+                                     >
+                                <p:spinner value="#{payout.percent}"
+                                           min="0"
+                                           max="100"
+
+                                           />
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+
+                    <p:column 
+
+                        width="10"
+                        >
+                        <p:commandLink id="removeLink"
+                                       styleClass="ui-icon ui-icon-minusthick"
+                                       title="#{msg.level_remove}"
+                                       action="#{payoutStructureEdit.removePlace(payout.place)}"
+                                       partialSubmit="true"
+                                       process="removeLink"
+                                       update="payoutTable"
+                                       />
+                    </p:column>
+
+                    <p:column 
+                        width="10"
+                        >
+                        <p:commandLink id="addLink"
+                                       styleClass="ui-icon ui-icon-plusthick"
+                                       title="#{msg.level_add}"
+                                       action="#{payoutStructureEdit.addPlace(payout.place)}"
+                                       partialSubmit="true"
+                                       process="addLink"
+                                       update="payoutTable"
+                                       />
+                    </p:column>
+                </p:dataTable>
+
+
+                <ul class="center, inline"> 
+                    <li>
+                        <p:commandButton value="#{msg.save}"
+                                         action="#{payoutStructureEdit.add()}"
+                                         update=":growl"
+                                         />
+                    </li>
+                    <li>
+
+                        <p:commandButton id="resetButton"
+                                         value="#{msg.reset}"  
+                                         action="#{payoutStructureEdit.clear()}"
+                                         update="newStructureForm"
+                                         >
+
+                            <!--                    <p:ajax update="newStructureForm"
+                                                        resetValues="true"
+                                                        />-->
+                        </p:commandButton>
+                    </li>
+                    <li>
+
+                        <p:commandButton value="#{msg.cancel}"
+                                         action="#{payoutStructureEdit.cancel()}"
+                                         />
+                    </li>
+                </ul>
+            </h:form>
+
+        </p:panel>
+    </ui:define>
+</ui:composition>

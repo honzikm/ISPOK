@@ -19,14 +19,14 @@ import org.springframework.stereotype.Component;
 public class OfficeServiceImpl extends AbstractDataAccessService implements OfficeService {
 
     @Override
-    public OfficeDto getOfficeByName(String name) {
+    public OfficeDto getByName(String name) {
         Office office = genericDao.getByPropertyUnique("name", name, Office.class);
         OfficeDto officeDto = new OfficeDto(office);
         return officeDto;
     }
 
     @Override
-    public List<OfficeDto> getAllOffices() {
+    public List<OfficeDto> getAll() {
         List<Office> offices = genericDao.getAll(Office.class);
         List<OfficeDto> officeDtos = new ArrayList<>(offices.size());
 
@@ -53,7 +53,7 @@ public class OfficeServiceImpl extends AbstractDataAccessService implements Offi
     public void updateOffice(OfficeDto officeDto) {
         Office office = genericDao.getById(officeDto.getId(), Office.class);
         office.setName(officeDto.getName());
+        office.setInfo(officeDto.getInfo());
         genericDao.saveOrUpdate(office);
     }
-
 }

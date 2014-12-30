@@ -1,0 +1,200 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"   
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://xmlns.jcp.org/jsf/core"
+                 xmlns:mp ="http://myprimefaces.junkpunk.cz/facelets"
+                 template="/admin/template/adminTemplate.xhtml"
+                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                 >
+
+    <ui:define name="title">
+        <title>#{msg.tournament_structures} | #{msg.ispok}</title>
+    </ui:define>
+
+    <ui:define name="centerContent">
+
+        <p:growl id="growl" 
+                 showDetail="true" 
+                 globalOnly="true"
+                 /> 
+
+        <p:panel header="#{msg.tournament_structures}"
+                 >
+
+            <table>
+                <tr>
+                    <td>
+                        <p:outputLabel for="tournamentStructure"
+                                       value="#{msg.tournament_structure}"
+                                       />
+                    </td>
+                    <td>
+                        <p:selectOneMenu id="tournamentStructure"
+                                         value="#{tournamentStructureEdit.tournamentStructureId}"
+                                         >
+                            <f:selectItems value="#{tournamentStructureEdit.tournamentStructures}"
+                                           var="ts"
+                                           itemLabel="#{ts.name}"
+                                           itemValue="#{ts.id}"
+                                           />
+                            <p:ajax update="levelTable"
+                                    process="tournamentStructure" 
+                                    event="change" 
+                                    partialSubmit="true"
+                                    />
+                        </p:selectOneMenu>
+                    </td>
+                    <td>
+                        <p:commandButton value="#{msg.delete}"
+                                         />
+                    </td>
+                    <td>
+                        <p:commandButton value="#{msg.edit}"
+                                         />
+                    </td>
+                    <td>
+                        <p:commandButton value="#{msg.neww}"
+                                         action="#{tournamentStructureEdit.newStructure()}"
+                                         partialSubmit="true"
+                                         process="@this"
+                                         />
+                    </td>
+                </tr>
+            </table>
+
+            <p:dataTable id="levelTable"
+                         var="level"
+                         value="#{tournamentStructureEdit.levels}"
+                         >
+
+                <!--                <f:facet name="header">
+                                    <div align="right"
+                                         >
+                                        <p:commandButton id="resetButton"
+                                                         value="#{msg.reset}"  
+                                                         action="#{tournamentStructureEdit.clear()}"
+                                                         partialSubmit="true"
+                                                         process="resetButton"
+                                                         update="levelTable"
+                                                         />
+                                    </div>
+                                </f:facet>-->
+
+                <p:column headerText="#{msg.level}"
+                          >
+                    <h:outputText value="#{level.number}"
+                                  />
+                </p:column>
+
+                <p:column headerText="#{msg.smallblind}"
+                          >
+                    <p:cellEditor>
+                        <f:facet name="output"
+                                 >
+                            <h:outputText value="#{level.smallBlind}"
+                                          />
+                        </f:facet>
+                        <f:facet name="input"
+                                 >
+                            <h:inputText value="#{level.smallBlind}"
+                                         />
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="#{msg.bigblind}"
+                          >
+                    <p:cellEditor>
+                        <f:facet name="output"
+                                 >
+                            <h:outputText value="#{level.bigBlind}"
+                                          />
+                        </f:facet>
+                        <f:facet name="input"
+                                 >
+                            <h:inputText value="#{level.bigBlind}"
+                                         />
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="#{msg.ante}"
+                          >
+                    <p:cellEditor>
+                        <f:facet name="output"
+                                 >
+                            <h:outputText value="#{level.ante}"
+                                          />
+                        </f:facet>
+                        <f:facet name="input"
+                                 >
+                            <h:inputText value="#{level.ante}"
+                                         />
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="#{msg.duration} [min]"
+                          >
+                    <p:cellEditor>
+                        <f:facet name="output"
+                                 >
+                            <h:outputText value="#{level.duration}"
+                                          />
+                        </f:facet>
+                        <f:facet name="input"
+                                 >
+                            <h:inputText value="#{level.duration}"
+                                         />
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="#{msg.level_break} [min]"
+                          >
+                    <p:cellEditor>
+                        <f:facet name="output"
+                                 >
+                            <h:outputText value="#{level.breakDuration}"
+                                          />
+                        </f:facet>
+                        <f:facet name="input"
+                                 >
+                            <h:inputText value="#{level.breakDuration}"
+                                         />
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+
+<!--                <p:column rendered="#{tournamentStructureEdit.newLevelStructure}"
+                          width="10"
+                          >
+                    <p:commandLink id="removeLink"
+                                   styleClass="ui-icon ui-icon-minusthick"
+                                   title="#{msg.level_remove}"
+                                   action="#{tournamentStructureEdit.removeLevel(level.number)}"
+                                   partialSubmit="true"
+                                   process="removeLink"
+                                   update="levelTable"
+                                   />
+                </p:column>
+
+                <p:column rendered="#{tournamentEdit.newLevelStructure}"
+                          width="10"
+                          >
+                    <p:commandLink id="addLink"
+                                   styleClass="ui-icon ui-icon-plusthick"
+                                   title="#{msg.level_add}"
+                                   action="#{tournamentStructureEdit.addLevel(level.number)}"
+                                   partialSubmit="true"
+                                   process="addLink"
+                                   update="levelTable"
+                                   />
+                </p:column>-->
+
+            </p:dataTable>
+
+        </p:panel>
+    </ui:define>
+</ui:composition>

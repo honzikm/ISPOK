@@ -6,10 +6,11 @@
                  xmlns:f="http://xmlns.jcp.org/jsf/core"
                  xmlns:mp ="http://myprimefaces.junkpunk.cz/facelets"
                  template="/admin/template/adminTemplate.xhtml"
+                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
                  >
 
     <ui:define name="title">
-        <title>#{msg.tournament_new} | #{msg.ispok}</title>
+        <title>#{msg.tournament_structure_new} | #{msg.ispok}</title>
     </ui:define>
 
     <ui:define name="centerContent">
@@ -19,130 +20,323 @@
                  globalOnly="true"
                  /> 
 
-        <h:form id="newTournamentForm">
+        <p:panel header="#{msg.tournament_structure_new}"
+                 >
 
-            <table>
-                <tr>
-                    <td>
-                        <p:outputLabel for="name"
-                                       value="#{msg.tournament_name}"
-                                       />
-                    </td>
-                    <td>
-                        <p:inputText id="name"
-                                     value="#{newTournament.name}"
-                                     required="true"
-                                     requiredMessage="#{msg.required}"
-                                     />
-                    </td>
-                    <td>
-                        <p:message for="name"
-                                   />
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <p:outputLabel for="place"
-                                       value="#{msg.place}"
-                                       />
-                    </td>
-                    <td>
-                        <p:inputText id="place"
-                                     value="#{newTournament.place}"
-                                     required="true"
-                                     requiredMessage="#{msg.required}"
-                                     />
-                    </td>
-                    <td>
-                        <p:message for="place"
-                                   />
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <p:outputLabel for="series"
-                                       value="#{msg.tournament_series}"
-                                       />
-                    </td>
-                    <td>
-                        <p:inputText id="series"
-                                     value="#{newTournament.series}"
-                                     />
-                    </td>
-                    <td>
-                        <p:message for="serie"
-                                   />
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <p:outputLabel for="start"
-                                       value="#{msg.tournament_start}"
-                                       />
-                    </td>
-                    <td>
-                        <p:calendar id="start"
-                                    required="true"
-                                    requiredMessage="#{msg.required}"
+            <h:form id="newTournamentForm">
+
+                <table>
+                    <tr>
+                        <td>
+                            <p:outputLabel for="name"
+                                           value="#{msg.name}:"
+                                           />
+                        </td>
+                        <td>
+                            <p:inputText id="name"
+                                         value="#{tournamentEdit.tournament.name}"
+                                         />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:outputLabel for="office"
+                                           value="#{msg.office}:"
+                                           />
+                        </td>
+                        <td>
+                            <p:selectOneMenu id="office"
+                                             value="#{tournamentEdit.tournament.placeId}"
+                                             >
+                                <f:selectItems value="#{tournamentEdit.offices}"
+                                               var="office"
+                                               itemLabel="#{office.name}"
+                                               itemValue="#{office.id}"
+                                               />
+                            </p:selectOneMenu>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:outputLabel for="series"
+                                           value="#{msg.series}:"
+                                           />
+                        </td>
+                        <td>
+                            <p:selectOneMenu id="series"
+                                             value="#{tournamentEdit.tournament.seriesId}"
+                                             >
+                                <f:selectItem itemLabel="#{msg.none}"
+                                              itemValue="0"
+                                              />
+                                <f:selectItems value="#{tournamentEdit.series}"
+                                               var="series"
+                                               itemLabel="#{series.name}"
+                                               itemValue="#{series.id}"
+                                               />
+                            </p:selectOneMenu>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:outputLabel for="buyin"
+                                           value="#{msg.buyin}:"
+                                           />
+                        </td>
+                        <td>
+                            <p:inputText id="buyin"
+                                         value="#{tournamentEdit.tournament.buyin}"
+                                         />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:outputLabel for="addon"
+                                           value="#{msg.addon}:"
+                                           />
+                        </td>
+                        <td>
+                            <p:inputText id="addon"
+                                         value="#{tournamentEdit.tournament.addon}"
+                                         />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:outputLabel for="points"
+                                           value="#{msg.points}:"
+                                           />
+                        </td>
+                        <td>
+                            <p:inputText id="points"
+                                         value="#{tournamentEdit.tournament.bonusPoints}"
+                                         />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:outputLabel for="start"
+                                           value="#{msg.tournament_start}:"
+                                           />
+                        </td>
+                        <td>
+                            <p:calendar id="start"
+                                        value="#{tournamentEdit.tournament.start}"
+                                        pattern="dd/MM/yyyy HH:mm"
+                                        />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:outputLabel for="lateReg"
+                                           value="#{msg.tournament_latereg}:"
+                                           />
+                        </td>
+                        <td>
+                            <p:calendar id="lateReg"
+                                        value="#{tournamentEdit.tournament.lateReg}"
+                                        pattern="dd/MM/yyyy HH:mm"
+                                        />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <p:outputLabel for="tourStructure"
+                                           value="#{msg.tournament_structure}:"
+                                           />
+                        </td>
+                        <td>
+                            <p:selectOneMenu id="tourStructure"
+                                             value="#{tournamentEdit.tournamentStructureId}"
+                                             >
+                                <f:selectItems value="#{tournamentEdit.tournamentStructures}"
+                                               var="ts"
+                                               itemLabel="#{ts.name}"
+                                               itemValue="#{ts.id}"
+                                               />
+                                <p:ajax partialSubmit="true"
+                                        process="@this"
+                                        update="levelTable"
+                                        event="change"
+                                        />
+                            </p:selectOneMenu>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="3">
+                            <p:dataTable id="levelTable"
+                                         var="level"
+                                         value="#{tournamentEdit.levels}"
+                                         >
+
+                                <p:column headerText="#{msg.level}"
+                                          >
+                                    <h:outputText value="#{level.number}"
+                                                  />
+                                </p:column>
+
+                                <p:column headerText="#{msg.smallblind}"
+                                          >
+                                    <p:cellEditor>
+                                        <f:facet name="output"
+                                                 >
+                                            <h:outputText value="#{level.smallBlind}"
+                                                          />
+                                        </f:facet>
+                                        <f:facet name="input"
+                                                 >
+                                            <h:inputText value="#{level.smallBlind}"
+                                                         />
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                                <p:column headerText="#{msg.bigblind}"
+                                          >
+                                    <p:cellEditor>
+                                        <f:facet name="output"
+                                                 >
+                                            <h:outputText value="#{level.bigBlind}"
+                                                          />
+                                        </f:facet>
+                                        <f:facet name="input"
+                                                 >
+                                            <h:inputText value="#{level.bigBlind}"
+                                                         />
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                                <p:column headerText="#{msg.ante}"
+                                          >
+                                    <p:cellEditor>
+                                        <f:facet name="output"
+                                                 >
+                                            <h:outputText value="#{level.ante}"
+                                                          />
+                                        </f:facet>
+                                        <f:facet name="input"
+                                                 >
+                                            <h:inputText value="#{level.ante}"
+                                                         />
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                                <p:column headerText="#{msg.duration} [min]"
+                                          >
+                                    <p:cellEditor>
+                                        <f:facet name="output"
+                                                 >
+                                            <h:outputText value="#{level.duration}"
+                                                          />
+                                        </f:facet>
+                                        <f:facet name="input"
+                                                 >
+                                            <h:inputText value="#{level.duration}"
+                                                         />
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column headerText="#{msg.level_break} [min]"
+                                          >
+                                    <p:cellEditor>
+                                        <f:facet name="output"
+                                                 >
+                                            <h:outputText value="#{level.breakDuration}"
+                                                          />
+                                        </f:facet>
+                                        <f:facet name="input"
+                                                 >
+                                            <h:inputText value="#{level.breakDuration}"
+                                                         />
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                            </p:dataTable>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <p:outputLabel for="payoutStructure"
+                                           value="#{msg.payout_structure}:"
+                                           />
+                        </td>
+                        <td>
+                            <p:selectOneMenu id="payoutStructure"
+                                             value="#{tournamentEdit.payoutStructureId}"
+                                             >
+                                <f:selectItems value="#{tournamentEdit.payoutStructures}"
+                                               var="ps"
+                                               itemLabel="#{ps.name}"
+                                               itemValue="#{ps.id}"
+                                               />
+                                <p:ajax partialSubmit="true"
+                                        process="payoutStructure"
+                                        update="payoutTable"
+                                        event="change"
+                                        />
+                            </p:selectOneMenu>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="3"
+                            >
+                            <p:dataTable id="payoutTable"
+                                         var="pp"
+                                         value="#{tournamentEdit.payoutPlaces}"
+                                         >
+                                <p:column headerText="#{msg.place}"
+                                          >
+                                    <h:outputText value="#{pp.place}"
+                                                  />
+                                </p:column>
+
+                                <p:column headerText="%"
+                                          >
+                                    <h:outputText value="#{pp.percent}"
+                                                  />
+                                </p:column>
+
+                            </p:dataTable>
+                        </td>
+                    </tr>
+
+                </table>
+                <ul class="center, inline"
+                    >
+                    <li>
+                        <p:commandButton value="#{msg.save}"
+                                         action="#{tournamentEdit.add()}"
+                                         update=":growl"
+                                         />
+                    </li>
+                    <li>
+
+                        <p:commandButton id="resetButton"
+                                         value="#{msg.reset}"  
+                                         action="#{tournamentEdit.clear()}"
+                                         >
+
+                            <p:ajax update="newTournamentForm"
+                                    resetValues="true"
                                     />
-                    </td>
-                    <td>
-                        <p:message for="start"
-                                   />
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <p:outputLabel for="lateReg"
-                                       value="#{msg.tournament_latereg}"
-                                       />
-                    </td>
-                    <td>
-                        <p:calendar id="lateReg"
-                                    required="true"
-                                    requiredMessage="#{msg.required}"
-                                    />
-                    </td>
-                    <td>
-                        <p:message for="lateReg"
-                                   />
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <p:outputLabel for="buyin"
-                                       value="#{msg.buyin}"
-                                       />
-                    </td>
-                    <td>
-                        <p:inputText id="buyn"
-                                     required="true"
-                                     requiredMessage="#{msg.required}"
-                                     />
-                    </td>
-                    <td>
-                        <p:message for="buyin"
-                                   />
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <p:outputLabel for="addon"
-                                       value="#{msg.addon}"
-                                       />
-                    </td>
-                    <td>
-                        <p:inputText id="addon"
-                                     />
-                    </td>
-                    <td>
-                        <p:message for="addon"
-                                   />
-                    </td>
-                </tr>
+                        </p:commandButton>
+                    </li>
+                    <li>
 
-            </table>
+                        <p:commandButton value="#{msg.cancel}"
+                                         action="#{tournamentEdit.cancel()}"
+                                         />
+                    </li>
+                </ul>
 
-        </h:form>
+            </h:form>
+        </p:panel>
     </ui:define>
 </ui:composition>

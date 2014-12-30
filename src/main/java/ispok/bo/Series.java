@@ -13,6 +13,26 @@ public class Series extends AbstractBusinessObject {
 
     @Column(nullable = false, unique = true, length = 255)
     private String name;
+    @Column(nullable = true, unique = false, length = 255)
+    private String info;
+
+    /**
+     * Get the value of info
+     *
+     * @return the value of info
+     */
+    public String getInfo() {
+        return info;
+    }
+
+    /**
+     * Set the value of info
+     *
+     * @param info new value of info
+     */
+    public void setInfo(String info) {
+        this.info = info;
+    }
 
     public Series() {
     }

@@ -5,6 +5,7 @@
  */
 package ispok.dto;
 
+import ispok.bo.Visitor;
 import ispok.provider.HashProvider;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,25 @@ public class VisitorDto extends AbstractDto {
     HashProvider hashProvider;
 
     public VisitorDto() {
+    }
+
+    public VisitorDto(Visitor visitor) {
+        this.id = visitor.getId();
+        this.firstName = visitor.getFirstName();
+        this.lastName = visitor.getLastName();
+        this.birthDate = visitor.getBirthDate();
+        this.nin = visitor.getNin();
+        this.nickname = visitor.getNickname();
+        this.telephone = visitor.getTelephone();
+        this.email = visitor.getEmail();
+        this.sex = visitor.getSex();
+        this.passwordHash = visitor.getPasswordHash();
+        this.saltHash = visitor.getSaltHash();
+        this.idNumber = visitor.getIdNumber();
+        this.bonusPoints = visitor.getBonusPoints();
+        this.photo = visitor.getPhoto().clone();
+        this.citizenshipId = visitor.getCitizenship().getId();
+        this.domicileId = visitor.getDomicile().getId();
     }
 
     /**

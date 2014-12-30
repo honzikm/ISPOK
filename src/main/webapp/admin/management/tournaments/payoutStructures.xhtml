@@ -1,0 +1,93 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"   
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://xmlns.jcp.org/jsf/core"
+                 xmlns:mp ="http://myprimefaces.junkpunk.cz/facelets"
+                 template="/admin/template/adminTemplate.xhtml"
+                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                 >
+
+    <ui:define name="title">
+        <title>#{msg.payout_structures} | #{msg.ispok}</title>
+    </ui:define>
+
+    <ui:define name="centerContent">
+
+        <p:growl id="growl" 
+                 showDetail="true" 
+                 globalOnly="true"
+                 /> 
+
+        <p:panel header="#{msg.payout_structures}"
+                 >
+
+            <h:form>
+                <table>
+                    <tr>
+                        <td>
+                            <p:outputLabel for="payoutStructure"
+                                           value="#{msg.payout_structure}"
+                                           />
+                        </td>
+                        <td>
+                            <p:selectOneMenu id="payoutStructure"
+                                             value="#{payoutStructureEdit.payoutStructureId}"
+                                             >
+                                <f:selectItems value="#{payoutStructureEdit.structures}"
+                                               var="ps"
+                                               itemLabel="#{ps.name}"
+                                               itemValue="#{ps.id}"
+                                               />
+                                <p:ajax update="payoutTable"
+                                        process="payoutStructure" 
+                                        event="change" 
+                                        partialSubmit="true"
+                                        />
+                            </p:selectOneMenu>
+                        </td>
+                        <td>
+                            <p:commandButton value="#{msg.delete}"
+                                             action="#{payoutStructureEdit.delete()}"
+                                             partialSubmit="true"
+                                             process="@this"
+                                             update="payoutStructure payoutTable :growl"
+                                             />
+                        </td>
+                        <td>
+                            <p:commandButton value="#{msg.edit}"
+                                             />
+                        </td>
+                        <td>
+                            <p:commandButton value="#{msg.neww}"
+                                             action="#{payoutStructureEdit.newStructure()}"
+                                             partialSubmit="true"
+                                             process="@this"
+                                             />
+                        </td>
+                    </tr>
+                </table>
+
+                <p:dataTable id="payoutTable"
+                             var="pp"
+                             value="#{payoutStructureEdit.places}"
+                             >
+
+                    <p:column headerText="#{msg.place}"
+                              >
+                        <h:outputText value="#{pp.place}"
+                                      />
+                    </p:column>
+
+                    <p:column headerText="%"
+                              >
+                        <h:outputText value="#{pp.percent}"
+                                      />
+                    </p:column>
+
+                </p:dataTable>
+            </h:form>
+
+        </p:panel>
+    </ui:define>
+</ui:composition>

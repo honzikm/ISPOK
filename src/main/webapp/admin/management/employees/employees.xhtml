@@ -1,5 +1,5 @@
 
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"   
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
@@ -14,65 +14,65 @@
 
     <ui:define name="centerContent">
 
-        <p:growl id="growl" 
-                 showDetail="true" 
+        <p:growl id="growl"
+                 showDetail="true"
                  globalOnly="true"
-                 /> 
+                 />
 
-        <h:form id="dataForm"> 
+        <h:form id="dataForm">
 
             <p:contextMenu for="employeesTableId"
-                           >  
-                <!--<p:menuitem value="View" update="display" icon="ui-icon-search" oncomplete="PF('carDialog').show()"/>-->  
-                <p:menuitem value="#{msg.edit}" 
-                            icon="ui-icon-pencil" 
+                           >
+                <!--<p:menuitem value="View" update="display" icon="ui-icon-search" oncomplete="PF('carDialog').show()"/>-->
+                <p:menuitem value="#{msg.edit}"
+                            icon="ui-icon-pencil"
                             update=":editEmployeeDialogId"
-                            action="#{employeeEdit.loadEmployee()}" 
+                            action="#{employeeEdit.loadEmployee()}"
                             oncomplete="PF('editEmployeeDialog').show()"
                             />
-                <p:menuitem value="#{msg.delete}" 
-                            ajax="true" 
-                            update="dataForm" 
+                <p:menuitem value="#{msg.delete}"
+                            ajax="true"
+                            update="dataForm"
                             icon="ui-icon-close"
                             oncomplete="PF('confirmDialog').show()"
                             />
-            </p:contextMenu> 
+            </p:contextMenu>
 
 
-            <p:dataTable id="employeesTableId" 
+            <p:dataTable id="employeesTableId"
                          widgetVar="employeeTable"
                          var="employee"
-                         value="#{employeeEdit.employees}" 
-                         paginator="true" 
+                         value="#{employeeEdit.employees}"
+                         paginator="true"
                          rowsPerPageTemplate="10, 25, 50, 100"
-                         rows="25" 
+                         rows="25"
                          filteredValue="#{employeeEdit.filteredEmployees}"
                          rowKey="#{employee.id}"
-                         selectionMode="multiple" 
-                         selection="#{employeeEdit.selected}">  
+                         selectionMode="multiple"
+                         selection="#{employeeEdit.selected}">
 
-                            <!--<p:ajax event="rowSelect" listener="#{employeeEdit.onRowSelect}" />--> 
+                            <!--<p:ajax event="rowSelect" listener="#{employeeEdit.onRowSelect}" />-->
 
-                <f:facet name="header">  
-                    <p:outputPanel > 
+                <f:facet name="header">
+                    <p:outputPanel >
                         <div align="right"
                              style="float: right"
                              >
-                            <h:outputText value="#{msg.username_filter}: "  
-                                          />  
-                            <p:inputText id="globalFilter" 
-                                         onkeyup="PF('employeeTable').filter()" 
-                                         />  
+                            <h:outputText value="#{msg.username_filter}: "
+                                          />
+                            <p:inputText id="globalFilter"
+                                         onkeyup="PF('employeeTable').filter()"
+                                         />
                         </div>
                         <div align="left">
-                            <p:commandButton value="#{msg.neww}" 
-                                             icon="ui-icon-star" 
+                            <p:commandButton value="#{msg.neww}"
+                                             icon="ui-icon-star"
                                              onclick="PF('newEmployeeDialog').show()"
                                              />
-                            <p:commandButton value="#{msg.edit}" 
-                                             icon="ui-icon-pencil" 
-                                             update=":editEmployeeDialogId :growl" 
-                                             action="#{employeeEdit.loadEmployee()}" 
+                            <p:commandButton value="#{msg.edit}"
+                                             icon="ui-icon-pencil"
+                                             update=":editEmployeeDialogId :growl"
+                                             action="#{employeeEdit.loadEmployee()}"
                                              oncomplete="if (args.showDialog){PF('editEmployeeDialog').show()}"
                                              />
                             <p:commandButton value="#{msg.delete}"
@@ -82,55 +82,56 @@
                                              oncomplete="if(args.showDialog){PF('confirmDialog').show()}"
                                              />
                         </div>
-                    </p:outputPanel>  
-                </f:facet>  
+                    </p:outputPanel>
+                </f:facet>
 
-                <p:column filterStyle="" 
+                <p:column filterStyle=""
                           headerText="id"
-                          >  
-                    <h:outputText value="#{employee.id}" 
-                                  />  
+                          >
+                    <h:outputText value="#{employee.id}"
+                                  />
                 </p:column>
 
-                <p:column sortBy="#{employee.username}" 
-                          filterBy="#{employee.username}" 
+                <p:column sortBy="#{employee.username}"
+                          filterBy="#{employee.username}"
                           headerText="#{msg.username}"
-                          >  
-                    <h:outputText value="#{employee.username}" 
-                                  />  
-                </p:column>  
+                          filterStyle= "width: 70px;"
+                          >
+                    <h:outputText value="#{employee.username}"
+                                  />
+                </p:column>
 
                 <p:column sortBy="#{employee.receptionist}"
                           headerText="#{msg.receptionist}"
-                          >  
+                          >
                     <h:outputText value="#{employee.receptionist}"
-                                  />  
-                </p:column>  
+                                  />
+                </p:column>
 
-                <p:column sortBy="#{employee.cashier}" 
+                <p:column sortBy="#{employee.cashier}"
                           headerText="#{msg.cashier}"
-                          >  
-                    <h:outputText value="#{employee.cashier}" 
-                                  />  
-                </p:column>  
+                          >
+                    <h:outputText value="#{employee.cashier}"
+                                  />
+                </p:column>
 
-                <p:column sortBy="#{employee.floorman}" 
+                <p:column sortBy="#{employee.floorman}"
                           headerText="#{msg.floorman}"
-                          >  
-                    <h:outputText value="#{employee.floorman}" 
-                                  />  
-                </p:column>  
+                          >
+                    <h:outputText value="#{employee.floorman}"
+                                  />
+                </p:column>
 
-                <p:column sortBy="#{employee.manager}" 
+                <p:column sortBy="#{employee.manager}"
                           headerText="#{msg.manager}"
-                          >  
-                    <h:outputText value="#{employee.manager}" 
-                                  />  
-                </p:column> 
+                          >
+                    <h:outputText value="#{employee.manager}"
+                                  />
+                </p:column>
 
-            </p:dataTable> 
-            <p:remoteCommand name="updateTable" 
-                             update="dataForm" 
+            </p:dataTable>
+            <p:remoteCommand name="updateTable"
+                             update="dataForm"
                              />
         </h:form>
     </ui:define>
@@ -138,60 +139,60 @@
     <ui:define name="bodyContent"
                >
 
-        <p:dialog id="newEmployeeDialogId" 
-                  header="#{msg.employee_new}" 
-                  widgetVar="newEmployeeDialog" 
-                  resizable="false" 
-                  closable="false" 
-                  draggable="true" 
+        <p:dialog id="newEmployeeDialogId"
+                  header="#{msg.employee_new}"
+                  widgetVar="newEmployeeDialog"
+                  resizable="false"
+                  closable="false"
+                  draggable="true"
                   closeOnEscape="true"
-                  modal="true" >  
+                  modal="true" >
             <h:form id="newEmployeeForm">
                 <table>
                     <tr>
                         <td>
-                            <p:outputLabel for="username" 
+                            <p:outputLabel for="username"
                                            value="#{msg.username}: "
                                            />
                         </td>
                         <td>
-                            <p:inputText id="username" 
-                                         value="#{employeeEdit.employee.username}" 
-                                         required="true" 
+                            <p:inputText id="username"
+                                         value="#{employeeEdit.employee.username}"
+                                         required="true"
                                          requiredMessage="#{msg.username_length_valid}"
                                          >
-                                <f:validator validatorId="usernameValidator" 
+                                <f:validator validatorId="usernameValidator"
                                              />
-                                <f:validator validatorId="employeeValidator" 
+                                <f:validator validatorId="employeeValidator"
                                              />
                             </p:inputText>
                         </td>
                         <td>
-                            <p:message id="msgUsername" 
+                            <p:message id="msgUsername"
                                        for="username"
-                                       /> 
+                                       />
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <p:outputLabel for="password" 
+                            <p:outputLabel for="password"
                                            value="#{msg.password}: "
                                            />
                         </td>
                         <td>
-                            <p:password id="password" 
-                                        value="#{employeeEdit.employee.password}" 
-                                        required="true" 
+                            <p:password id="password"
+                                        value="#{employeeEdit.employee.password}"
+                                        required="true"
                                         requiredMessage="#{msg.password_length_valid}"
-                                        > 
+                                        >
                                 <f:validator validatorId="usernameValidator"
                                              />
                             </p:password>
                         </td>
                         <td>
                             <p:message id="msgPassword"
-                                       for="password" 
-                                       /> 
+                                       for="password"
+                                       />
                         </td>
                     </tr>
                     <tr>
@@ -203,43 +204,43 @@
                         <td>
                             <p:selectBooleanCheckbox id="isReceptionist"
                                                      value="#{employeeEdit.employee.receptionist}"
-                                                     /> 
+                                                     />
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <p:outputLabel for="isCashier" 
+                            <p:outputLabel for="isCashier"
                                            value="#{msg.cashier}: "
                                            />
                         </td>
                         <td>
                             <p:selectBooleanCheckbox id="isCashier"
                                                      value="#{employeeEdit.employee.cashier}"
-                                                     /> 
+                                                     />
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <p:outputLabel for="isFloorman" 
+                            <p:outputLabel for="isFloorman"
                                            value="#{msg.floorman}: "
                                            />
                         </td>
                         <td>
-                            <p:selectBooleanCheckbox id="isFloorman" 
+                            <p:selectBooleanCheckbox id="isFloorman"
                                                      value="#{employeeEdit.employee.floorman}"
-                                                     /> 
+                                                     />
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <p:outputLabel for="isManager" 
+                            <p:outputLabel for="isManager"
                                            value="#{msg.manager}: "
                                            />
                         </td>
                         <td>
-                            <p:selectBooleanCheckbox id="isManager" 
+                            <p:selectBooleanCheckbox id="isManager"
                                                      value="#{employeeEdit.employee.manager}"
-                                                     /> 
+                                                     />
                         </td>
                     </tr>
                     <tr>
@@ -247,8 +248,8 @@
                             <ul class="inline">
                                 <li>
                                     <p:commandButton value="#{msg.add}"
-                                                     update="newEmployeeForm :growl"     
-                                                     action="#{employeeEdit.addEmployee()}" 
+                                                     update="newEmployeeForm :growl"
+                                                     action="#{employeeEdit.addEmployee()}"
                                                      oncomplete="if (args &amp;&amp; !args.validationFailed) {PF('newEmployeeDialog').hide(); updateTable();}"
                                                      >
                                     </p:commandButton>
@@ -256,9 +257,9 @@
                                 <li>
                                     <p:commandButton value="#{msg.cancel}"
                                                      action="#{employeeEdit.clearEdit()}"
-                                                     oncomplete="PF('newEmployeeDialog').hide();" 
+                                                     oncomplete="PF('newEmployeeDialog').hide();"
                                                      >
-                                        <p:ajax update="newEmployeeForm" 
+                                        <p:ajax update="newEmployeeForm"
                                                 resetValues="true"
                                                 />
                                     </p:commandButton>
@@ -268,25 +269,25 @@
                     </tr>
                 </table>
             </h:form>
-        </p:dialog>  
+        </p:dialog>
 
 
-        <p:dialog id="editEmployeeDialogId" 
-                  header="#{msg.employee_edit}" 
-                  widgetVar="editEmployeeDialog" 
+        <p:dialog id="editEmployeeDialogId"
+                  header="#{msg.employee_edit}"
+                  widgetVar="editEmployeeDialog"
                   resizable="false"
                   closable="false"
-                  draggable="true" 
+                  draggable="true"
                   closeOnEscape="true"
                   modal="true"
                   dynamic="true"
                   >
-            <h:form id="editEmploueeForm"> 
+            <h:form id="editEmploueeForm">
                 <table>
                     <!--<ui:param name="selectedEmployee" value="#{employeeEdit.selected[0]}" />-->
                     <tr>
                         <td>
-                            <p:outputLabel for="edit_username" 
+                            <p:outputLabel for="edit_username"
                                            value="#{msg.username}: "
                                            />
                         </td>
@@ -298,8 +299,8 @@
                     </tr>
                     <tr>
                         <td>
-                            <p:outputLabel for="changePassword" 
-                                           value="#{msg.password_change}:" 
+                            <p:outputLabel for="changePassword"
+                                           value="#{msg.password_change}:"
                                            />
                         </td>
                         <td>
@@ -316,110 +317,110 @@
                             <!--<h:panelGroup rendered="#{employeeEdit.changePassword}" >-->
                     <tr>
                         <td>
-                            <p:outputLabel 
+                            <p:outputLabel
                                 for="chPassword"
-                                value="#{msg.password}: "  
+                                value="#{msg.password}: "
                                 />
                         </td>
                         <td>
-                            <p:password id="chPassword" 
-                                        value="#{employeeEdit.employee.password}" 
-                                        required="true" 
-                                        requiredMessage="#{msg.password_length_valid}" 
+                            <p:password id="chPassword"
+                                        value="#{employeeEdit.employee.password}"
+                                        required="true"
+                                        requiredMessage="#{msg.password_length_valid}"
                                         disabled="#{!employeeEdit.changePassword}"
-                                        > 
+                                        >
                                 <f:validator validatorId="passwordValidator" />
                             </p:password>
                         </td>
                         <td>
                             <p:message for="chPassword"
-                                       /> 
+                                       />
                         </td>
                     </tr>
                     <!--</h:panelGroup>-->
 
                     <tr>
                         <td>
-                            <p:outputLabel for="isReceptionist" 
+                            <p:outputLabel for="isReceptionist"
                                            value="#{msg.receptionist}: "
                                            />
                         </td>
                         <td>
-                            <p:selectBooleanCheckbox id="isReceptionist" 
+                            <p:selectBooleanCheckbox id="isReceptionist"
                                                      value="#{employeeEdit.employee.receptionist}"
-                                                     /> 
+                                                     />
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <p:outputLabel for="isCashier" 
+                            <p:outputLabel for="isCashier"
                                            value="#{msg.cashier}: "
                                            />
                         </td>
                         <td>
-                            <p:selectBooleanCheckbox id="isCashier" 
+                            <p:selectBooleanCheckbox id="isCashier"
                                                      value="#{employeeEdit.employee.cashier}"
-                                                     /> 
+                                                     />
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <p:outputLabel for="isFloorman" 
+                            <p:outputLabel for="isFloorman"
                                            value="#{msg.floorman}: "
                                            />
                         </td>
                         <td>
-                            <p:selectBooleanCheckbox id="isFloorman" 
+                            <p:selectBooleanCheckbox id="isFloorman"
                                                      value="#{employeeEdit.employee.floorman}"
-                                                     /> 
+                                                     />
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <p:outputLabel for="isManager" 
+                            <p:outputLabel for="isManager"
                                            value="#{msg.manager}: "
                                            />
                         </td>
                         <td>
-                            <p:selectBooleanCheckbox id="isManager" 
+                            <p:selectBooleanCheckbox id="isManager"
                                                      value="#{employeeEdit.employee.manager}"
-                                                     /> 
+                                                     />
                         </td>
                     </tr>
                     <tr>
                         <td colspan="2">
                             <ul class="inline">
                                 <li>
-                                    <p:commandButton value="#{msg.save}" 
-                                                     ajax="true" 
-                                                     update="editEmploueeForm :dataForm :growl" 
+                                    <p:commandButton value="#{msg.save}"
+                                                     ajax="true"
+                                                     update="editEmploueeForm :dataForm :growl"
                                                      action="#{employeeEdit.updateEmployee()}"
                                                      oncomplete="if (!args.validationFailed){PF('editEmployeeDialog').hide();}" />
 
-<!--                                         <p:commandButton value="#{msg.add}" ajax="true" update="dialogForm, :growl"     
-                 action="#{employeeEdit.addEmployee()}" 
+<!--                                         <p:commandButton value="#{msg.add}" ajax="true" update="dialogForm, :growl"
+                 action="#{employeeEdit.addEmployee()}"
                  oncomplete="if (args &amp;&amp; !args.validationFailed){ newEmployee.hide(); updateTable();}">
     <p:resetInput target="dialogForm" />
 </p:commandButton>-->
 
                                 </li>
                                 <li>
-                                    <p:commandButton value="#{msg.cancel}" 
+                                    <p:commandButton value="#{msg.cancel}"
                                                      resetValues="true"
                                                      update="editEmploueeForm"
                                                      action="#{employeeEdit.clearEdit}"
-                                                     oncomplete="PF('editEmployeeDialog').hide();" 
+                                                     oncomplete="PF('editEmployeeDialog').hide();"
                                                      >
-                                        <p:ajax update="editEmploueeForm chPassword" 
+                                        <p:ajax update="editEmploueeForm chPassword"
                                                 resetValues="true"
                                                 />
 
                                         <!--<p:resetInput target="fff" />-->
-                                        <!--<p:ajax update="fff" resetValues="true" />--> 
+                                        <!--<p:ajax update="fff" resetValues="true" />-->
                                     </p:commandButton>
                                         <!--action="#{employeeEdit.clearEdit}"-->
                                     <!--<p:resetInput target="dialogForm" />-->
-                                    <!--<p:ajax update="dialogForm" resetValues="true" />--> 
+                                    <!--<p:ajax update="dialogForm" resetValues="true" />-->
                                     <!--<p:resetInput target="fff" />-->
                                     <!--</p:commandButton>-->
                                 </li>
@@ -431,35 +432,35 @@
         </p:dialog>
 
 
-        <!--        <p:dialog id="deleteEmployeeDialogId" 
-                          header="#{msg.employee_delete} ?" 
-                          widgetVar="deleteEmployeeDialog" 
-                          resizable="false" 
-                          closable="false" 
-                          draggable="true" 
-                          closeOnEscape="true" 
-                          modal="true" 
-                          > 
+        <!--        <p:dialog id="deleteEmployeeDialogId"
+                          header="#{msg.employee_delete} ?"
+                          widgetVar="deleteEmployeeDialog"
+                          resizable="false"
+                          closable="false"
+                          draggable="true"
+                          closeOnEscape="true"
+                          modal="true"
+                          >
                     <h:form id="deleteEmployeeForm">
                         <h:outputText value="#{msg.employee_delete_confirm}" />
                         <br/>
-                        <p:commandButton value="#{msg.yes}" 
-                                         styleClass="ui-confirmdialog-yes" 
-                                         icon="ui-icon-check" 
-                                         action="#{employeeEdit.delete()}" 
+                        <p:commandButton value="#{msg.yes}"
+                                         styleClass="ui-confirmdialog-yes"
+                                         icon="ui-icon-check"
+                                         action="#{employeeEdit.delete()}"
                                          oncomplete="updateTable(); PF('deleteEmployeeDialog').hide();"
-                                         />  
-                        <p:commandButton value="#{msg.no}" 
-                                         type="button" 
-                                         styleClass="ui-confirmdialog-no" 
-                                         icon="ui-icon-close" 
+                                         />
+                        <p:commandButton value="#{msg.no}"
+                                         type="button"
+                                         styleClass="ui-confirmdialog-no"
+                                         icon="ui-icon-close"
                                          oncomplete="PF('deleteEmployeeDialog').hide()"
-                                         /> 
+                                         />
                     </h:form>
                 </p:dialog>-->
 
-        <mp:confirmDialog widgetVar="confirmDialog" 
-                          header="#{msg.employee_delete}" 
+        <mp:confirmDialog widgetVar="confirmDialog"
+                          header="#{msg.employee_delete}"
                           message="#{msg.employee_delete_confirm}"
                           actionBean="#{employeeEdit}"
                           actionMethod="delete"
