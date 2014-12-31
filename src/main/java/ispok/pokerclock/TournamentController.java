@@ -69,6 +69,7 @@ public class TournamentController {
         currentLevel = new LevelDto();
         playerDtos = new ArrayList<>(50);
         payoutPlaceDtos = new ArrayList<>(20);
+        tournamentDto = null;
 
         timerCounter = new TimerTask() {
             @Override
@@ -194,14 +195,12 @@ public class TournamentController {
         this.tournamentDto = tournamentDto;
     }
 
-    public Long getTournamentId() {
-        return tournamentDto.getId();
-    }
-
-    public int getPlayersCount() {
-        return playerDtos.size();
-    }
-
+//    public Long getTournamentId() {
+//        return tournamentDto.getId();
+//    }
+//    public int getPlayersCount() {
+//        return playerDtos.size();
+//    }
     public int getTime_s() {
         return time_s;
     }

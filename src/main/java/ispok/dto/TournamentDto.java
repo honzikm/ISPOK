@@ -10,6 +10,7 @@ import java.util.Date;
 public class TournamentDto extends AbstractDto {
 
     private String name;
+    private String info;
     private Date start;
     private Date finish;
     private Date lateReg;
@@ -29,6 +30,7 @@ public class TournamentDto extends AbstractDto {
     public TournamentDto(TournamentDto tdto) {
         this.id = tdto.getId();
         this.name = tdto.getName();
+        this.info = tdto.getInfo();
         this.start = tdto.getStart();
         this.lateReg = tdto.getLateReg();
         this.finish = tdto.getFinish();
@@ -41,6 +43,14 @@ public class TournamentDto extends AbstractDto {
         this.levelNumber = tdto.getLevelNumber();
         this.levelTime = tdto.getLevelTime();
         this.payoutStructureId = tdto.getPayoutStructureId();
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
     }
 
     /**

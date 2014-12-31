@@ -138,6 +138,56 @@
                 <table>
                     <tr>
                         <td>
+                            <p:outputLabel value="#{msg.info}: "
+                                           for="info"
+                                           />
+                        </td>
+                        <td colspan="10">
+                            <h:outputText id="info"
+                                          value="#{tournamentManager.info}"
+                                          />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:outputLabel value="#{msg.buyin}: "
+                                           for="buyin"
+                                           />
+                        </td>
+                        <td>
+                            <h:outputText id="buyin"
+                                          value="#{tournamentManager.buyin}"
+                                          />
+                        </td>
+                        <td>
+                            <p:outputLabel value="#{msg.addon}: "
+                                           for="addon"
+                                           />
+                        </td>
+                        <td>
+                            <h:outputText id="addon"
+                                          value="#{tournamentManager.addon}"
+                                          />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:outputLabel value="#{msg.tournament_latereg}: "
+                                           for="latereg"
+                                           />
+                        </td>
+                        <td colspan="10">
+                            <h:outputText id="latereg"
+                                          value="#{tournamentManager.lateReg}"
+                                          />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="height: 1em">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
                             <p:outputLabel value="#{msg.entries}: "
                                            for="entries"
                                            />
@@ -147,8 +197,6 @@
                                           value="#{tournamentManager.entries}"
                                           />
                         </td>
-                    </tr>
-                    <tr>
                         <td>
                             <p:outputLabel value="#{msg.players}: "
                                            for="playersCnt"
@@ -191,6 +239,11 @@
                         </td>
                     </tr>
 
+                    <tr>
+                        <td style="height: 1em">
+                        </td>
+                    </tr>
+
 
                     <tr>
                         <td>
@@ -224,7 +277,6 @@
                                           />
                         </td>
                     </tr>
-
                     <tr>
                         <td>
                             <p:outputLabel for="smallBlind"
@@ -257,6 +309,77 @@
                                           />
                         </td>
                     </tr>
+
+                    <tr>
+                        <td style="height: 1em">
+                        </td>
+                    </tr>
+
+                    <!--                    <tr>
+                                            <td>
+                                                <p:outputLabel for="nextLevel"
+                                                               value="Next #{msg.level}: "
+                                                               />
+                                            </td>
+                                            <td>
+                                                <h:outputText id="nextLevel"
+                                                              value="#{tournamentManager.levelDto.number}"
+                                                              />
+                                            </td>
+                                            <td>
+                                                <p:outputLabel for="nextDuration"
+                                                               value="#{msg.duration}: "
+                                                               />
+                                            </td>
+                                            <td>
+                                                <h:outputText id="nextDuration"
+                                                              value="#{tournamentManager.levelDto.duration}"
+                                                              />
+                                            </td>
+                                            <td>
+                                                <p:outputLabel for="breakDuration"
+                                                               value="#{msg.level_break}: "
+                                                               />
+                                            </td>
+                                            <td>
+                                                <h:outputText id="breakDuration"
+                                                              value="#{tournamentManager.levelDto.breakDuration}"
+                                                              />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p:outputLabel for="smallBlind"
+                                                               value="#{msg.smallblind}: "
+                                                               />
+                                            </td>
+                                            <td>
+                                                <h:outputText id="smallBlind"
+                                                              value="#{tournamentManager.levelDto.smallBlind}"
+                                                              />
+                                            </td>
+                                            <td>
+                                                <p:outputLabel for="bigBlind"
+                                                               value="#{msg.bigblind}: "
+                                                               />
+                                            </td>
+                                            <td>
+                                                <h:outputText id="bigBlind"
+                                                              value="#{tournamentManager.levelDto.bigBlind}"
+                                                              />
+                                            </td>
+                                            <td>
+                                                <p:outputLabel for="ante"
+                                                               value="#{msg.ante}: "
+                                                               />
+                                            </td>
+                                            <td>
+                                                <h:outputText id="ante"
+                                                              value="#{tournamentManager.levelDto.bigBlind}"
+                                                              />
+                                            </td>
+                                        </tr>-->
+
                 </table>
 
                 <ul class="center inline"

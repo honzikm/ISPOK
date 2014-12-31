@@ -6,37 +6,39 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 >
     <h:form>
-        <p:toolbar>  
-            <f:facet name="left">  
+        <p:toolbar>
+            <f:facet name="left">
                 <!--<p:commandButton value="#{msg.administration}" icon="ui-icon-key" />-->
-                <p:button value="#{msg.home}" 
-                          icon="ui-icon-home" 
+                <p:button value="#{msg.home}"
+                          icon="ui-icon-home"
                           outcome="/index.xhtml"
                           />
-                <p:button value="#{msg.cashgame_manager}" 
-                          icon="ui-icon-star" 
-                          outcome="/admin/management/cashgameManager/cashgameManager.xhtml" 
+                <p:button value="#{msg.cashgame_manager}"
+                          icon="ui-icon-star"
+                          outcome="/admin/management/cashgameManager/cashgameManager.xhtml"
                           />
                 <p:button value="#{msg.tournament_manager}"
-                          icon="ui-icon-star" 
-                          outcome="/admin/management/tournamentManager/tournamentManager.xhtml" 
+                          icon="ui-icon-star"
+                          outcome="/admin/management/tournamentManager/tournamentManager.xhtml"
                           />
             </f:facet>
 
-            <f:facet name="right">  
+            <f:facet name="right">
                 <!--                        <form class="form-inline" action="j_spring_security_logout" method="post">
                                             <input type="submit" value="Log out" />
                                         </form>-->
                                                             <!--<h:outputLink value="/ispok/j_spring_security_logout">#{msg.logout}</h:outputLink>-->
-                <p:commandButton value="#{msg.logout}" icon="ui-icon-power" action="#{navigation.logout()}"/>
+                <!--<p:commandButton value="#{msg.logout}" icon="ui-icon-power" action="#{navigation.logout()}"/>-->
 
 
-<!--<h:outputLink value="#{pageContext.request.contextPath}/j_spring_security_logout">#{msg.logout}</h:outputLink>-->
-<!--<p:link value="#{request.contextPath}/j_spring_security_logout" outcome="#{request.contextPath}/j_spring_security_logout">lo </p:link>-->
+                <h:outputLink value="/ispok/j_spring_security_logout">
+                    #{msg.logout}
+                </h:outputLink>
+                <!--<p:link value="#{request.contextPath}/j_spring_security_logout" outcome="#{request.contextPath}/j_spring_security_logout">lo </p:link>-->
 
  <!--<h:outputLink value="#{request.contextPath}/j_spring_security_logout">#{msg.logout}</h:outputLink>-->
             </f:facet>
-        </p:toolbar> 
+        </p:toolbar>
     </h:form>
 </ui:composition>
 

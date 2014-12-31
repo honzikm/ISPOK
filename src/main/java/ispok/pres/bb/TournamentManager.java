@@ -5,7 +5,6 @@
  */
 package ispok.pres.bb;
 
-import ispok.pokerclock.ActiveTournametsHolder;
 import ispok.dto.LevelDto;
 import ispok.dto.OfficeDto;
 import ispok.dto.PayoutPlaceDto;
@@ -13,11 +12,13 @@ import ispok.dto.PayoutStructureDto;
 import ispok.dto.TournamentDto;
 import ispok.dto.VisitorDto;
 import ispok.helper.FacesUtil;
+import ispok.pokerclock.ActiveTournametsHolder;
 import ispok.pokerclock.TournamentController;
 import ispok.service.OfficeService;
 import ispok.service.PayoutStructureService;
 import ispok.service.TournamentService;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.SessionScoped;
@@ -47,7 +48,7 @@ public class TournamentManager {
     private Long officeId;
     private Long tournamentId;
     private List<TournamentDto> activeTournaments;
-    private TournamentDto tournament;
+//    private TournamentDto tournament;
     private TournamentController tournamentController;
     private PayoutStructureDto payoutStructureDto;
     private List<PayoutPlaceDto> payoutPlaces;
@@ -56,15 +57,18 @@ public class TournamentManager {
     private List<VisitorDto> filteredVisitors;
     private VisitorDto selectedVisitor;
 
+    private boolean showPokerClock;
+
     private float prizePoll;
 
     @PostConstruct
     private void init() {
-        tournamentController = new TournamentController();
+        tournamentController = null;
         activeTournaments = new ArrayList<>(20);
         officeId = (long) 0;
         tournamentId = (long) 0;
         payoutPlaces = new ArrayList<>(20);
+        showPokerClock = false;
     }
 
     /**
@@ -111,7 +115,9 @@ public class TournamentManager {
      */
     public void setTournamentId(Long id) {
         this.tournamentId = id;
-        tournamentController = activeTournametsHolder.loadTournament(id);
+        if (tournamentId != 0) {
+            tournamentController = activeTournametsHolder.loadTournament(tournamentId);
+        }
     }
 
     /**
@@ -137,6 +143,23 @@ public class TournamentManager {
 //                activeTournaments.add(tdto);
 //            }
 //        }
+        List<TournamentDto> allTournaments = tournamentService.getAll();
+        activeTournaments.clear();
+        for (TournamentDto tdto : allTournaments) {
+            if (tdto.getPlaceId().equals(officeId) && tdto.getFinish() == null) {
+                activeTournaments.add(tdto);
+            }
+        }
+        if (activeTournaments.isEmpty()) {
+            tournamentId = new Long(0);
+            tournamentController = null;
+            tournamentId = (long) 0;
+            payoutPlaces = new ArrayList<>(20);
+            showPokerClock = false;
+        } else {
+            setTournamentId(activeTournaments.get(0).getId());
+            showPokerClock = true;
+        }
     }
 
     public List<OfficeDto> getAllOffices() {
@@ -148,32 +171,24 @@ public class TournamentManager {
     }
 
     public List<TournamentDto> getActiveTournaments() {
-        List<TournamentDto> allTournaments = tournamentService.getAll();
-        activeTournaments.clear();
-        for (TournamentDto tdto : allTournaments) {
-            if (tdto.getPlaceId().equals(officeId) && tdto.getFinish() == null) {
-                activeTournaments.add(tdto);
-            }
-        }
-        if (activeTournaments.isEmpty()) {
-            tournamentController = null;
-            tournamentId = (long) 0;
-            payoutPlaces = new ArrayList<>(20);
-        } else {
-            setTournamentId(activeTournaments.get(0).getId());
-        }
+
         return activeTournaments;
     }
 
-    public TournamentController getTournamentController() {
-        return tournamentController;
-    }
-
+//    public TournamentController getTournamentController() {
+//        return tournamentController;
+//    }
     public int getPlayersCount() {
-        return tournamentController.getPlayersCount();
+        if (tournamentController != null) {
+            return tournamentController.getPlayers().size();
+        }
+        return 0;
     }
 
     public String getTime() {
+        if (tournamentController == null) {
+            return "0";
+        }
         int time_s = tournamentController.getTime_s();
         int minutes = time_s / 60;
         int seconds = time_s % 60;
@@ -181,10 +196,16 @@ public class TournamentManager {
     }
 
     public int getLevelNumber() {
+        if (tournamentController == null) {
+            return 0;
+        }
         return tournamentController.getCurrentLevel().getNumber();
     }
 
     public LevelDto getLevelDto() {
+        if (tournamentController == null) {
+            return new LevelDto();
+        }
         return tournamentController.getCurrentLevel();
     }
 
@@ -229,6 +250,10 @@ public class TournamentManager {
     }
 
     public void addPlayer(Long id) {
+        if (tournamentController == null) {
+            FacesUtil.addWarnMessage("warn", "warn");
+            return;
+        }
         if (tournamentController.containsPlayer(id)) {
             FacesUtil.addWarnMessage("warn", "tournament_player_already_in");
         } else {
@@ -238,39 +263,99 @@ public class TournamentManager {
     }
 
     public void removePlayer(Long id) {
+        if (tournamentController == null) {
+            FacesUtil.addWarnMessage("warn", "warn");
+            return;
+        }
         tournamentController.removePlayer(id);
         FacesUtil.addInfoMessage("success", "player_removed");
     }
 
     public int getEntries() {
+        if (tournamentController == null) {
+            return 0;
+        }
         return tournamentController.getEntries();
     }
 
+    public float getBuyin() {
+        if (tournamentController == null) {
+            return 0;
+        }
+        return tournamentController.getTournamentDto().getBuyin();
+    }
+
+    public float getAddon() {
+        if (tournamentController == null) {
+            return 0;
+        }
+        return tournamentController.getTournamentDto().getAddon();
+    }
+
+    public Date getLateReg() {
+        if (tournamentController == null) {
+            return null;
+        }
+        return tournamentController.getTournamentDto().getLateReg();
+    }
+
+    public String getInfo() {
+        if (tournamentController == null) {
+            return "";
+        }
+        return tournamentController.getTournamentDto().getInfo();
+    }
+
     public List<VisitorDto> getPlayers() {
+        if (tournamentController == null) {
+            return null;
+        }
         return tournamentController.getPlayers();
     }
 
     public void start() {
+        if (tournamentController == null) {
+            FacesUtil.addWarnMessage("warn", "warn");
+            return;
+        }
         tournamentController.start();
     }
 
     public void pause() {
+        if (tournamentController == null) {
+            FacesUtil.addWarnMessage("warn", "warn");
+            return;
+        }
         tournamentController.pause();
     }
 
     public void prevLevel() {
+        if (tournamentController == null) {
+            FacesUtil.addWarnMessage("warn", "warn");
+            return;
+        }
         tournamentController.setPrevCounter();
     }
 
     public void nextLevel() {
+        if (tournamentController == null) {
+            FacesUtil.addWarnMessage("warn", "warn");
+            return;
+        }
         tournamentController.setNextCounter();
     }
 
     public boolean isBreak() {
+        if (tournamentController == null) {
+            return false;
+        }
         return tournamentController.isLevelBreak();
     }
 
     public void loadPayouts() {
+        if (tournamentController == null) {
+            return;
+        }
         payoutPlaces.clear();
         try {
             payoutPlaces = new ArrayList<>(tournamentController.getPayoutPlaces());
@@ -291,6 +376,9 @@ public class TournamentManager {
     }
 
     public float getEntryPrizePool() {
+        if (tournamentController == null) {
+            return 0;
+        }
         try {
             TournamentDto tournamentDto = tournamentController.getTournamentDto();
             return tournamentController.getEntries() * tournamentDto.getBuyin();
@@ -378,13 +466,25 @@ public class TournamentManager {
     }
 
     public void savePayouts() {
+        if (tournamentController == null) {
+            FacesUtil.addWarnMessage("warn", "warn");
+            return;
+        }
         tournamentController.setPayoutPlaces(new ArrayList<PayoutPlaceDto>(payoutPlaces));
         tournamentController.setPrizePool(prizePoll);
         FacesUtil.addInfoMessage("success", "payouts_saved");
     }
 
     public void sitout(Long playerId) {
+        if (tournamentController == null) {
+            FacesUtil.addWarnMessage("warn", "warn");
+            return;
+        }
         tournamentController.sitoutPlayer(playerId);
         FacesUtil.addInfoMessage("success", "player_sitout");
+    }
+
+    public boolean isShowPokerClock() {
+        return showPokerClock;
     }
 }

@@ -1,5 +1,5 @@
 
-<ui:composition  xmlns="http://www.w3.org/1999/xhtml"   
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
                  xmlns:h="http://java.sun.com/jsf/html"
                  xmlns:ui="http://java.sun.com/jsf/facelets"
                  xmlns:p="http://primefaces.org/ui"
@@ -15,8 +15,8 @@
 
     <ui:define name="centerContent" >
 
-        <p:panel id="panel" 
-                 header="#{msg.visitor_edit_confirm}" 
+        <p:panel id="panel"
+                 header="#{msg.visitor_edit_confirm}"
                  >
 
             <h:form>
@@ -65,7 +65,7 @@
                                 <li class="inline">
                                     <p:commandButton value="#{msg.cancel}" action="#{visitorEdit.cancel()}">
                                         <!--<p:resetInput target="newOfficeForm" />-->
-                                        <!--<p:ajax update="newVisitorForm" resetValues="true"/>--> 
+                                        <!--<p:ajax update="newVisitorForm" resetValues="true"/>-->
                                     </p:commandButton>
                                 </li>
                             </ul>
@@ -74,7 +74,9 @@
 
                 </table>
 
-                <p:blockUI block=":panel" trigger="okBtn">
+                <p:blockUI block=":panel"
+                           trigger="okBtn"
+                           >
                     SAVING...
                 </p:blockUI>
 

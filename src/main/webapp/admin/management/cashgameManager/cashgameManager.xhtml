@@ -1,5 +1,5 @@
 
-<ui:composition  xmlns="http://www.w3.org/1999/xhtml"   
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
                  xmlns:h="http://java.sun.com/jsf/html"
                  xmlns:ui="http://java.sun.com/jsf/facelets"
                  xmlns:p="http://primefaces.org/ui"
@@ -16,10 +16,10 @@
     <ui:define name="centerContent"
                >
 
-        <p:growl id="growl" 
+        <p:growl id="growl"
                  showDetail="true"
                  globalOnly="true"
-                 /> 
+                 />
 
         <p:panel header="#{msg.cashgame_manager}" >
             <table>
@@ -41,7 +41,7 @@
                                            itemLabel="#{of.name}"
                                            itemValue="#{of.id}"
                                            />
-                            <p:ajax update="cashgame info bigBlind smallBlind ante minBuyin maxBuyin rake maxRake chillTime points activeVisitorsTableId" 
+                            <p:ajax update="cashgame info bigBlind smallBlind ante minBuyin maxBuyin rake maxRake chillTime points activeVisitorsTableId"
                                     process="office"
                                     partialSubmit="true"
                                     />
@@ -64,8 +64,8 @@
                                            itemValue="#{cg.id}"
                                            />
                             <p:ajax update="info bigBlind smallBlind ante minBuyin maxBuyin rake maxRake chillTime points :activeVisitorsTableId"
-                                    process="cashgame" 
-                                    event="change" 
+                                    process="cashgame"
+                                    event="change"
                                     partialSubmit="true"
                                     />
                         </p:selectOneMenu>
@@ -179,9 +179,9 @@
                 </tr>
             </table>
 
-            <!--            <p:selectManyMenu id="basic" 
+            <!--            <p:selectManyMenu id="basic"
                                           value="#{selectManyView.selectedOptions}"
-            
+
                                           >
                             <f:selectItems value="#{cashgameManager.activeVisitors}"
                                            />
@@ -195,19 +195,19 @@
                          widgetVar="activeVisitorsDataTable"
                          value="#{cashgameManager.players}"
                          var="player"
-                         paginator="true" 
+                         paginator="true"
                          rows="25"
                          paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                          rowsPerPageTemplate="10, 25"
                          rowKey="#{player.id}"
                          >
                 <p:column headerText="#{msg.id}"
-                          >  
-    <!--                    sortBy="#{activeVisitor.id}" 
+                          >
+    <!--                    sortBy="#{activeVisitor.id}"
                     filterBy="#{activeVisitor.id}"
                     filterMatchMode="startsWith"-->
-                    <h:outputText value="#{player.id}" 
-                                  />  
+                    <h:outputText value="#{player.id}"
+                                  />
                 </p:column>
                 <p:column headerText="#{msg.firstName}"
                           >
@@ -236,10 +236,10 @@
                 </p:column>
 
                 <p:column width="15"
-                          >   
+                          >
                     <p:commandLink id="removeLink"
-                                   title="#{msg.remove}" 
-                                   styleClass="ui-icon ui-icon-minusthick" 
+                                   title="#{msg.remove}"
+                                   styleClass="ui-icon ui-icon-minusthick"
                                    action="#{cashgameManager.removeVisitor(player.id)}"
                                    partialSubmit="true"
                                    process="removeLink"
@@ -254,21 +254,21 @@
             </p>
             <!--<h:form>-->
         <!--                <p:outputLabel value="#{msg.search}:" for="search" />
-                <p:autoComplete id="search" 
-                                queryDelay="500" 
-                                value="#{cashgameManager.autoCompleteText}" 
+                <p:autoComplete id="search"
+                                queryDelay="500"
+                                value="#{cashgameManager.autoCompleteText}"
                                 completeMethod="#{cashgameManager.completeText}"
-                                effect="blind" 
+                                effect="blind"
                                 />-->
-            <p:dataTable id="visitorsTableId" 
-                         widgetVar="visitorsTable" 
-                         var="visitor" 
-                         value="#{visitorEdit.visitorLazyModel}" 
-                         paginator="true" 
+            <p:dataTable id="visitorsTableId"
+                         widgetVar="visitorsTable"
+                         var="visitor"
+                         value="#{visitorEdit.visitorLazyModel}"
+                         paginator="true"
                          rows="25"
                          paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                          rowsPerPageTemplate="10, 25"
-                         lazy="true" 
+                         lazy="true"
                          filteredValue="#{visitorEdit.filteredVisitors}"
                          rowKey="#{visitor.id}"
                          >
@@ -276,36 +276,36 @@
                                              selection="#{visitorEdit.selectedVisitor}"-->
 
                 <p:column headerText="#{msg.id}"
-                          sortBy="#{visitor.id}" 
+                          sortBy="#{visitor.id}"
                           filterBy="#{visitor.id}"
                           filterMatchMode="startsWith"
-                          >  
-                    <h:outputText value="#{visitor.id}" 
-                                  />  
+                          >
+                    <h:outputText value="#{visitor.id}"
+                                  />
                 </p:column>
 
                 <p:column   headerText="#{msg.visitor_firstname}"
                             sortBy="#{visitor.firstName}"
-                            filterBy="#{visitor.firstName}" 
-                            filterMatchMode="startsWith" 
+                            filterBy="#{visitor.firstName}"
+                            filterMatchMode="startsWith"
 
                             >
                     <h:outputText value="#{visitor.firstName}"
-                                  />  
-                </p:column>  
+                                  />
+                </p:column>
 
                 <p:column sortBy="#{visitor.lastName}"
-                          filterBy="#{visitor.lastName}" 
+                          filterBy="#{visitor.lastName}"
                           headerText="#{msg.visitor_lastname}"
                           >
                     <h:outputText value="#{visitor.lastName}"
                                   />
                 </p:column>
 
-                <p:column sortBy="#{visitor.birthDate}" 
+                <p:column sortBy="#{visitor.birthDate}"
                           headerText="#{msg.visitor_birthdate}"
                           >
-                    <h:outputText value="#{visitor.birthDate}" 
+                    <h:outputText value="#{visitor.birthDate}"
                                   />
                 </p:column>
 
@@ -314,7 +314,7 @@
                     <!--                        <p:commandButton icon="ui-icon-search"
                                                              />-->
                     <p:commandLink  id="detailVisitor"
-                                    title="View Detail" 
+                                    title="View Detail"
                                     styleClass="ui-icon ui-icon-search"
                                     partialSubmit="true"
                                     process="detailVisitor"
@@ -323,10 +323,10 @@
                 </p:column>
 
                 <p:column width="15"
-                          >   
+                          >
                     <p:commandLink  id="addLink"
-                                    title="#{msg.player_add}" 
-                                    styleClass="ui-icon ui-icon-plusthick" 
+                                    title="#{msg.player_add}"
+                                    styleClass="ui-icon ui-icon-plusthick"
                                     action="#{cashgameManager.addVisitor(visitor.id)}"
                                     partialSubmit="true"
                                     process="addLink"
@@ -334,7 +334,7 @@
                     </p:commandLink>
                 </p:column>
 
-            </p:dataTable> 
+            </p:dataTable>
         </p:panel>
         <!--</h:form>-->
 
@@ -345,4 +345,4 @@
 
     </ui:define>
 
-</ui:composition> 
+</ui:composition>

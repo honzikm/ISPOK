@@ -42,9 +42,8 @@ public class CashgameManager {
 
     private List<CashgameDto> cashgames;
 
-    private List<VisitorDto> activeVisitors;
-
-    private OfficeDto office;
+//    private List<VisitorDto> activeVisitors;
+//    private OfficeDto office;
     private CashgameDto cashgame;
     private Long officeId;
     private Long cashgameId;

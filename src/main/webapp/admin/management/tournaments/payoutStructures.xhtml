@@ -1,4 +1,4 @@
-<ui:composition  xmlns="http://www.w3.org/1999/xhtml"   
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
                  xmlns:h="http://java.sun.com/jsf/html"
                  xmlns:ui="http://java.sun.com/jsf/facelets"
                  xmlns:p="http://primefaces.org/ui"
@@ -14,10 +14,10 @@
 
     <ui:define name="centerContent">
 
-        <p:growl id="growl" 
-                 showDetail="true" 
+        <p:growl id="growl"
+                 showDetail="true"
                  globalOnly="true"
-                 /> 
+                 />
 
         <p:panel header="#{msg.payout_structures}"
                  >
@@ -40,8 +40,8 @@
                                                itemValue="#{ps.id}"
                                                />
                                 <p:ajax update="payoutTable"
-                                        process="payoutStructure" 
-                                        event="change" 
+                                        process="payoutStructure"
+                                        event="change"
                                         partialSubmit="true"
                                         />
                             </p:selectOneMenu>

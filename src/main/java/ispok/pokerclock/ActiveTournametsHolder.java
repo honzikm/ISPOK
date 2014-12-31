@@ -38,7 +38,7 @@ public class ActiveTournametsHolder {
 
     public synchronized TournamentController loadTournament(Long id) {
         for (TournamentController tc : tournamentControllers) {
-            if (tc.getTournamentId().equals(id)) {
+            if (tc.getTournamentDto().getId().equals(id)) {
                 return tc;
             }
         }
@@ -65,7 +65,7 @@ public class ActiveTournametsHolder {
 
     public boolean contains(Long id) {
         for (TournamentController tc : tournamentControllers) {
-            if (tc.getTournamentId().equals(id)) {
+            if (tc.getTournamentDto().getId().equals(id)) {
                 return true;
             }
         }

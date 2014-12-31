@@ -5,7 +5,6 @@
  */
 package ispok.pres.bb;
 
-import ispok.dto.LevelDto;
 import ispok.dto.PayoutPlaceDto;
 import ispok.dto.PayoutStructureDto;
 import ispok.helper.FacesUtil;

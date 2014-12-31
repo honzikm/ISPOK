@@ -64,6 +64,7 @@ public class TournamentStructureEdit {
     @PostConstruct
     private void init() {
         tournamentStructure = new TournamentStructureDto();
+        levels = new ArrayList<>(20);
 //        LevelDto level = new LevelDto();
 //        level.setBigBlind(0);
 //        level.setSmallBlind(0);
@@ -80,7 +81,13 @@ public class TournamentStructureEdit {
     }
 
     public List<TournamentStructureDto> getTournamentStructures() {
-        return tournamentStructureService.getAll();
+        List<TournamentStructureDto> tournamentStructures = tournamentStructureService.getAll();
+        if (tournamentStructures != null && !tournamentStructures.isEmpty()) {
+            setTournamentStructureId(tournamentStructures.get(0).getId());
+        } else {
+            levels.clear();
+        }
+        return tournamentStructures;
     }
 
     public void addLevel(int levelNumber) {
