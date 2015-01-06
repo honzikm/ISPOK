@@ -15,13 +15,13 @@ import javax.persistence.Entity;
 @Entity
 public class Betset extends AbstractBusinessObject {
 
-    @Column(nullable = false, name = "big_blind")
+    @Column(nullable = false, name = "big_blind", precision = 18, scale = 5)
     private float bigBlind;
 
-    @Column(nullable = false, name = "small_blind")
+    @Column(nullable = false, name = "small_blind", precision = 18, scale = 5)
     private float smallBlind;
 
-    @Column(nullable = false)
+    @Column(nullable = false, precision = 18, scale = 5)
     private float ante;
 
     public Betset() {

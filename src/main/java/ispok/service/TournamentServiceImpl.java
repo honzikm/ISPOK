@@ -13,6 +13,7 @@ import ispok.bo.TournamentStructure;
 import ispok.dao.TournamentDao;
 import ispok.dto.TournamentDto;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import org.apache.logging.log4j.LogManager;
@@ -45,6 +46,16 @@ public class TournamentServiceImpl extends AbstractDataAccessService implements 
     @Override
     public List<TournamentDto> getPage(int first, int pageSize, String sortField, boolean ascending, Map<String, Object> filters) {
         List<Tournament> tournaments = tournamentDao.getPage(first, pageSize, sortField, ascending, filters);
+        List<TournamentDto> tournamentDtos = new ArrayList<>(tournaments.size());
+        for (Tournament t : tournaments) {
+            tournamentDtos.add(getTournamentDto(t));
+        }
+        return tournamentDtos;
+    }
+
+    @Override
+    public List<TournamentDto> getUpcoming(Date date) {
+        List<Tournament> tournaments = tournamentDao.getUpcoming(date);
         List<TournamentDto> tournamentDtos = new ArrayList<>(tournaments.size());
         for (Tournament t : tournaments) {
             tournamentDtos.add(getTournamentDto(t));
@@ -129,4 +140,5 @@ public class TournamentServiceImpl extends AbstractDataAccessService implements 
     public void delete(Long id) {
         genericDao.removeById(id, Tournament.class);
     }
+
 }

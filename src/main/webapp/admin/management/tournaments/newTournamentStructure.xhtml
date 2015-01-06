@@ -1,4 +1,4 @@
-<ui:composition  xmlns="http://www.w3.org/1999/xhtml"   
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
                  xmlns:h="http://java.sun.com/jsf/html"
                  xmlns:ui="http://java.sun.com/jsf/facelets"
                  xmlns:p="http://primefaces.org/ui"
@@ -14,10 +14,10 @@
 
     <ui:define name="centerContent">
 
-        <p:growl id="growl" 
-                 showDetail="true" 
+        <p:growl id="growl"
+                 showDetail="true"
                  globalOnly="true"
-                 /> 
+                 />
 
         <p:panel header="#{msg.tournament_new}"
                  >
@@ -26,13 +26,26 @@
 
 
                 <ul class="inline">
-                    <p:outputLabel value="#{msg.name}: "
-                                   for="name"
+                    <li>
+                        <p:outputLabel value="#{msg.name}: "
+                                       for="name"
+                                       />
+                    </li>
+                    <li>
+                        <p:inputText id="name"
+                                     value="#{tournamentStructureEdit.tournamentStructure.name}"
+                                     required="true"
+                                     requiredMessage="#{msg.required}"
+                                     >
+                            <f:validator validatorId="tournamentStructureNameValidator"
+                                         />
+                        </p:inputText>
+                    </li>
+                    <li>
+                        <p:message for="name"
+                                   id="nameMsg"
                                    />
-
-                    <p:inputText id="name"
-                                 value="#{tournamentStructureEdit.tournamentStructure.name}"
-                                 />
+                    </li>
                 </ul>
 
 
@@ -47,7 +60,7 @@
                                             <div align="right"
                                                  >
                                                 <p:commandButton id="resetButton"
-                                                                 value="#{msg.reset}"  
+                                                                 value="#{msg.reset}"
                                                                  action="#{tournamentStructureEdit.clear()}"
                                                                  partialSubmit="true"
                                                                  process="resetButton"
@@ -142,7 +155,7 @@
                     </p:column>
 
 
-                    <p:column 
+                    <p:column
                         width="10"
                         >
                         <p:commandLink id="removeLink"
@@ -155,7 +168,7 @@
                                        />
                     </p:column>
 
-                    <p:column 
+                    <p:column
                         width="10"
                         >
                         <p:commandLink id="addLink"
@@ -170,25 +183,30 @@
                 </p:dataTable>
 
 
-                <ul class="center, inline"> 
+                <ul class="center, inline">
                     <p:commandButton value="#{msg.save}"
                                      action="#{tournamentStructureEdit.add()}"
+                                     update=":growl nameMsg"
                                      />
 
 
                     <p:commandButton id="resetButton"
-                                     value="#{msg.reset}"  
+                                     value="#{msg.reset}"
                                      action="#{tournamentStructureEdit.clear()}"
                                      update="newStructureForm"
+                                     partialSubmit="true"
+                                     process="@this"
                                      >
-                        <!--                    <p:ajax update="newStructureForm"
-                                                    resetValues="true"
-                                                    />-->
+                        <p:ajax update="newStructureForm"
+                                resetValues="true"
+                                />
                     </p:commandButton>
 
 
                     <p:commandButton value="#{msg.cancel}"
                                      action="#{tournamentStructureEdit.cancel()}"
+                                     partialSubmit="true"
+                                     process="@this"
                                      />
                 </ul>
             </h:form>

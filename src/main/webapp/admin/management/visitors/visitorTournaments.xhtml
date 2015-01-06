@@ -1,0 +1,88 @@
+
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://xmlns.jcp.org/jsf/core"
+                 xmlns:mp ="http://myprimefaces.junkpunk.cz/facelets"
+                 template="/admin/template/adminTemplate.xhtml"
+
+                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="title">
+        <title>#{msg.visitor} | #{msg.ispok}</title>
+    </ui:define>
+
+
+    <ui:define name="centerContent"
+               >
+
+        <p:growl id="growl" showDetail="true" />
+
+        <p:panel header="#{msg.tournaments} for #{visitorEdit.visitorDto.firstName} #{visitorEdit.visitorDto.lastName}"
+                 >
+
+            <h:form id="dataForm"
+                    >
+
+                <p:dataTable id="cashgamesTable"
+                             var="ts"
+                             value="#{visitorEdit.tournaments}"
+                             paginator="true"
+                             rows="25"
+                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                             rowsPerPageTemplate="10, 25"
+                             rowKey="#{ts.id}"
+                             >
+
+                    <p:column headerText="#{msg.id}"
+                              sortBy="#{ts.id}"
+                              >
+                        <h:outputText value="#{ts.id}"
+                                      />
+                    </p:column>
+
+                    <p:column headerText="#{msg.tournament} #{msg.id}"
+                              sortBy="#{ts.tournamentId}"
+                              >
+                        <h:outputText value="#{ts.tournamentId}"
+                                      />
+                    </p:column>
+
+                    <p:column headerText="#{msg.place}"
+                              sortBy="#{ts.place}"
+                              >
+                        <h:outputText value="#{ts.place}"
+                                      />
+                    </p:column>
+
+                    <p:column headerText="#{msg.sitout}"
+                              sortBy="#{ts.sitout}"
+                              >
+                        <h:outputText value="#{ts.sitout}"
+                                      />
+                    </p:column>
+
+                    <p:column headerText="#{msg.money}"
+                              sortBy="#{ts.money}"
+                              >
+                        <h:outputText value="#{ts.money}"
+                                      />
+                    </p:column>
+
+                </p:dataTable>
+
+                <ul class="center, inline">
+                    <li>
+                        <p:commandButton value="#{msg.back}"
+                                         action="#{navigation.goVisitor()}"
+                                         partialSubmit="true"
+                                         process="@this"
+                                         >
+                        </p:commandButton>
+                    </li>
+                </ul>
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>

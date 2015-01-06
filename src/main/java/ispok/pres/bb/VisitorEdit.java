@@ -5,26 +5,32 @@
  */
 package ispok.pres.bb;
 
+import ispok.dto.CashgameSessionDto;
 import ispok.dto.CityDto;
 import ispok.dto.CountryDto;
 import ispok.dto.DomicileDto;
 import ispok.dto.PostalCodeDto;
 import ispok.dto.RegionDto;
+import ispok.dto.TournamentSessionDto;
+import ispok.dto.VisitDto;
 import ispok.dto.VisitorDto;
 import ispok.helper.FacesUtil;
 import ispok.helper.ImageUtil;
-import ispok.helper.VisitorLazyDataModel;
+import ispok.service.CashgameSessionService;
 import ispok.service.CityService;
 import ispok.service.CountryService;
 import ispok.service.DomicileService;
 import ispok.service.PostalCodeService;
 import ispok.service.RegionService;
+import ispok.service.TournamentSessionService;
 import ispok.service.VisitorService;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -65,6 +71,10 @@ public class VisitorEdit {
     private CityService cityService;
     @Autowired
     private LazyDataModel<VisitorDto> visitorLazyModel;
+    @Autowired
+    private CashgameSessionService cashgameSessionService;
+    @Autowired
+    private TournamentSessionService tournamentSessionService;
 
     private List<VisitorDto> selected;
     private VisitorDto selectedVisitor;
@@ -80,6 +90,10 @@ public class VisitorEdit {
     private boolean foreigner;
     private boolean foreignerNewVal;
     private NativeUploadedFile photoFile;
+
+    private List<VisitDto> visitDtos;
+    private List<CashgameSessionDto> cashgameSessionDtos;
+    private List<TournamentSessionDto> tournamentSessionDtos;
 
     @PostConstruct
     public void init() {
@@ -108,6 +122,11 @@ public class VisitorEdit {
             foreigner = true;
         }
         foreignerNewVal = foreigner;
+
+        visitDtos = null;
+        cashgameSessionDtos = null;
+        tournamentSessionDtos = null;
+
         RequestContext.getCurrentInstance().addCallbackParam("showDialog", true);
         return true;
     }
@@ -126,8 +145,11 @@ public class VisitorEdit {
         foreignerNewVal = foreigner;
     }
 
-    public void detail() {
-        loadVisitorDetails();
+    public String detail() {
+        if (!loadVisitorDetails()) {
+            return null;
+        }
+        return "/admin/management/visitors/visitor.xhtml";
     }
 
     public String edit() {
@@ -376,4 +398,42 @@ public class VisitorEdit {
         this.photoFile = photoFile;
     }
 
+    public void visit(Long id) {
+        if (visitorService.visit(id, new Date())) {
+            FacesUtil.addInfoMessage("success", "visitor_visit_added");
+        } else {
+            FacesUtil.addErrorMessage("fail", "fail");
+        }
+    }
+
+    public List<VisitDto> getVisits() {
+        if (selectedVisitor != null) {
+            if (visitDtos == null) {
+                visitDtos = visitorService.getVisitsByVisitorId(visitorDto.getId());
+            }
+            return visitDtos;
+        }
+        return new ArrayList<>(0);
+
+    }
+
+    public List<CashgameSessionDto> getCashgames() {
+        if (selectedVisitor != null) {
+            if (cashgameSessionDtos == null) {
+                cashgameSessionDtos = cashgameSessionService.getByVisitorId(visitorDto.getId());
+            }
+            return cashgameSessionDtos;
+        }
+        return new ArrayList<>(0);
+    }
+
+    public List<TournamentSessionDto> getTournaments() {
+        if (selectedVisitor != null) {
+            if (tournamentSessionDtos == null) {
+                tournamentSessionDtos = tournamentSessionService.getByVisitorId(visitorDto.getId());
+            }
+            return tournamentSessionDtos;
+        }
+        return new ArrayList<>(0);
+    }
 }

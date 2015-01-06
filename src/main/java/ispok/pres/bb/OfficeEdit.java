@@ -29,7 +29,7 @@ public class OfficeEdit implements Serializable {
 
     private List<OfficeDto> offices;
     private List<OfficeDto> filteredOffices;
-    private OfficeDto[] selected;
+    private OfficeDto selected;
 
     @Autowired
     private OfficeService officeService;
@@ -57,11 +57,11 @@ public class OfficeEdit implements Serializable {
         this.filteredOffices = filteredOffices;
     }
 
-    public OfficeDto[] getSelected() {
+    public OfficeDto getSelected() {
         return selected;
     }
 
-    public void setSelected(OfficeDto[] selected) {
+    public void setSelected(OfficeDto selected) {
         this.selected = selected;
     }
 
@@ -82,7 +82,7 @@ public class OfficeEdit implements Serializable {
     }
 
     public void updateOffice() {
-        OfficeDto officeDto = selected[0];
+        OfficeDto officeDto = selected;
         officeDto.setName(office.getName());
         officeDto.setInfo(office.getInfo());
         officeService.updateOffice(officeDto);
@@ -90,9 +90,17 @@ public class OfficeEdit implements Serializable {
     }
 
     public void delete() {
-        for (OfficeDto officeDto : selected) {
-            officeService.deleteOffice(officeDto.getId());
-            offices.remove(officeDto);
+        if (selected == null) {
+            FacesUtil.addWarnMessage("warn", "no_item_selected");
+            RequestContext.getCurrentInstance().addCallbackParam("showDialog", false);
+            return;
+        }
+        try {
+            officeService.deleteOffice(selected.getId());
+            offices.remove(selected);
+        } catch (DataIntegrityViolationException e) {
+            FacesUtil.addWarnMessage("failed", "office_delete_invalid");
+            return;
         }
         FacesUtil.addInfoMessage("success", "office_delete_success");
     }
@@ -102,12 +110,12 @@ public class OfficeEdit implements Serializable {
     }
 
     public void loadOffice() {
-        if (selected.length == 0) {
+        if (selected == null) {
             FacesUtil.addWarnMessage("warn", "no_item_selected");
             RequestContext.getCurrentInstance().addCallbackParam("showDialog", false);
             return;
         }
-        office = selected[0];
+        office = selected;
         RequestContext.getCurrentInstance().addCallbackParam("showDialog", true);
     }
 }

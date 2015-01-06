@@ -1,0 +1,242 @@
+---- AspectJ Properties ---
+AspectJ Compiler 1.8.2 built on Thursday Aug 14, 2014 at 21:45:02 GMT
+---- Dump Properties ---
+Dump file: ajcore.20150103.152126.566.txt
+Dump reason: java.io.FileNotFoundException
+Dump on exception: true
+Dump at exit condition: abort
+---- Exception Information ---
+java.io.FileNotFoundException: D:\STM\AD0B36BAP\ISPOK\target\classes\ispok\bo\PayoutPlace.class (The system cannot find the file specified)
+	at java.io.FileInputStream.open(Native Method)
+	at java.io.FileInputStream.<init>(FileInputStream.java:138)
+	at org.aspectj.weaver.bcel.BcelWeaver.addAspectsFromDirectory(BcelWeaver.java:294)
+	at org.aspectj.weaver.bcel.BcelWeaver.addLibraryJarFile(BcelWeaver.java:234)
+	at org.aspectj.ajdt.internal.core.builder.AjBuildManager.initBcelWorld(AjBuildManager.java:874)
+	at org.aspectj.ajdt.internal.core.builder.AjBuildManager.performBuild(AjBuildManager.java:249)
+	at org.aspectj.ajdt.internal.core.builder.AjBuildManager.batchBuild(AjBuildManager.java:185)
+	at org.aspectj.ajdt.ajc.AjdtCommand.doCommand(AjdtCommand.java:112)
+	at org.aspectj.ajdt.ajc.AjdtCommand.runCommand(AjdtCommand.java:60)
+	at org.aspectj.tools.ajc.Main.run(Main.java:371)
+	at org.aspectj.tools.ajc.Main.runMain(Main.java:248)
+	at org.codehaus.mojo.aspectj.AbstractAjcCompiler.execute(AbstractAjcCompiler.java:524)
+	at org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo(DefaultBuildPluginManager.java:132)
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:208)
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:153)
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:145)
+	at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject(LifecycleModuleBuilder.java:116)
+	at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject(LifecycleModuleBuilder.java:80)
+	at org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build(SingleThreadedBuilder.java:51)
+	at org.apache.maven.lifecycle.internal.LifecycleStarter.execute(LifecycleStarter.java:120)
+	at org.apache.maven.DefaultMaven.doExecute(DefaultMaven.java:347)
+	at org.apache.maven.DefaultMaven.execute(DefaultMaven.java:154)
+	at org.apache.maven.cli.MavenCli.execute(MavenCli.java:582)
+	at org.apache.maven.cli.MavenCli.doMain(MavenCli.java:214)
+	at org.apache.maven.cli.MavenCli.main(MavenCli.java:158)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:483)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced(Launcher.java:289)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.launch(Launcher.java:229)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode(Launcher.java:415)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.main(Launcher.java:356)
+---- System Properties ---
+java.runtime.name=Java(TM) SE Runtime Environment
+sun.boot.library.path=C:\Program Files\Java\jdk1.8.0_25\jre\bin
+java.vm.version=25.25-b02
+user.country.format=CZ
+java.vm.vendor=Oracle Corporation
+java.vendor.url=http://java.oracle.com/
+guice.disable.misplaced.annotation.check=true
+path.separator=;
+java.vm.name=Java HotSpot(TM) 64-Bit Server VM
+file.encoding.pkg=sun.io
+user.country=GB
+user.script=
+sun.java.launcher=SUN_STANDARD
+sun.os.patch.level=
+java.vm.specification.name=Java Virtual Machine Specification
+user.dir=D:\STM\AD0B36BAP\ISPOK
+java.runtime.version=1.8.0_25-b18
+java.awt.graphicsenv=sun.awt.Win32GraphicsEnvironment
+java.endorsed.dirs=C:\Program Files\Java\jdk1.8.0_25\jre\lib\endorsed
+os.arch=amd64
+java.io.tmpdir=C:\Users\Jan\AppData\Local\Temp\
+line.separator=
+
+java.vm.specification.vendor=Oracle Corporation
+user.variant=
+os.name=Windows 8.1
+maven.ext.class.path=C:\Program Files\NetBeans 8.0.1\java\maven-nblib\netbeans-eventspy.jar
+classworlds.conf=C:\Program Files\Apache Software Foundation\apache-maven-3.2.3\bin\m2.conf
+sun.jnu.encoding=Cp1250
+java.library.path=C:\Program Files\Java\jdk1.8.0_25\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\ATI Technologies\ATI.ACE\Core-Static;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\Windows Live\Shared;C:\Program Files (x86)\Common Files\Acronis\SnapAPI\;C:\Program Files (x86)\texlive\2014\bin\win32;.
+java.specification.name=Java Platform API Specification
+java.class.version=52.0
+sun.management.compiler=HotSpot 64-Bit Tiered Compilers
+os.version=6.3
+user.home=C:\Users\Jan
+user.timezone=Europe/Prague
+java.awt.printerjob=sun.awt.windows.WPrinterJob
+file.encoding=UTF-8
+java.specification.version=1.8
+java.class.path=C:\Program Files\Apache Software Foundation\apache-maven-3.2.3\boot\plexus-classworlds-2.5.1.jar
+user.name=Jan
+java.vm.specification.version=1.8
+sun.java.command=org.codehaus.plexus.classworlds.launcher.Launcher -Dmaven.ext.class.path=C:\Program Files\NetBeans 8.0.1\java\maven-nblib\netbeans-eventspy.jar -Dfile.encoding=UTF-8 clean install
+java.home=C:\Program Files\Java\jdk1.8.0_25\jre
+sun.arch.data.model=64
+user.language=en
+java.specification.vendor=Oracle Corporation
+user.language.format=cs
+awt.toolkit=sun.awt.windows.WToolkit
+java.vm.info=mixed mode
+java.version=1.8.0_25
+java.ext.dirs=C:\Program Files\Java\jdk1.8.0_25\jre\lib\ext;C:\Windows\Sun\Java\lib\ext
+sun.boot.class.path=C:\Program Files\Java\jdk1.8.0_25\jre\lib\resources.jar;C:\Program Files\Java\jdk1.8.0_25\jre\lib\rt.jar;C:\Program Files\Java\jdk1.8.0_25\jre\lib\sunrsasign.jar;C:\Program Files\Java\jdk1.8.0_25\jre\lib\jsse.jar;C:\Program Files\Java\jdk1.8.0_25\jre\lib\jce.jar;C:\Program Files\Java\jdk1.8.0_25\jre\lib\charsets.jar;C:\Program Files\Java\jdk1.8.0_25\jre\lib\jfr.jar;C:\Program Files\Java\jdk1.8.0_25\jre\classes
+java.vendor=Oracle Corporation
+maven.home=C:\Program Files\Apache Software Foundation\apache-maven-3.2.3
+file.separator=\
+java.vendor.url.bug=http://bugreport.sun.com/bugreport/
+sun.io.unicode.encoding=UnicodeLittle
+sun.cpu.endian=little
+sun.desktop=windows
+sun.cpu.isalist=amd64
+---- Command Line ---
+-1.8
+-encoding
+UTF-8
+-source
+1.8
+-target
+1.8
+-classpath
+C:\Users\Jan\.m2\repository\com\sun\faces\jsf-api\2.2.6\jsf-api-2.2.6.jar;C:\Users\Jan\.m2\repository\com\sun\faces\jsf-impl\2.2.6\jsf-impl-2.2.6.jar;C:\Users\Jan\.m2\repository\javax\servlet\javax.servlet-api\3.1.0\javax.servlet-api-3.1.0.jar;C:\Users\Jan\.m2\repository\javax\servlet\jsp\jsp-api\2.2\jsp-api-2.2.jar;C:\Users\Jan\.m2\repository\org\hibernate\hibernate-entitymanager\4.3.6.Final\hibernate-entitymanager-4.3.6.Final.jar;C:\Users\Jan\.m2\repository\org\springframework\spring-core\4.1.2.RELEASE\spring-core-4.1.2.RELEASE.jar;C:\Users\Jan\.m2\repository\org\springframework\spring-context\4.1.2.RELEASE\spring-context-4.1.2.RELEASE.jar;C:\Users\Jan\.m2\repository\org\springframework\spring-orm\4.1.2.RELEASE\spring-orm-4.1.2.RELEASE.jar;C:\Users\Jan\.m2\repository\org\springframework\spring-web\4.1.2.RELEASE\spring-web-4.1.2.RELEASE.jar;C:\Users\Jan\.m2\repository\org\springframework\spring-test\4.1.2.RELEASE\spring-test-4.1.2.RELEASE.jar;C:\Users\Jan\.m2\repository\org\springframework\security\spring-security-taglibs\3.2.5.RELEASE\spring-security-taglibs-3.2.5.RELEASE.jar;C:\Users\Jan\.m2\repository\org\springframework\webflow\spring-faces\2.4.1.RELEASE\spring-faces-2.4.1.RELEASE.jar;C:\Users\Jan\.m2\repository\org\springframework\security\spring-security-web\3.2.5.RELEASE\spring-security-web-3.2.5.RELEASE.jar;C:\Users\Jan\.m2\repository\org\springframework\security\spring-security-config\3.2.5.RELEASE\spring-security-config-3.2.5.RELEASE.jar;C:\Users\Jan\.m2\repository\org\springframework\spring-aspects\4.1.2.RELEASE\spring-aspects-4.1.2.RELEASE.jar;C:\Users\Jan\.m2\repository\org\springframework\spring-context-support\4.1.2.RELEASE\spring-context-support-4.1.2.RELEASE.jar;C:\Users\Jan\.m2\repository\javax\cache\cache-api\1.0.0\cache-api-1.0.0.jar;C:\Users\Jan\.m2\repository\postgresql\postgresql\9.1-901-1.jdbc4\postgresql-9.1-901-1.jdbc4.jar;C:\Users\Jan\.m2\repository\commons-dbcp\commons-dbcp\1.4\commons-dbcp-1.4.jar;C:\Users\Jan\.m2\repository\org\aspectj\aspectjrt\1.8.4\aspectjrt-1.8.4.jar;C:\Users\Jan\.m2\repository\org\aspectj\aspectjweaver\1.8.4\aspectjweaver-1.8.4.jar;C:\Users\Jan\.m2\repository\org\aspectj\aspectjlib\1.6.2\aspectjlib-1.6.2.jar;C:\Users\Jan\.m2\repository\junit\junit\4.12\junit-4.12.jar;C:\Users\Jan\.m2\repository\org\apache\logging\log4j\log4j-api\2.0-rc1\log4j-api-2.0-rc1.jar;C:\Users\Jan\.m2\repository\org\apache\logging\log4j\log4j-core\2.0-rc1\log4j-core-2.0-rc1.jar;C:\Users\Jan\.m2\repository\org\slf4j\slf4j-api\1.7.7\slf4j-api-1.7.7.jar;C:\Users\Jan\.m2\repository\javax\transaction\jta\1.1\jta-1.1.jar;C:\Users\Jan\.m2\repository\org\hibernate\hibernate-core\4.3.6.Final\hibernate-core-4.3.6.Final.jar;C:\Users\Jan\.m2\repository\org\hibernate\hibernate-commons-annotations\3.2.0.Final\hibernate-commons-annotations-3.2.0.Final.jar;C:\Users\Jan\.m2\repository\org\hibernate\javax\persistence\hibernate-jpa-2.1-api\1.0.0.Final\hibernate-jpa-2.1-api-1.0.0.Final.jar;C:\Users\Jan\.m2\repository\org\primefaces\extensions\all-themes\1.0.8\all-themes-1.0.8.jar;C:\Users\Jan\.m2\repository\commons-io\commons-io\2.4\commons-io-2.4.jar;C:\Users\Jan\.m2\repository\org\primefaces\primefaces\5.1\primefaces-5.1.jar;C:\Users\Jan\.m2\repository\org\jboss\logging\jboss-logging\3.1.3.GA\jboss-logging-3.1.3.GA.jar;C:\Users\Jan\.m2\repository\org\jboss\logging\jboss-logging-annotations\1.2.0.Beta1\jboss-logging-annotations-1.2.0.Beta1.jar;C:\Users\Jan\.m2\repository\dom4j\dom4j\1.6.1\dom4j-1.6.1.jar;C:\Users\Jan\.m2\repository\xml-apis\xml-apis\1.0.b2\xml-apis-1.0.b2.jar;C:\Users\Jan\.m2\repository\org\hibernate\common\hibernate-commons-annotations\4.0.5.Final\hibernate-commons-annotations-4.0.5.Final.jar;C:\Users\Jan\.m2\repository\org\jboss\spec\javax\transaction\jboss-transaction-api_1.2_spec\1.0.0.Final\jboss-transaction-api_1.2_spec-1.0.0.Final.jar;C:\Users\Jan\.m2\repository\org\javassist\javassist\3.18.1-GA\javassist-3.18.1-GA.jar;C:\Users\Jan\.m2\repository\commons-logging\commons-logging\1.1.3\commons-logging-1.1.3.jar;C:\Users\Jan\.m2\repository\org\springframework\spring-aop\4.1.2.RELEASE\spring-aop-4.1.2.RELEASE.jar;C:\Users\Jan\.m2\repository\org\springframework\spring-beans\4.1.2.RELEASE\spring-beans-4.1.2.RELEASE.jar;C:\Users\Jan\.m2\repository\org\springframework\spring-expression\4.1.2.RELEASE\spring-expression-4.1.2.RELEASE.jar;C:\Users\Jan\.m2\repository\org\springframework\spring-jdbc\4.1.2.RELEASE\spring-jdbc-4.1.2.RELEASE.jar;C:\Users\Jan\.m2\repository\org\springframework\spring-tx\4.1.2.RELEASE\spring-tx-4.1.2.RELEASE.jar;C:\Users\Jan\.m2\repository\org\springframework\security\spring-security-acl\3.2.5.RELEASE\spring-security-acl-3.2.5.RELEASE.jar;C:\Users\Jan\.m2\repository\org\springframework\security\spring-security-core\3.2.5.RELEASE\spring-security-core-3.2.5.RELEASE.jar;C:\Users\Jan\.m2\repository\org\springframework\webflow\spring-binding\2.4.1.RELEASE\spring-binding-2.4.1.RELEASE.jar;C:\Users\Jan\.m2\repository\opensymphony\ognl\2.6.11\ognl-2.6.11.jar;C:\Users\Jan\.m2\repository\org\springframework\webflow\spring-webflow\2.4.1.RELEASE\spring-webflow-2.4.1.RELEASE.jar;C:\Users\Jan\.m2\repository\org\springframework\webflow\spring-js\2.4.1.RELEASE\spring-js-2.4.1.RELEASE.jar;C:\Users\Jan\.m2\repository\org\springframework\webflow\spring-js-resources\2.4.1.RELEASE\spring-js-resources-2.4.1.RELEASE.jar;C:\Users\Jan\.m2\repository\org\springframework\spring-webmvc\4.0.6.RELEASE\spring-webmvc-4.0.6.RELEASE.jar;C:\Users\Jan\.m2\repository\aopalliance\aopalliance\1.0\aopalliance-1.0.jar;C:\Users\Jan\.m2\repository\commons-pool\commons-pool\1.5.4\commons-pool-1.5.4.jar;C:\Users\Jan\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\Jan\.m2\repository\antlr\antlr\2.7.7\antlr-2.7.7.jar;C:\Users\Jan\.m2\repository\org\jboss\jandex\1.1.0.Final\jandex-1.1.0.Final.jar;C:\Users\Jan\.m2\repository\org\primefaces\themes\afterdark\1.0.8\afterdark-1.0.8.jar;C:\Users\Jan\.m2\repository\org\primefaces\themes\afternoon\1.0.8\afternoon-1.0.8.jar;C:\Users\Jan\.m2\repository\org\primefaces\themes\afterwork\1.0.8\afterwork-1.0.8.jar;C:\Users\Jan\.m2\repository\org\primefaces\themes\black-tie\1.0.8\black-tie-1.0.8.jar;C:\Users\Jan\.m2\repository\org\primefaces\themes\blitzer\1.0.8\blitzer-1.0.8.jar;C:\Users\Jan\.m2\repository\org\primefaces\themes\bluesky\1.0.8\bluesky-1.0.8.jar;C:\Users\Jan\.m2\repository\org\primefaces\themes\bootstrap\1.0.8\bootstrap-1.0.8.jar;C:\Users\Jan\.m2\repository\org\primefaces\themes\casablanca\1.0.8\casablanca-1.0.8.jar;C:\Users\Jan\.m2\repository\org\primefaces\themes\cruze\1.0.8\cruze-1.0.8.jar;C:\Users\Jan\.m2\repository\org\primefaces\themes\cupertino\1.0.8\cupertino-1.0.8.jar;C:\Users\Jan\.m2\repository\org\primefaces\themes\dark-hive\1.0.8\dark-hive-1.0.8.jar;C:\Users\Jan\.m2\repository\org\primefaces\themes\dot-luv\1.0.8\dot-luv-1.0.8.jar;C:\Users\Jan\.m2\repository\org\primefaces\themes\eggplant\1.0.8\eggplant-1.0.8.jar;C:\Users\Jan\.m2\repository\org\primefaces\themes\excite-bike\1.0.8\excite-bike-1.0.8.jar;C:\Users\Jan\.m2\repository\org\primefaces\themes\flick\1.0.8\flick-1.0.8.jar;C:\Users\Jan\.m2\repository\org\primefaces\themes\glass-x\1.0.8\glass-x-1.0.8.jar;C:\Users\Jan\.m2\repository\org\primefaces\themes\hot-sneaks\1.0.8\hot-sneaks-1.0.8.jar;C:\Users\Jan\.m2\repository\org\primefaces\themes\humanity\1.0.8\humanity-1.0.8.jar;C:\Users\Jan\.m2\repository\org\primefaces\themes\le-frog\1.0.8\le-frog-1.0.8.jar;C:\Users\Jan\.m2\repository\org\primefaces\themes\midnight\1.0.8\midnight-1.0.8.jar;C:\Users\Jan\.m2\repository\org\primefaces\themes\mint-choc\1.0.8\mint-choc-1.0.8.jar;C:\Users\Jan\.m2\repository\org\primefaces\themes\overcast\1.0.8\overcast-1.0.8.jar;C:\Users\Jan\.m2\repository\org\primefaces\themes\pepper-grinder\1.0.8\pepper-grinder-1.0.8.jar;C:\Users\Jan\.m2\repository\org\primefaces\themes\redmond\1.0.8\redmond-1.0.8.jar;C:\Users\Jan\.m2\repository\org\primefaces\themes\rocket\1.0.8\rocket-1.0.8.jar;C:\Users\Jan\.m2\repository\org\primefaces\themes\sam\1.0.8\sam-1.0.8.jar;C:\Users\Jan\.m2\repository\org\primefaces\themes\smoothness\1.0.8\smoothness-1.0.8.jar;C:\Users\Jan\.m2\repository\org\primefaces\themes\south-street\1.0.8\south-street-1.0.8.jar;C:\Users\Jan\.m2\repository\org\primefaces\themes\start\1.0.8\start-1.0.8.jar;C:\Users\Jan\.m2\repository\org\primefaces\themes\sunny\1.0.8\sunny-1.0.8.jar;C:\Users\Jan\.m2\repository\org\primefaces\themes\swanky-purse\1.0.8\swanky-purse-1.0.8.jar;C:\Users\Jan\.m2\repository\org\primefaces\themes\trontastic\1.0.8\trontastic-1.0.8.jar;C:\Users\Jan\.m2\repository\org\primefaces\themes\ui-darkness\1.0.8\ui-darkness-1.0.8.jar;C:\Users\Jan\.m2\repository\org\primefaces\themes\ui-lightness\1.0.8\ui-lightness-1.0.8.jar;C:\Users\Jan\.m2\repository\org\primefaces\themes\vader\1.0.8\vader-1.0.8.jar;C:\Users\Jan\.m2\repository\org\primefaces\themes\home\1.0.8\home-1.0.8.jar;D:\STM\AD0B36BAP\ISPOK\target\test-classes;D:\STM\AD0B36BAP\ISPOK\target\classes
+-aspectpath
+D:\STM\AD0B36BAP\ISPOK\target\classes;C:\Users\Jan\.m2\repository\org\springframework\spring-aspects\4.1.2.RELEASE\spring-aspects-4.1.2.RELEASE.jar
+-d
+D:\STM\AD0B36BAP\ISPOK\target\test-classes
+D:\STM\AD0B36BAP\ISPOK\src\test\java\ispok\service\AbstractServiceTest.java
+D:\STM\AD0B36BAP\ISPOK\src\test\java\ispok\service\TournamentStructureServiceImplTest.java
+---- Full Classpath ---
+C:\Program Files\Java\jdk1.8.0_25\jre\lib\resources.jar(3487757 bytes)
+C:\Program Files\Java\jdk1.8.0_25\jre\lib\rt.jar(62801012 bytes)
+C:\Program Files\Java\jdk1.8.0_25\jre\lib\sunrsasign.jar(missing)
+C:\Program Files\Java\jdk1.8.0_25\jre\lib\jsse.jar(615814 bytes)
+C:\Program Files\Java\jdk1.8.0_25\jre\lib\jce.jar(113593 bytes)
+C:\Program Files\Java\jdk1.8.0_25\jre\lib\charsets.jar(3086224 bytes)
+C:\Program Files\Java\jdk1.8.0_25\jre\lib\jfr.jar(559892 bytes)
+C:\Program Files\Java\jdk1.8.0_25\jre\classes(missing)
+C:\Users\Jan\.m2\repository\org\springframework\spring-aspects\4.1.2.RELEASE\spring-aspects-4.1.2.RELEASE.jar(56736 bytes)
+C:\Program Files\Java\jdk1.8.0_25\jre\lib\ext\access-bridge-64.jar(187471 bytes)
+C:\Program Files\Java\jdk1.8.0_25\jre\lib\ext\cldrdata.jar(3860522 bytes)
+C:\Program Files\Java\jdk1.8.0_25\jre\lib\ext\dnsns.jar(8286 bytes)
+C:\Program Files\Java\jdk1.8.0_25\jre\lib\ext\jaccess.jar(44115 bytes)
+C:\Program Files\Java\jdk1.8.0_25\jre\lib\ext\jfxrt.jar(17070998 bytes)
+C:\Program Files\Java\jdk1.8.0_25\jre\lib\ext\localedata.jar(2248113 bytes)
+C:\Program Files\Java\jdk1.8.0_25\jre\lib\ext\nashorn.jar(1618833 bytes)
+C:\Program Files\Java\jdk1.8.0_25\jre\lib\ext\sunec.jar(39773 bytes)
+C:\Program Files\Java\jdk1.8.0_25\jre\lib\ext\sunjce_provider.jar(278033 bytes)
+C:\Program Files\Java\jdk1.8.0_25\jre\lib\ext\sunmscapi.jar(32654 bytes)
+C:\Program Files\Java\jdk1.8.0_25\jre\lib\ext\sunpkcs11.jar(249280 bytes)
+C:\Program Files\Java\jdk1.8.0_25\jre\lib\ext\zipfs.jar(68837 bytes)
+C:\Users\Jan\.m2\repository\com\sun\faces\jsf-api\2.2.6\jsf-api-2.2.6.jar(693131 bytes)
+C:\Users\Jan\.m2\repository\com\sun\faces\jsf-impl\2.2.6\jsf-impl-2.2.6.jar(2424906 bytes)
+C:\Users\Jan\.m2\repository\javax\servlet\javax.servlet-api\3.1.0\javax.servlet-api-3.1.0.jar(95806 bytes)
+C:\Users\Jan\.m2\repository\javax\servlet\jsp\jsp-api\2.2\jsp-api-2.2.jar(49757 bytes)
+C:\Users\Jan\.m2\repository\org\hibernate\hibernate-entitymanager\4.3.6.Final\hibernate-entitymanager-4.3.6.Final.jar(646300 bytes)
+C:\Users\Jan\.m2\repository\org\springframework\spring-core\4.1.2.RELEASE\spring-core-4.1.2.RELEASE.jar(1005757 bytes)
+C:\Users\Jan\.m2\repository\org\springframework\spring-context\4.1.2.RELEASE\spring-context-4.1.2.RELEASE.jar(1027457 bytes)
+C:\Users\Jan\.m2\repository\org\springframework\spring-orm\4.1.2.RELEASE\spring-orm-4.1.2.RELEASE.jar(375983 bytes)
+C:\Users\Jan\.m2\repository\org\springframework\spring-web\4.1.2.RELEASE\spring-web-4.1.2.RELEASE.jar(711922 bytes)
+C:\Users\Jan\.m2\repository\org\springframework\spring-test\4.1.2.RELEASE\spring-test-4.1.2.RELEASE.jar(502440 bytes)
+C:\Users\Jan\.m2\repository\org\springframework\security\spring-security-taglibs\3.2.5.RELEASE\spring-security-taglibs-3.2.5.RELEASE.jar(24513 bytes)
+C:\Users\Jan\.m2\repository\org\springframework\webflow\spring-faces\2.4.1.RELEASE\spring-faces-2.4.1.RELEASE.jar(130722 bytes)
+C:\Users\Jan\.m2\repository\org\springframework\security\spring-security-web\3.2.5.RELEASE\spring-security-web-3.2.5.RELEASE.jar(342469 bytes)
+C:\Users\Jan\.m2\repository\org\springframework\security\spring-security-config\3.2.5.RELEASE\spring-security-config-3.2.5.RELEASE.jar(406830 bytes)
+C:\Users\Jan\.m2\repository\org\springframework\spring-aspects\4.1.2.RELEASE\spring-aspects-4.1.2.RELEASE.jar(56736 bytes)
+C:\Users\Jan\.m2\repository\org\springframework\spring-context-support\4.1.2.RELEASE\spring-context-support-4.1.2.RELEASE.jar(178104 bytes)
+C:\Users\Jan\.m2\repository\javax\cache\cache-api\1.0.0\cache-api-1.0.0.jar(49789 bytes)
+C:\Users\Jan\.m2\repository\postgresql\postgresql\9.1-901-1.jdbc4\postgresql-9.1-901-1.jdbc4.jar(551290 bytes)
+C:\Users\Jan\.m2\repository\commons-dbcp\commons-dbcp\1.4\commons-dbcp-1.4.jar(160519 bytes)
+C:\Users\Jan\.m2\repository\org\aspectj\aspectjrt\1.8.4\aspectjrt-1.8.4.jar(117512 bytes)
+C:\Users\Jan\.m2\repository\org\aspectj\aspectjweaver\1.8.4\aspectjweaver-1.8.4.jar(1862339 bytes)
+C:\Users\Jan\.m2\repository\org\aspectj\aspectjlib\1.6.2\aspectjlib-1.6.2.jar(7837 bytes)
+C:\Users\Jan\.m2\repository\junit\junit\4.12\junit-4.12.jar(314932 bytes)
+C:\Users\Jan\.m2\repository\org\apache\logging\log4j\log4j-api\2.0-rc1\log4j-api-2.0-rc1.jar(116211 bytes)
+C:\Users\Jan\.m2\repository\org\apache\logging\log4j\log4j-core\2.0-rc1\log4j-core-2.0-rc1.jar(702665 bytes)
+C:\Users\Jan\.m2\repository\org\slf4j\slf4j-api\1.7.7\slf4j-api-1.7.7.jar(29257 bytes)
+C:\Users\Jan\.m2\repository\javax\transaction\jta\1.1\jta-1.1.jar(15071 bytes)
+C:\Users\Jan\.m2\repository\org\hibernate\hibernate-core\4.3.6.Final\hibernate-core-4.3.6.Final.jar(5254140 bytes)
+C:\Users\Jan\.m2\repository\org\hibernate\hibernate-commons-annotations\3.2.0.Final\hibernate-commons-annotations-3.2.0.Final.jar(71283 bytes)
+C:\Users\Jan\.m2\repository\org\hibernate\javax\persistence\hibernate-jpa-2.1-api\1.0.0.Final\hibernate-jpa-2.1-api-1.0.0.Final.jar(113371 bytes)
+C:\Users\Jan\.m2\repository\org\primefaces\extensions\all-themes\1.0.8\all-themes-1.0.8.jar(1313422 bytes)
+C:\Users\Jan\.m2\repository\commons-io\commons-io\2.4\commons-io-2.4.jar(185140 bytes)
+C:\Users\Jan\.m2\repository\org\primefaces\primefaces\5.1\primefaces-5.1.jar(2693611 bytes)
+C:\Users\Jan\.m2\repository\org\jboss\logging\jboss-logging\3.1.3.GA\jboss-logging-3.1.3.GA.jar(57183 bytes)
+C:\Users\Jan\.m2\repository\org\jboss\logging\jboss-logging-annotations\1.2.0.Beta1\jboss-logging-annotations-1.2.0.Beta1.jar(11558 bytes)
+C:\Users\Jan\.m2\repository\dom4j\dom4j\1.6.1\dom4j-1.6.1.jar(313898 bytes)
+C:\Users\Jan\.m2\repository\xml-apis\xml-apis\1.0.b2\xml-apis-1.0.b2.jar(109318 bytes)
+C:\Users\Jan\.m2\repository\org\hibernate\common\hibernate-commons-annotations\4.0.5.Final\hibernate-commons-annotations-4.0.5.Final.jar(75324 bytes)
+C:\Users\Jan\.m2\repository\org\jboss\spec\javax\transaction\jboss-transaction-api_1.2_spec\1.0.0.Final\jboss-transaction-api_1.2_spec-1.0.0.Final.jar(27717 bytes)
+C:\Users\Jan\.m2\repository\org\javassist\javassist\3.18.1-GA\javassist-3.18.1-GA.jar(714194 bytes)
+C:\Users\Jan\.m2\repository\commons-logging\commons-logging\1.1.3\commons-logging-1.1.3.jar(62050 bytes)
+C:\Users\Jan\.m2\repository\org\springframework\spring-aop\4.1.2.RELEASE\spring-aop-4.1.2.RELEASE.jar(359017 bytes)
+C:\Users\Jan\.m2\repository\org\springframework\spring-beans\4.1.2.RELEASE\spring-beans-4.1.2.RELEASE.jar(706667 bytes)
+C:\Users\Jan\.m2\repository\org\springframework\spring-expression\4.1.2.RELEASE\spring-expression-4.1.2.RELEASE.jar(258992 bytes)
+C:\Users\Jan\.m2\repository\org\springframework\spring-jdbc\4.1.2.RELEASE\spring-jdbc-4.1.2.RELEASE.jar(426512 bytes)
+C:\Users\Jan\.m2\repository\org\springframework\spring-tx\4.1.2.RELEASE\spring-tx-4.1.2.RELEASE.jar(252372 bytes)
+C:\Users\Jan\.m2\repository\org\springframework\security\spring-security-acl\3.2.5.RELEASE\spring-security-acl-3.2.5.RELEASE.jar(83410 bytes)
+C:\Users\Jan\.m2\repository\org\springframework\security\spring-security-core\3.2.5.RELEASE\spring-security-core-3.2.5.RELEASE.jar(366941 bytes)
+C:\Users\Jan\.m2\repository\org\springframework\webflow\spring-binding\2.4.1.RELEASE\spring-binding-2.4.1.RELEASE.jar(160559 bytes)
+C:\Users\Jan\.m2\repository\opensymphony\ognl\2.6.11\ognl-2.6.11.jar(168081 bytes)
+C:\Users\Jan\.m2\repository\org\springframework\webflow\spring-webflow\2.4.1.RELEASE\spring-webflow-2.4.1.RELEASE.jar(565445 bytes)
+C:\Users\Jan\.m2\repository\org\springframework\webflow\spring-js\2.4.1.RELEASE\spring-js-2.4.1.RELEASE.jar(25116 bytes)
+C:\Users\Jan\.m2\repository\org\springframework\webflow\spring-js-resources\2.4.1.RELEASE\spring-js-resources-2.4.1.RELEASE.jar(4417782 bytes)
+C:\Users\Jan\.m2\repository\org\springframework\spring-webmvc\4.0.6.RELEASE\spring-webmvc-4.0.6.RELEASE.jar(662596 bytes)
+C:\Users\Jan\.m2\repository\aopalliance\aopalliance\1.0\aopalliance-1.0.jar(4467 bytes)
+C:\Users\Jan\.m2\repository\commons-pool\commons-pool\1.5.4\commons-pool-1.5.4.jar(96221 bytes)
+C:\Users\Jan\.m2\repository\antlr\antlr\2.7.7\antlr-2.7.7.jar(445288 bytes)
+C:\Users\Jan\.m2\repository\org\jboss\jandex\1.1.0.Final\jandex-1.1.0.Final.jar(76551 bytes)
+D:\STM\AD0B36BAP\ISPOK\target\classes(5 entries)
+---- Compiler Messages ---
+warning bad version number found in C:\Users\Jan\.m2\repository\org\aspectj\aspectjrt\1.8.4\aspectjrt-1.8.4.jar expected 1.8.2 found 1.8.4
+info directory classpath entry does not exist: C:\Program Files\Java\jdk1.8.0_25\jre\lib\sunrsasign.jar
+info zipfile classpath entry does not exist: C:\Program Files\Java\jdk1.8.0_25\jre\classes
+abort ABORT -- (FileNotFoundException) D:\STM\AD0B36BAP\ISPOK\target\classes\ispok\bo\PayoutPlace.class (The system cannot find the file specified)
+D:\STM\AD0B36BAP\ISPOK\target\classes\ispok\bo\PayoutPlace.class (The system cannot find the file specified)
+java.io.FileNotFoundException: D:\STM\AD0B36BAP\ISPOK\target\classes\ispok\bo\PayoutPlace.class (The system cannot find the file specified)
+	at java.io.FileInputStream.open(Native Method)
+	at java.io.FileInputStream.<init>(FileInputStream.java:138)
+	at org.aspectj.weaver.bcel.BcelWeaver.addAspectsFromDirectory(BcelWeaver.java:294)
+	at org.aspectj.weaver.bcel.BcelWeaver.addLibraryJarFile(BcelWeaver.java:234)
+	at org.aspectj.ajdt.internal.core.builder.AjBuildManager.initBcelWorld(AjBuildManager.java:874)
+	at org.aspectj.ajdt.internal.core.builder.AjBuildManager.performBuild(AjBuildManager.java:249)
+	at org.aspectj.ajdt.internal.core.builder.AjBuildManager.batchBuild(AjBuildManager.java:185)
+	at org.aspectj.ajdt.ajc.AjdtCommand.doCommand(AjdtCommand.java:112)
+	at org.aspectj.ajdt.ajc.AjdtCommand.runCommand(AjdtCommand.java:60)
+	at org.aspectj.tools.ajc.Main.run(Main.java:371)
+	at org.aspectj.tools.ajc.Main.runMain(Main.java:248)
+	at org.codehaus.mojo.aspectj.AbstractAjcCompiler.execute(AbstractAjcCompiler.java:524)
+	at org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo(DefaultBuildPluginManager.java:132)
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:208)
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:153)
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:145)
+	at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject(LifecycleModuleBuilder.java:116)
+	at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject(LifecycleModuleBuilder.java:80)
+	at org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build(SingleThreadedBuilder.java:51)
+	at org.apache.maven.lifecycle.internal.LifecycleStarter.execute(LifecycleStarter.java:120)
+	at org.apache.maven.DefaultMaven.doExecute(DefaultMaven.java:347)
+	at org.apache.maven.DefaultMaven.execute(DefaultMaven.java:154)
+	at org.apache.maven.cli.MavenCli.execute(MavenCli.java:582)
+	at org.apache.maven.cli.MavenCli.doMain(MavenCli.java:214)
+	at org.apache.maven.cli.MavenCli.main(MavenCli.java:158)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:483)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced(Launcher.java:289)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.launch(Launcher.java:229)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode(Launcher.java:415)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.main(Launcher.java:356)
+

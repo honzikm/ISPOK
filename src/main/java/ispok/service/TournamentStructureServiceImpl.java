@@ -7,14 +7,18 @@ package ispok.service;
 
 import ispok.bo.Betset;
 import ispok.bo.Level;
+import ispok.bo.Tournament;
 import ispok.bo.TournamentStructure;
 import ispok.bo.TournamentStructureLevel;
 import ispok.dao.BetsetDao;
 import ispok.dao.LevelDao;
+import ispok.dao.TournamentDao;
 import ispok.dto.LevelDto;
 import ispok.dto.TournamentStructureDto;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,23 +29,31 @@ import org.springframework.stereotype.Component;
 @Component
 public class TournamentStructureServiceImpl extends AbstractDataAccessService implements TournamentStructureService {
 
+    private static final Logger log = LogManager.getLogger();
+
     @Autowired
-    BetsetDao betsetDao;
+    private BetsetDao betsetDao;
     @Autowired
-    LevelDao LevelDao;
+    private LevelDao LevelDao;
+    @Autowired
+    private TournamentDao tournamentDao;
 
     @Override
     public TournamentStructureDto getById(Long id) {
         TournamentStructure ts = genericDao.loadById(id, TournamentStructure.class);
-        List<TournamentStructureLevel> tsls = ts.getLevels();
-        List<Long> levelIds = new ArrayList<>(tsls.size());
-        for (TournamentStructureLevel nl : tsls) {
-            levelIds.add(nl.getLevel().getId());
-        }
         TournamentStructureDto tsd = new TournamentStructureDto();
-        tsd.setId(ts.getId());
-        tsd.setName(ts.getName());
-        tsd.setLevelIds(levelIds);
+        if (ts != null) {
+            tsd.setId(ts.getId());
+            tsd.setName(ts.getName());
+            List<TournamentStructureLevel> tsls = ts.getLevels();
+            if (tsls != null && !tsls.isEmpty()) {
+                List<Long> levelIds = new ArrayList<>(tsls.size());
+                for (TournamentStructureLevel nl : tsls) {
+                    levelIds.add(nl.getLevel().getId());
+                }
+                tsd.setLevelIds(levelIds);
+            }
+        }
         return tsd;
     }
 
@@ -77,14 +89,27 @@ public class TournamentStructureServiceImpl extends AbstractDataAccessService im
         return levelDto;
     }
 
+//    @Transactional
+//    private Betset getBetset(float ante, float smallBlind, float bigBlind) {
+//        return betsetDao.get(bigBlind, smallBlind, ante);
+//    }
     @Override
     public void saveLevel(LevelDto ld) {
 
+        log.debug(ld.getBigBlind() + ", " + ld.getSmallBlind() + ", " + ld.getAnte());
+
         Betset bs = betsetDao.get(ld.getBigBlind(), ld.getSmallBlind(), ld.getAnte());
+
+        log.debug("betset count: " + betsetDao.getAll().size());
+
+//        betsetDao.get(ld.bigBlind, ld.smallBlind, ante);
         if (bs == null) {
             bs = new Betset(ld.getSmallBlind(), ld.getSmallBlind(), ld.getAnte());
             genericDao.saveOrUpdate(bs);
+            log.debug("new betset");
         }
+
+        log.debug(ld.getDuration() + ", " + ld.getBreakDuration() + ", " + bs.getId());
 
         Level l = LevelDao.get(ld.getDuration(), ld.getBreakDuration(), bs.getId());
 
@@ -92,17 +117,19 @@ public class TournamentStructureServiceImpl extends AbstractDataAccessService im
             l = new Level(ld.getDuration(), ld.getBreakDuration(), bs);
         }
 
-        TournamentStructureLevel nl = null;
+        log.debug(l.getId());
+
+        TournamentStructureLevel tourStruct_level = null;
         List<TournamentStructureLevel> nls = genericDao.getAll(TournamentStructureLevel.class);
         for (TournamentStructureLevel numLev : nls) {
             if (numLev.getNumber() == ld.getNumber() && numLev.getLevel() == l) {
-                nl = numLev;
+                tourStruct_level = numLev;
                 break;
             }
         }
-        if (nl == null) {
-            nl = new TournamentStructureLevel(l, ld.getNumber());
-            ld.setId(genericDao.saveOrUpdate(nl).getId());
+        if (tourStruct_level == null) {
+            tourStruct_level = new TournamentStructureLevel(l, ld.getNumber());
+            ld.setId(genericDao.saveOrUpdate(tourStruct_level).getId());
 
         }
     }
@@ -149,6 +176,11 @@ public class TournamentStructureServiceImpl extends AbstractDataAccessService im
 //        List<NumberedLevel> nls = new ArrayList<>();
         ts.setName(tournamentStructureDto.getName());
         genericDao.saveOrUpdate(ts);
+        tournamentStructureDto.setId(ts.getId());
+
+        if (levelDtos == null) {
+            return;
+        }
 
         for (LevelDto ld : levelDtos) {
 //            nls.add(saveNumberedLevel(ld));
@@ -201,4 +233,21 @@ public class TournamentStructureServiceImpl extends AbstractDataAccessService im
         }
         return tournamentStructureDtos;
     }
+
+    @Override
+    public boolean delete(Long tournamentStructureId) {
+        List<Tournament> tournaments = tournamentDao.getTournamentsByTournamentStructureId(tournamentStructureId);
+        if (!tournaments.isEmpty()) {
+            return false;
+        }
+        genericDao.removeById(tournamentStructureId, TournamentStructure.class);
+        return true;
+    }
+
+    @Override
+    public boolean isNameAvailable(String name) {
+        TournamentStructure ts = genericDao.getByPropertyUnique("name", name, TournamentStructure.class);
+        return (ts == null);
+    }
+
 }

@@ -24,11 +24,11 @@ import org.springframework.stereotype.Component;
 public class CashgameSessionServiceImpl extends AbstractDataAccessService implements CashgameSessionService {
 
     @Autowired
-    CashgameSessionDao CashgameSessionDao;
+    private CashgameSessionDao cashgameSessionDao;
 
     @Override
     public List<VisitorDto> getActiveVisitors(Long sessionId) {
-        List<CashgameSession> cashgameSession = CashgameSessionDao.getActiveByCashgameId(sessionId);
+        List<CashgameSession> cashgameSession = cashgameSessionDao.getActiveByCashgameId(sessionId);
         List<VisitorDto> visitorDtos = new ArrayList<>(20);
         for (CashgameSession cs : cashgameSession) {
             if (cs.getStop() == null) {
@@ -61,11 +61,35 @@ public class CashgameSessionServiceImpl extends AbstractDataAccessService implem
 
     @Override
     public List<CashgameSessionDto> getActiveSessionsByCashgameId(Long cashgameId) {
-        List<CashgameSession> cashgameSession = CashgameSessionDao.getActiveByCashgameId(cashgameId);
+        List<CashgameSession> cashgameSession = cashgameSessionDao.getActiveByCashgameId(cashgameId);
         List<CashgameSessionDto> cashgameSessionDtos = new ArrayList<>(cashgameSession.size());
         for (CashgameSession cs : cashgameSession) {
             cashgameSessionDtos.add(new CashgameSessionDto(cs));
         }
         return cashgameSessionDtos;
+    }
+
+    @Override
+    public List<CashgameSessionDto> getByVisitorId(Long id) {
+        List<CashgameSession> cashgameSessions = cashgameSessionDao.getByVisitorId(id);
+        return getCashgameSessionDtos(cashgameSessions);
+    }
+
+    private List<CashgameSessionDto> getCashgameSessionDtos(List<CashgameSession> cses) {
+        List<CashgameSessionDto> cashgameSessionDtos = new ArrayList<>(cses.size());
+        for (CashgameSession cs : cses) {
+            cashgameSessionDtos.add(getCashgameSessionDto(cs));
+        }
+        return cashgameSessionDtos;
+    }
+
+    private CashgameSessionDto getCashgameSessionDto(CashgameSession cs) {
+        CashgameSessionDto cashgameSessionDto = new CashgameSessionDto();
+        cashgameSessionDto.setId(cs.getId());
+        cashgameSessionDto.setCashgameId(cs.getCashgame().getId());
+        cashgameSessionDto.setStart(cs.getStart());
+        cashgameSessionDto.setStop(cs.getStop());
+        cashgameSessionDto.setVisitorId(cs.getVisitor().getId());
+        return cashgameSessionDto;
     }
 }

@@ -5,7 +5,7 @@
  */
 package ispok.dto;
 
-import ispok.bo.TournamentStructure;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,10 +14,15 @@ import java.util.List;
  */
 public class TournamentStructureDto extends AbstractDto {
 
+    private static final int LEVELS_INITIAL_CAPACITY = 20;
+
     private String name;
     private List<Long> levelIds;
 
-
+    public TournamentStructureDto() {
+        name = "";
+        levelIds = new ArrayList<>(LEVELS_INITIAL_CAPACITY);
+    }
 
     /**
      * Get the value of levelId

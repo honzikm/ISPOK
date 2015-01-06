@@ -6,10 +6,10 @@
 package ispok.bo;
 
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 
 /**
  *
@@ -21,15 +21,15 @@ public class TournamentStructure extends AbstractBusinessObject {
     @Column(nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "tournamentStructure")
-    private List<TournamentStructureLevel> numberedLevels;
+    @OneToMany(mappedBy = "tournamentStructure", cascade = CascadeType.REMOVE)
+    private List<TournamentStructureLevel> tournamentStructure_level;
 
     public List<TournamentStructureLevel> getLevels() {
-        return numberedLevels;
+        return tournamentStructure_level;
     }
 
     public void setLevels(List<TournamentStructureLevel> levels) {
-        this.numberedLevels = levels;
+        this.tournamentStructure_level = levels;
     }
 
     /**

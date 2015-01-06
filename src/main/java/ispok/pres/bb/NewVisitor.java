@@ -12,7 +12,7 @@ import ispok.dto.PostalCodeDto;
 import ispok.dto.RegionDto;
 import ispok.dto.VisitorDto;
 import ispok.helper.ImageUtil;
-import ispok.helper.PasswordUtil;
+import ispok.helper.RandomString;
 import ispok.service.CityService;
 import ispok.service.CountryService;
 import ispok.service.DomicileService;
@@ -67,7 +67,6 @@ public class NewVisitor {
 
 //    private StreamedContent photo;
 //    private StreamedContent photoThumbnail;
-
     private Long id;
 
 //    private Image photoImage;
@@ -153,14 +152,14 @@ public class NewVisitor {
 //            Graphics2D g = resizedImage.createGraphics();
 //            g.drawImage(scaledImage, 0, 0, new Color(0, 0, 0), null);
 //            g.dispose();
-//            
+//
 //            BufferedImage resizedImage = bi.getScaledInstance(width, height, width)
 //            AffineTransform at = AffineTransform.getScaleInstance(scaleFactor, scaleFactor);
 //            AffineTransformOp ato = new AffineTransformOp(at, null);
 //            Graphics2D g = bi.createGraphics();
 //            g.drawImage(bi, ato, 0, 0);
 //            g.dispose();
-//            
+//
             int normalizedWidth = (int) (width * scaleFactorNormalize);
             int normalizeHeight = (int) (height * scaleFactorNormalize);
 
@@ -206,7 +205,7 @@ public class NewVisitor {
         }
 
         if ("".equals(password)) {
-            password = PasswordUtil.GetRandomPassword();
+            password = RandomString.getRandomString(6);
         }
 
         visitorService.addVisitor(visitorDto);
@@ -225,8 +224,8 @@ public class NewVisitor {
     }
 
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
     public String delete() {
         visitorService.deleteVisitor(id);
@@ -237,9 +236,8 @@ public class NewVisitor {
 //        visitorService.deleteVisitor(id);
 //        return "/admin/management/visitors/newvisitor.xhtml";
 //    }
-
     /**
-     * 
+     *
      */
     public void clear() {
         logger.trace("Entering Clear()");

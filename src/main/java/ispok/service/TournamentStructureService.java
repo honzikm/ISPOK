@@ -29,9 +29,15 @@ public interface TournamentStructureService {
     public void saveLevel(LevelDto ld);
 
     @Transactional
+    public boolean isNameAvailable(String name);
+
+    @Transactional
     public void save(TournamentStructureDto tournamentStructureDto, List<LevelDto> levelDtos);
 
     @Transactional
     public List<TournamentStructureDto> getAll();
+
+    @Transactional
+    public boolean delete(Long tournamentStructureId);
 
 }

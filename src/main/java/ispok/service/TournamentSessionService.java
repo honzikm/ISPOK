@@ -6,6 +6,7 @@
 package ispok.service;
 
 import ispok.dto.TournamentSessionDto;
+import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -16,4 +17,7 @@ public interface TournamentSessionService {
 
     @Transactional
     public void save(TournamentSessionDto tournamentSessionDto);
+
+    @Transactional
+    public List<TournamentSessionDto> getByVisitorId(Long id);
 }

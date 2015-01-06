@@ -6,6 +6,7 @@
 package ispok.service;
 
 import ispok.dto.TournamentDto;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,4 +36,7 @@ public interface TournamentService {
 
     @Transactional
     public void delete(Long id);
+
+    @Transactional(readOnly = true)
+    public List<TournamentDto> getUpcoming(Date date);
 }

@@ -5,6 +5,7 @@
  */
 package ispok.dao;
 
+import ispok.bo.Visit;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.EntityManager;
@@ -121,5 +122,16 @@ public class VisitorHibernateJpaDao implements VisitorDao {
         logger.debug("getCount(..): {}" + number);
         logger.exit();
         return number.longValue();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<Visit> getVisitsByVisitorId(Long id) {
+        Session session = getEntityManager().unwrap(Session.class);
+
+        Criteria criteria = session.createCriteria(Visit.class);
+        criteria.add(Restrictions.eq("visitor.id", id));
+
+        return criteria.list();
     }
 }

@@ -10,7 +10,9 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
-import org.hibernate.hql.internal.ast.tree.CastFunctionNode;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jpa.EntityManagerFactoryUtils;
 import org.springframework.stereotype.Component;
@@ -42,5 +44,17 @@ public class CashgameSessionHibernateJpaDao implements CashgameSessionDao {
         @SuppressWarnings("unchecked")
         List<CashgameSession> cashgameSessions = query.getResultList();
         return cashgameSessions;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<CashgameSession> getByVisitorId(Long id) {
+        Session session = getEntityManager().unwrap(Session.class);
+
+        Criteria criteria = session.createCriteria(CashgameSession.class);
+
+        criteria.add(Restrictions.eq("visitor.id", id));
+
+        return criteria.list();
     }
 }

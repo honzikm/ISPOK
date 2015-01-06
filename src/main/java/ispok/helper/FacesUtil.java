@@ -4,7 +4,6 @@
  */
 package ispok.helper;
 
-import java.util.Locale;
 import java.util.ResourceBundle;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -51,7 +50,7 @@ public class FacesUtil {
     public static void addWarnMessage(String summaryKey, String detailKey) {
         addMessage(FacesMessage.SEVERITY_WARN, summaryKey, detailKey);
     }
-    
+
     public static void addErrorMessage(String summaryKey, String detailKey) {
         addMessage(FacesMessage.SEVERITY_FATAL, summaryKey, detailKey);
     }
@@ -66,7 +65,7 @@ public class FacesUtil {
     public static String getMessage(String bundleName, String key) {
         return ResourceBundle.getBundle(bundleName).getString(key);
     }
-    
+
     public static String getString(String key) {
         return ResourceBundle.getBundle("ispok/pres/inter/ispok").getString(key);
     }

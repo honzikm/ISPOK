@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app version="4.0" 
-         xmlns="http://java.sun.com/xml/ns/javaee" 
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+<web-app version="4.0"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
                             http://java.sun.com/xml/ns/javaee/web-app_4_0.xsd">
     <!-- ================= SPRING FRAMEWORK - START ================= -->
     <context-param>
@@ -12,12 +12,12 @@
             /WEB-INF/context/*.xml
         </param-value>
     </context-param>
-    
+
     <context-param>
         <param-name>javax.faces.FACELETS_LIBRARIES</param-name>
         <param-value>/WEB-INF/springsecurity.taglib.xml;/WEB-INF/myPrimefaces.taglib.xml</param-value>
     </context-param>
-   
+
 
     <listener>
         <description>Nahodi Spring context po startu serveru</description>
@@ -32,18 +32,18 @@
         </listener-class>
     </listener>
 
-    
+
     <!-- ================= SPRING FRAMEWORK - END ================= -->
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
-    
+
     <welcome-file-list>
         <welcome-file>index.xhtml</welcome-file>
     </welcome-file-list>
-    
+
     <!--JSF servlet mapping-->
     <!--    JSF servlet configuration and servlet mappings-->
     <servlet>
@@ -51,7 +51,7 @@
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
-    
+
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>*.jsf</url-pattern>
@@ -60,8 +60,8 @@
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
-    
-    
+
+
     <context-param>
         <param-name>javax.faces.PROJECT_STAGE</param-name>
         <param-value>Development</param-value>
@@ -70,13 +70,13 @@
         <param-name>facelets.SKIP_COMMENTS</param-name>
         <param-value>true</param-value>
     </context-param>
-    
-    
+
+
     <!--    <context-param>
         <param-name>primefaces.THEME</param-name>
         <param-value>casablanca</param-value>
     </context-param>-->
-    
+
     <!--  <security-constraint>
         <display-name>Restrict direct access to XHTML files</display-name>
         <web-resource-collection>
@@ -85,7 +85,7 @@
         </web-resource-collection>
         <auth-constraint/>
     </security-constraint>-->
-    
+
     <!-- Enable Spring Filter, Spring Security works on the concept of Filters -->
     <filter>
         <filter-name>springSecurityFilterChain</filter-name>
@@ -93,10 +93,10 @@
             org.springframework.web.filter.DelegatingFilterProxy
         </filter-class>
     </filter>
-	
+
     <filter-mapping>
         <filter-name>springSecurityFilterChain</filter-name>
         <url-pattern>/*</url-pattern>
-    </filter-mapping>    
-    
+    </filter-mapping>
+
 </web-app>

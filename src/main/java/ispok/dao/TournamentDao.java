@@ -6,6 +6,7 @@
 package ispok.dao;
 
 import ispok.bo.Tournament;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -16,21 +17,34 @@ import java.util.Map;
 public interface TournamentDao {
 
     /**
-     * 
+     *
      * @param first
      * @param rows
      * @param sortBy
      * @param ascending
      * @param filters
-     * @return 
+     * @return
      */
     public List<Tournament> getPage(int first, int rows, String sortBy, boolean ascending, Map<String, Object> filters);
 
     /**
-     * 
+     *
      * @param filters
-     * @return 
+     * @return
      */
     public Long getCount(Map<String, Object> filters);
 
+    /**
+     *
+     * @param date
+     * @return
+     */
+    public List<Tournament> getUpcoming(Date date);
+
+    /**
+     *
+     * @param id
+     * @return
+     */
+    public List<Tournament> getTournamentsByTournamentStructureId(Long id);
 }

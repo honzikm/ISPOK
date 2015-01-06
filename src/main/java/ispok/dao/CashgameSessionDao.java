@@ -14,8 +14,10 @@ import java.util.List;
  */
 public interface CashgameSessionDao {
 
-    List<CashgameSession> getActive(Long id);
+    public List<CashgameSession> getActive(Long id);
 
-    List<CashgameSession> getActiveByCashgameId(Long cashgameId);
+    public List<CashgameSession> getActiveByCashgameId(Long cashgameId);
+
+    public List<CashgameSession> getByVisitorId(Long id);
 
 }

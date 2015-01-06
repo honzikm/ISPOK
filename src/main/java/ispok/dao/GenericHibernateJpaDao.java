@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityNotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Criteria;
@@ -130,11 +131,17 @@ public class GenericHibernateJpaDao implements GenericDao {
     @SuppressWarnings("unchecked")
     @Override
     public <ENTITY> ENTITY loadById(long id, Class<ENTITY> clazz) {
-        return (ENTITY) ((Session) getEntityManager().getDelegate()).load(clazz, id);
+        ENTITY e = null;
+        try {
+            e = (ENTITY) ((Session) getEntityManager().getDelegate()).load(clazz, id);
+        } catch (EntityNotFoundException enfe) {
+        }
+        return e;
     }
 
     @Override
-    public <ENTITY extends AbstractBusinessObject> ENTITY saveOrUpdate(ENTITY o) {
+    public <ENTITY extends AbstractBusinessObject> ENTITY saveOrUpdate(ENTITY o
+    ) {
         logger.entry();
         if (o.getId() == null) {
             getEntityManager().persist(o);
@@ -146,7 +153,9 @@ public class GenericHibernateJpaDao implements GenericDao {
     }
 
     @Override
-    public <ENTITY> ENTITY getByPropertyUnique(String property, Object value, Class<ENTITY> clazz) {
+    public <ENTITY> ENTITY
+            getByPropertyUnique(String property, Object value, Class<ENTITY> clazz
+            ) {
         ENTITY e;
         Object o = null;
         if (value == null) {
@@ -160,7 +169,6 @@ public class GenericHibernateJpaDao implements GenericDao {
             try {
                 o = getEntityManager().createQuery("FROM " + clazz.getSimpleName() + " WHERE " + property + " = :value").setParameter("value", value).getSingleResult();
             } catch (Exception ex) {
-                logger.catching(ex);
                 return null;
             }
 //            e = clazz.cast(getEntityManager().createQuery("FROM " + clazz.getSimpleName() + " WHERE " + property + " = :value").setParameter("value", value).getSingleResult());
@@ -175,7 +183,7 @@ public class GenericHibernateJpaDao implements GenericDao {
 ////        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
 ////        CriteriaQuery cq;
 ////        cq = cb.createQuery(clazz);
-////        
+////
 ////        criteria.
 //
 //        ENTITY e;
@@ -188,13 +196,15 @@ public class GenericHibernateJpaDao implements GenericDao {
 //    }
 
     @Override
-    public <ENTITY> List<ENTITY> getPage(int from, int maxResults, Class<ENTITY> clazz) {
+    public <ENTITY> List<ENTITY> getPage(int from, int maxResults, Class<ENTITY> clazz
+    ) {
         throw new IllegalStateException("Not implemented yet");
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public <ENTITY> List<ENTITY> getPage(int first, int rows, String sortBy, boolean ascending, Class<ENTITY> clazz) {
+    public <ENTITY> List<ENTITY> getPage(int first, int rows, String sortBy, boolean ascending, Class<ENTITY> clazz
+    ) {
 
         Session session = getEntityManager().unwrap(Session.class);
         Criteria criteria = session.createCriteria(clazz);
@@ -219,35 +229,35 @@ public class GenericHibernateJpaDao implements GenericDao {
 //
 //        return getEntityManager().createQuery(queryString).getResultList();
     }
+    //    @Override
+    //    public <ENTITY> List<ENTITY> getPage(int first, int rows, String sortBy, boolean ascending, Class<ENTITY> clazz) {
+    //        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+    ////        Class
+    //        CriteriaQuery<ENTITY> cq = cb.createQuery(clazz);
+    //        Root<ENTITY> from = cq.from(clazz);
+    //
+    //        CriteriaQuery<ENTITY> select = cq.select(from);
+    //
+    ////        getEntityManager().createQuery(cq)
+    //
+    //        if (ascending) {
+    //            cq.orderBy(cb.asc(from.get(sortBy)));
+    //        } else {
+    //            cq.orderBy(cb.desc(from.get(sortBy)));
+    //        }
+    //
+    //        TypedQuery<ENTITY> typedQuery;
+    //        typedQuery = getEntityManager().createQuery(select);
+    //        typedQuery.setFirstResult(first);
+    //        typedQuery.setMaxResults(rows);
+    //
+    //        return typedQuery.getResultList();
+    //
+    //
+    ////        CriteriaQuery<clazz>
+    ////         getEntityManager().createQuery(null)
+    //    }
 
-//    @Override
-//    public <ENTITY> List<ENTITY> getPage(int first, int rows, String sortBy, boolean ascending, Class<ENTITY> clazz) {
-//        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-////        Class
-//        CriteriaQuery<ENTITY> cq = cb.createQuery(clazz);
-//        Root<ENTITY> from = cq.from(clazz);
-//        
-//        CriteriaQuery<ENTITY> select = cq.select(from);
-//        
-////        getEntityManager().createQuery(cq)
-//        
-//        if (ascending) {
-//            cq.orderBy(cb.asc(from.get(sortBy)));
-//        } else {
-//            cq.orderBy(cb.desc(from.get(sortBy)));
-//        }
-//        
-//        TypedQuery<ENTITY> typedQuery;
-//        typedQuery = getEntityManager().createQuery(select);
-//        typedQuery.setFirstResult(first);
-//        typedQuery.setMaxResults(rows);
-//        
-//        return typedQuery.getResultList();
-//        
-//
-////        CriteriaQuery<clazz> 
-////         getEntityManager().createQuery(null)
-//    }
     public void merge(Object o) {
         throw new IllegalStateException("Not implemented yet");
     }
@@ -290,7 +300,7 @@ public class GenericHibernateJpaDao implements GenericDao {
 //        Root<ENTITY> root = cq.from(clazz);
 //
 //        cq.select(root);
-//        
+//
 //        cb.like(ENTITY., null)
         Criteria criteria = session.createCriteria(clazz);
 

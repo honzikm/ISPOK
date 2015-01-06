@@ -13,7 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.SessionScoped;
+import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 /**
@@ -125,6 +127,7 @@ public class TournamentStructureEdit {
     }
 
     public String newStructure() {
+        tournamentStructure = new TournamentStructureDto();
         LevelDto level = new LevelDto();
         level.setBigBlind(0);
         level.setSmallBlind(0);
@@ -143,7 +146,27 @@ public class TournamentStructureEdit {
             FacesUtil.addWarnMessage("fail", "fail");
             return null;
         }
-        return null;
+        FacesUtil.addInfoMessage("success", "tournament_structure_add_success");
+        return "/admin/management/tournaments/tournamentStructures.xhtml";
+    }
+
+    public void delete() {
+        if (tournamentStructureId != null) {
+            try {
+                if (tournamentStructureService.delete(tournamentStructureId) == false) {
+                    FacesUtil.addWarnMessage("fail", "tournament_structure_delete_invalid");
+                } else {
+                    FacesUtil.addInfoMessage("success", "tournament_structure_delete_success");
+                    RequestContext.getCurrentInstance().update("form:tournamentStructure");
+                    RequestContext.getCurrentInstance().update("form:levelTable");
+                }
+            } catch (DataIntegrityViolationException e) {
+                FacesUtil.addErrorMessage("error", "error");
+                return;
+            }
+        } else {
+            FacesUtil.addWarnMessage("warn", "no_item_selected");
+        }
     }
 
     public String cancel() {

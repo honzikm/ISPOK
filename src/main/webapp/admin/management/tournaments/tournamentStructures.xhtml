@@ -22,7 +22,7 @@
         <p:panel header="#{msg.tournament_structures}"
                  >
 
-            <h:form>
+            <h:form id="form">
                 <table>
                     <tr>
                         <td>
@@ -48,6 +48,8 @@
                         </td>
                         <td>
                             <p:commandButton value="#{msg.delete}"
+                                             action="#{tournamentStructureEdit.delete()}"
+                                             update=":growl"
                                              />
                         </td>
                         <td>

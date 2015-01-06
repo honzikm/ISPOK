@@ -1,6 +1,6 @@
 
 
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"   
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
@@ -16,97 +16,98 @@
 
     <ui:define name="centerContent">
 
-        <p:growl id="growl" 
+        <p:growl id="growl"
                  showDetail="true"
                  globalOnly="true"
-                 /> 
+                 />
 
-        <h:form id="dataForm"> 
+        <h:form id="dataForm">
 
             <p:contextMenu for="visitorsTableId">
 <!--                        <p:menuitem value="#{msg.edit}" icon="ui-icon-pencil" update=":editOfficeForm" action="#{officeEdit.loadOffice()}" oncomplete="editOfficeDialog.show()"/>-->
-                <p:menuitem value="#{msg.details}" 
-                            icon="ui-icon-search" 
+                <p:menuitem value="#{msg.details}"
+                            icon="ui-icon-search"
                             update=":detailVisitorDialogId"
-                            action="#{visitorEdit.detail()}" 
-                            oncomplete="PF('detailVisitorDialog').show()" 
+                            action="#{visitorEdit.detail()}"
                             />
-                <p:menuitem value="#{msg.delete}" 
-                            icon="ui-icon-trash" 
+                <!--oncomplete="PF('detailVisitorDialog').show()"-->
+                <p:menuitem value="#{msg.delete}"
+                            icon="ui-icon-trash"
                             oncomplete="PF('deleteVisitorDialog').show()"
                             />
-            </p:contextMenu> 
+            </p:contextMenu>
 
 
-            <p:dataTable id="visitorsTableId" 
-                         widgetVar="visitorsTable" 
-                         var="visitor" 
-                         value="#{visitorEdit.visitorLazyModel}" 
-                         paginator="true" 
+            <p:dataTable id="visitorsTableId"
+                         widgetVar="visitorsTable"
+                         var="visitor"
+                         value="#{visitorEdit.visitorLazyModel}"
+                         paginator="true"
                          rows="25"
                          paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                          rowsPerPageTemplate="10, 25"
                          selectionMode="single"
                          selection="#{visitorEdit.selectedVisitor}"
-                         lazy="true" 
+                         lazy="true"
                          filteredValue="#{visitorEdit.filteredVisitors}"
                          rowKey="#{visitor.id}"
                          >
 
-                <!--<p:ajax event="rowSelect"  />--> 
+                <!--<p:ajax event="rowSelect"  />-->
 
                 <f:facet name="header"
-                         >  
-                    <p:outputPanel > 
-                        <div align="right" 
+                         >
+                    <p:outputPanel >
+                        <div align="right"
                              style="float: right"
                              >
-                            <h:outputText value="#{msg.filter_global}: "  
-                                          />  
-                            <!--<p:inputText id="globalFilter" onkeyup="PF('officeTable').filter()"  />-->  
+                            <h:outputText value="#{msg.filter_global}: "
+                                          />
+                            <!--<p:inputText id="globalFilter" onkeyup="PF('officeTable').filter()"  />-->
                         </div>
                         <div align="left"
                              >
-                            <p:commandButton value="#{msg.neww}" 
+                            <p:commandButton value="#{msg.neww}"
                                              icon="ui-icon-star"
                                              action="#{navigation.goNewVisitor()}"/>
-                            <p:commandButton value="#{msg.details}" 
-                                             icon="ui-icon-search" 
-                                             update=":detailVisitorDialogId :growl" 
-                                             action="#{visitorEdit.detail()}" 
-                                             oncomplete="if(args.showDialog){PF('detailVisitorDialog').show()}"
+                            <p:commandButton value="#{msg.details}"
+                                             icon="ui-icon-search"
+                                             update=":detailVisitorDialogId :growl"
+                                             action="#{visitorEdit.detail()}"
+
                                              />
+                            <!--oncomplete="if(args.showDialog){PF('detailVisitorDialog').show()}"-->
                             <p:commandButton value="#{msg.edit}"
-                                             icon="ui-icon-pencil" 
+                                             icon="ui-icon-pencil"
                                              update=":growl"
                                              action="#{visitorEdit.edit()}"
                                              />
-                            <p:commandButton value="#{msg.delete}" 
+                            <p:commandButton value="#{msg.delete}"
                                              icon="ui-icon-trash"
                                              onclick="PF('confirmDialog').show()"
                                              />
                         </div>
-                    </p:outputPanel>  
-                </f:facet>  
+                    </p:outputPanel>
+                </f:facet>
 
                 <p:column headerText="#{msg.id}"
-                          sortBy="#{visitor.id}" 
+                          sortBy="#{visitor.id}"
                           filterBy="#{visitor.id}"
                           filterMatchMode="startsWith"
-                          >  
-                    <h:outputText value="#{visitor.id}" 
-                                  />  
+                          >
+                    <h:outputText value="#{visitor.id}"
+                                  />
                 </p:column>
 
                 <p:column   headerText="#{msg.visitor_firstname}"
                             sortBy="#{visitor.firstName}"
-                            filterBy="#{visitor.firstName}" 
-                            filterMatchMode="startsWith" 
+                            filterBy="#{visitor.firstName}"
+                            filterMatchMode="startsWith"
 
                             >
                     <h:outputText value="#{visitor.firstName}"
-                                  />  
-                </p:column>  
+                                  />
+                </p:column>
 
                 <p:column sortBy="#{visitor.lastName}" filterBy="#{visitor.lastName}" headerText="#{msg.visitor_lastname}">
                     <h:outputText value="#{visitor.lastName}" />
@@ -116,8 +117,20 @@
                     <h:outputText value="#{visitor.birthDate}" />
                 </p:column>
 
+                <p:column
+                    width="10"
+                    >
+                    <p:commandLink styleClass="ui-icon ui-icon-arrowthick-1-s"
+                                   title="#{msg.visit}"
+                                   action="#{visitorEdit.visit(visitor.id)}"
+                                   partialSubmit="true"
+                                   process="@this"
+                                   update=":growl"
+                                   />
+                </p:column>
 
-            </p:dataTable> 
+
+            </p:dataTable>
             <p:remoteCommand name="updateTable" update="dataForm" />
 
 
@@ -128,8 +141,8 @@
     <ui:define name="bodyContent"
                >
 
-        <mp:confirmDialog widgetVar="confirmDialog" 
-                          header="#{msg.visitor_delete}" 
+        <mp:confirmDialog widgetVar="confirmDialog"
+                          header="#{msg.visitor_delete}"
                           message="#{msg.visitor_delete_confirm}"
                           actionBean="#{visitorEdit}"
                           actionMethod="delete"
@@ -137,10 +150,10 @@
                           />
 
         <p:dialog id="detailVisitorDialogId"
-                  widgetVar="detailVisitorDialog" 
+                  widgetVar="detailVisitorDialog"
                   closable="true"
                   header="#{msg.visitor_details}"
-                  modal="true" 
+                  modal="true"
                   closeOnEscape="true"
                   resizable="false"
                   position="center, top"
@@ -168,12 +181,12 @@
                     <tr>
                         <td><h:outputLabel for="photo" value="#{msg.visitor_photo}: "/></td>
                         <td>
-                            <p:commandLink  oncomplete="PF('photoDialog').show()" 
+                            <p:commandLink  oncomplete="PF('photoDialog').show()"
                                             update=":photoDialogId"
                                             >
-                                <p:graphicImage id="photo" 
-                                                value="#{visitorEdit.photoThumb}" 
-                                                cache="false" 
+                                <p:graphicImage id="photo"
+                                                value="#{visitorEdit.photoThumb}"
+                                                cache="false"
                                                 />
                             </p:commandLink>
                         </td>
@@ -183,8 +196,18 @@
                         <td colspan="2">
                             <ul class="center inline">
                                 <li>
-                                    <p:commandButton value="#{msg.close}" 
+                                    <p:commandButton value="#{msg.visitor_visits}"
+                                                     action="#{navigation.goVisitorVisits}"
+                                                     partialSubmit="true"
+                                                     process="@this"
+                                                     >
+                                    </p:commandButton>
+                                </li>
+                                <li>
+                                    <p:commandButton value="#{msg.close}"
                                                      onclick="PF('detailVisitorDialog').hide()"
+                                                     partialSubmit="true"
+                                                     process="@this"
                                                      >
                                     </p:commandButton>
                                 </li>
@@ -196,16 +219,16 @@
             </h:form>
         </p:dialog>
 
-        <p:dialog id="photoDialogId" 
-                  header="#{msg.photo}: " 
-                  widgetVar="photoDialog" 
-                  modal="true" 
-                  resizable="false" 
+        <p:dialog id="photoDialogId"
+                  header="#{msg.photo}: "
+                  widgetVar="photoDialog"
+                  modal="true"
+                  resizable="false"
                   closeOnEscape="true"
                   position="center, top"
                   dynamic="true"
                   >
-            <p:graphicImage id="photo" 
+            <p:graphicImage id="photo"
                             value="#{visitorEdit.photo}" cache="false"
                             />
         </p:dialog>

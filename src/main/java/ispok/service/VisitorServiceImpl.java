@@ -7,8 +7,10 @@ package ispok.service;
 
 import ispok.bo.Country;
 import ispok.bo.Domicile;
+import ispok.bo.Visit;
 import ispok.bo.Visitor;
 import ispok.dao.VisitorDao;
+import ispok.dto.VisitDto;
 import ispok.dto.VisitorDto;
 import java.util.ArrayList;
 import java.util.Date;
@@ -121,13 +123,17 @@ public class VisitorServiceImpl extends AbstractDataAccessService implements Vis
         visitor.setSex(visitorDto.getSex());
         visitor.setBonusPoints(visitorDto.getBonusPoints());
         visitor.setPassword(visitorDto.getPassword());
-        visitor.setPhoto(visitorDto.getPhoto().clone());
-
-        Country country = genericDao.getById(visitorDto.getCitizenshipId(), Country.class);
-        visitor.setCitizenship(country);
-        Domicile domicile = genericDao.getById(visitorDto.getDomicileId(), Domicile.class);
-
-        visitor.setDomicile(domicile);
+        if (visitor.getPhoto() != null) {
+            visitor.setPhoto(visitorDto.getPhoto().clone());
+        }
+        if (visitorDto.getCitizenshipId() != null) {
+            Country country = genericDao.getById(visitorDto.getCitizenshipId(), Country.class);
+            visitor.setCitizenship(country);
+        }
+        if (visitorDto.getDomicileId() != null) {
+            Domicile domicile = genericDao.getById(visitorDto.getDomicileId(), Domicile.class);
+            visitor.setDomicile(domicile);
+        }
 
         return visitor;
     }
@@ -208,4 +214,35 @@ public class VisitorServiceImpl extends AbstractDataAccessService implements Vis
         }
         return false;
     }
+
+    @Override
+    public boolean visit(Long id, Date date) {
+        Visitor visitor = genericDao.getById(id, Visitor.class);
+        if (visitor == null) {
+            return false;
+        }
+        Visit visit = new Visit();
+        visit.setVisitor(visitor);
+        visit.setDate(date);
+        genericDao.saveOrUpdate(visit);
+        return true;
+    }
+
+    @Override
+    public List<VisitDto> getVisitsByVisitorId(Long id) {
+        logger.entry();
+        List<Visit> visits = visitorDao.getVisitsByVisitorId(id);
+        List<VisitDto> visitDtos = new ArrayList<>(visits.size());
+
+        for (Visit v : visits) {
+            VisitDto visitDto = new VisitDto();
+            visitDto.setId(v.getId());
+            visitDto.setVisit(v.getDate());
+            visitDto.setVisitorId(v.getVisitor().getId());
+            visitDtos.add(visitDto);
+        }
+        logger.exit();
+        return visitDtos;
+    }
+
 }

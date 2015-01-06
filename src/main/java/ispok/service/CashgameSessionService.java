@@ -19,10 +19,13 @@ public interface CashgameSessionService {
 
     @Transactional
     public List<VisitorDto> getActiveVisitors(Long sessionId);
-    
+
     @Transactional
     public List<CashgameSessionDto> getActiveSessionsByCashgameId(Long cashgameId);
 
     @Transactional
     public void save(CashgameSessionDto cashgameSessionDto);
+
+    @Transactional(readOnly = true)
+    public List<CashgameSessionDto> getByVisitorId(Long id);
 }

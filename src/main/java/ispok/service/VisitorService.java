@@ -5,7 +5,9 @@
  */
 package ispok.service;
 
+import ispok.dto.VisitDto;
 import ispok.dto.VisitorDto;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import org.springframework.transaction.annotation.Transactional;
@@ -97,10 +99,15 @@ public interface VisitorService {
     /**
      *
      * @param emaString
-     * @param toString
      * @return
      */
     @Transactional(readOnly = true)
     public boolean emailAvailable(String emaString);
+
+    @Transactional
+    public boolean visit(Long id, Date date);
+
+    @Transactional(readOnly = true)
+    public List<VisitDto> getVisitsByVisitorId(Long id);
 
 }

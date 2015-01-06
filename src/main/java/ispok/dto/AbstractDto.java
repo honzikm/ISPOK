@@ -12,6 +12,10 @@ public class AbstractDto {
 
     protected Long id;
 
+    public AbstractDto() {
+        id = (long) 0;
+    }
+
     public Long getId() {
         return id;
     }

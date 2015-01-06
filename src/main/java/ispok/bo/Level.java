@@ -5,6 +5,7 @@
  */
 package ispok.bo;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -20,9 +21,8 @@ public class Level extends AbstractBusinessObject {
     private int duration;
     @Column(nullable = false, name = "break_duration")
     private int breakDuration;
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = {CascadeType.ALL})
     private Betset betset;
-
 
     public Level() {
     }

@@ -1,0 +1,81 @@
+
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://xmlns.jcp.org/jsf/core"
+                 xmlns:mp ="http://myprimefaces.junkpunk.cz/facelets"
+                 template="/admin/template/adminTemplate.xhtml"
+
+                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="title">
+        <title>#{msg.visitor} | #{msg.ispok}</title>
+    </ui:define>
+
+
+    <ui:define name="centerContent"
+               >
+
+        <p:growl id="growl" showDetail="true" />
+
+        <p:panel header="#{msg.cashgames} for #{visitorEdit.visitorDto.firstName} #{visitorEdit.visitorDto.lastName}"
+                 >
+
+            <h:form id="dataForm"
+                    >
+
+                <p:dataTable id="cashgamesTable"
+                             var="cs"
+                             value="#{visitorEdit.cashgames}"
+                             paginator="true"
+                             rows="25"
+                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                             rowsPerPageTemplate="10, 25"
+                             rowKey="#{cs.id}"
+                             >
+
+                    <p:column headerText="#{msg.id}"
+                              sortBy="#{cs.id}"
+                              >
+                        <h:outputText value="#{cs.id}"
+                                      />
+                    </p:column>
+
+                    <p:column headerText="#{msg.cashgame} #{msg.id}"
+                              sortBy="#{cs.cashgameId}"
+                              >
+                        <h:outputText value="#{cs.cashgameId}"
+                                      />
+                    </p:column>
+
+                    <p:column headerText="#{msg.start}"
+                              sortBy="#{cs.start}"
+                              >
+                        <h:outputText value="#{cs.start}"
+                                      />
+                    </p:column>
+
+                    <p:column headerText="#{msg.finish}"
+                              sortBy="#{cs.stop}"
+                              >
+                        <h:outputText value="#{cs.stop}"
+                                      />
+                    </p:column>
+
+                </p:dataTable>
+
+                <ul class="center, inline">
+                    <li>
+                        <p:commandButton value="#{msg.back}"
+                                         action="#{navigation.goVisitor()}"
+                                         partialSubmit="true"
+                                         process="@this"
+                                         >
+                        </p:commandButton>
+                    </li>
+                </ul>
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>

@@ -85,4 +85,20 @@ public class Navigation {
         return "/admin/management/tournaments/tournamentStructures.xhtml";
     }
 
+    public String goVisitorVisits() {
+        return "/admin/management/visitors/visitorVisits.xhtml";
+    }
+
+    public String goVisitor() {
+        return "/admin/management/visitors/visitor.xhtml";
+    }
+
+    public String goVisitorCashgames() {
+        return "/admin/management/visitors/visitorCashgames.xhtml";
+    }
+
+    public String goVisitorTournaments() {
+        return "/admin/management/visitors/visitorTournaments.xhtml";
+    }
+
 }

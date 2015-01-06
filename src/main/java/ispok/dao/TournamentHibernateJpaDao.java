@@ -6,6 +6,7 @@
 package ispok.dao;
 
 import ispok.bo.Tournament;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.EntityManager;
@@ -16,6 +17,9 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jpa.EntityManagerFactoryUtils;
 import org.springframework.stereotype.Component;
@@ -34,6 +38,15 @@ public class TournamentHibernateJpaDao implements TournamentDao {
 
     private EntityManager getEntityManager() {
         return EntityManagerFactoryUtils.getTransactionalEntityManager(entityManagerFactory); //entity manager with @Transactional support
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<Tournament> getUpcoming(Date date) {
+        Session session = ((Session) getEntityManager().getDelegate());
+        Criteria criteria = session.createCriteria(Tournament.class);
+        criteria.add(Restrictions.gt("start", date));
+        return criteria.list();
     }
 
     @Override
@@ -112,5 +125,14 @@ public class TournamentHibernateJpaDao implements TournamentDao {
 
         TypedQuery<Long> tq = em.createQuery(cq);
         return tq.getSingleResult();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<Tournament> getTournamentsByTournamentStructureId(Long id) {
+        Session session = getEntityManager().unwrap(Session.class);
+        Criteria criteria = session.createCriteria(Tournament.class);
+        criteria.add(Restrictions.eq("tournamentStructure.id", id));
+        return criteria.list();
     }
 }

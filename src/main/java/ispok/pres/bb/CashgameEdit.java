@@ -14,6 +14,7 @@ import javax.faces.bean.SessionScoped;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.LazyDataModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 /**
@@ -97,7 +98,12 @@ public class CashgameEdit {
     }
 
     public void delete() {
-        cashgameService.delete(selected.getId());
+        try {
+            cashgameService.delete(selected.getId());
+        } catch (DataIntegrityViolationException e) {
+            FacesUtil.addWarnMessage("warn", "cashgame_delete_invalid");
+            return;
+        }
         FacesUtil.addInfoMessage("success", "cashgame_delete_success");
     }
 

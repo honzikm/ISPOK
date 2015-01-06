@@ -119,6 +119,7 @@ public class PayoutStructureEdit {
     }
 
     public String newStructure() {
+        payoutStructure = new PayoutStructureDto();
         PayoutPlaceDto ppd = new PayoutPlaceDto();
         ppd.setPlace(1);
         ppd.setPercent(0);
@@ -185,5 +186,18 @@ public class PayoutStructureEdit {
         } else {
             FacesUtil.addErrorMessage("failed", "failed");
         }
+    }
+
+    public String cancel() {
+        return "/admin/management/tournaments/payoutStructures.xhtml";
+    }
+
+    public void clear() {
+        PayoutPlaceDto ppd = new PayoutPlaceDto();
+        ppd.setPlace(1);
+        ppd.setPercent(0);
+        payoutPlaces.clear();
+        payoutPlaces.add(ppd);
+        payoutStructure.setName("");
     }
 }

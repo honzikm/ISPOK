@@ -1,0 +1,122 @@
+
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:mp ="http://myprimefaces.junkpunk.cz/facelets"
+                template="/admin/template/adminTemplate.xhtml"
+                >
+
+    <ui:define name="title">
+        <title>#{msg.visitor} | #{msg.ispok}</title>
+    </ui:define>
+
+
+    <ui:define name="centerContent">
+
+        <p:growl id="growl"
+                 showDetail="true"
+                 globalOnly="true"
+                 />
+
+        <p:panel header="#{msg.visitor} #{visitorEdit.visitorDto.firstName} #{visitorEdit.visitorDto.lastName}"
+                 >
+            <h:form>
+                <table>
+                    <tr><td><h:outputLabel for="visitorId" value="#{msg.id}: "/></td><td><h:outputText id="visitorId" value="#{visitorEdit.selectedVisitor.id}" /></td></tr>
+                    <tr><td><h:outputLabel for="firstName" value="#{msg.firstName}: "/></td><td><h:outputText id="firstName" value="#{visitorEdit.selectedVisitor.firstName}" /></td></tr>
+                    <tr><td><h:outputLabel for="lastName" value="#{msg.lastName}: "/></td><td><h:outputText id="lastName" value="#{visitorEdit.selectedVisitor.lastName}" /></td></tr>
+                    <tr><td><h:outputLabel for="birthDate" value="#{msg.visitor_birthdate}: "/></td><td><h:outputText id="birthDate" value="#{visitorEdit.selectedVisitor.birthDate}" /></td></tr>
+                    <tr><td><h:outputLabel for="nin" value="#{msg.visitor_nin}: "/></td><td><h:outputText id="nin" value="#{visitorEdit.selectedVisitor.nin}" /></td></tr>
+                    <tr><td><h:outputLabel for="nickname" value="#{msg.visitor_nickname}: "/></td><td><h:outputText id="nickname" value="#{visitorEdit.selectedVisitor.nickname}"/></td></tr>
+                    <tr><td><h:outputLabel for="telephone" value="#{msg.visitor_telephone}:"/></td><td><h:outputText id="telephone" value="#{visitorEdit.selectedVisitor.telephone}" /></td></tr>
+                    <tr><td><h:outputLabel for="email" value="#{msg.email}: "/></td><td><h:outputText id="email" value="#{visitorEdit.selectedVisitor.email}" /></td></tr>
+                    <tr><td><h:outputLabel for="sex" value="#{msg.visitor_sex}: "/></td><td><h:outputText id="sex" value="#{visitorEdit.selectedVisitor.sex}" /></td></tr>
+                    <tr><td><h:outputLabel for="password" value="#{msg.password}: "/></td><td><h:outputText id="password" value="#{visitorEdit.selectedVisitor.password}" /></td></tr>
+                    <tr><td><h:outputLabel for="address" value="#{msg.domicile_address}: "/></td><td><h:outputText id="address" value="#{visitorEdit.selected}" /></td></tr>
+                    <tr><td><h:outputLabel for="city" value="#{msg.domicile_city}: "/></td><td><h:outputText id="city" value="#{visitorEdit.cityDto.name}" /></td></tr>
+                    <tr><td><h:outputLabel for="zip" value="#{msg.domicile_zip}: "/></td><td><h:outputText id="zip" value="#{visitorEdit.postalCodeDto.code}" /></td></tr>
+                    <tr><td><h:outputLabel for="region" value="#{msg.domicile_region}: "/></td><td><h:outputText id="region" value="#{visitorEdit.regionDto.name}" /></td></tr>
+                    <tr><td><h:outputLabel for="country" value="#{msg.domicile_country}: "/></td><td><h:outputText id="country" value="#{visitorEdit.countyDto.name}" /></td></tr>
+                    <tr><td><h:outputLabel for="passportId" value="#{msg.passportId}: "/></td><td><h:outputText id="passportId" value="#{visitorEdit.selectedVisitor.idNumber}" /></td></tr>
+                    <tr><td><h:outputLabel for="citizenship" value="#{msg.visitor_citizenship}: "/></td><td><h:outputText id="citizenship" value="#{visitorEdit.citizenshipDto.name}" /></td></tr>
+                    <tr>
+                        <td><h:outputLabel for="photo" value="#{msg.visitor_photo}: "/></td>
+                        <td>
+                            <p:commandLink  oncomplete="PF('photoDialog').show()"
+                                            update=":photoDialogId"
+                                            >
+                                <p:graphicImage id="photo"
+                                                value="#{visitorEdit.photoThumb}"
+                                                cache="false"
+                                                />
+                            </p:commandLink>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2">
+                            <ul class="center inline">
+                                <li>
+                                    <p:commandButton value="#{msg.visitor_visits}"
+                                                     action="#{navigation.goVisitorVisits}"
+                                                     partialSubmit="true"
+                                                     process="@this"
+                                                     >
+                                    </p:commandButton>
+                                </li>
+                                <li>
+                                    <p:commandButton value="#{msg.cashgames}"
+                                                     action="#{navigation.goVisitorCashgames()}"
+                                                     partialSubmit="true"
+                                                     process="@this"
+                                                     >
+                                    </p:commandButton>
+                                </li>
+                                <li>
+                                    <p:commandButton value="#{msg.tournaments}"
+                                                     action="#{navigation.goVisitorTournaments()}"
+                                                     partialSubmit="true"
+                                                     process="@this"
+                                                     >
+                                    </p:commandButton>
+                                </li>
+                                <li>
+                                    <p:commandButton value="#{msg.back}"
+                                                     action="#{navigation.goVisitors()}"
+                                                     partialSubmit="true"
+                                                     process="@this"
+                                                     >
+                                    </p:commandButton>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+
+                </table>
+            </h:form>
+        </p:panel>
+    </ui:define>
+
+    <ui:define name="bodyContent"
+               >
+        <p:dialog id="photoDialogId"
+                  header="#{msg.photo}: "
+                  widgetVar="photoDialog"
+                  modal="true"
+                  resizable="false"
+                  closeOnEscape="true"
+                  position="center, top"
+                  dynamic="true"
+                  >
+            <p:graphicImage id="photo"
+                            value="#{visitorEdit.photo}"
+                            cache="false"
+                            />
+        </p:dialog>
+
+    </ui:define>
+
+</ui:composition>

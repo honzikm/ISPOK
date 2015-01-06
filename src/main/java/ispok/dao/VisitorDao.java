@@ -5,6 +5,7 @@
  */
 package ispok.dao;
 
+import ispok.bo.Visit;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +16,7 @@ import java.util.Map;
 public interface VisitorDao {
 
     /**
-     * 
+     *
      * @param <ENTITY>
      * @param first
      * @param rows
@@ -23,15 +24,15 @@ public interface VisitorDao {
      * @param ascending
      * @param filters
      * @param clazz
-     * @return 
+     * @return
      */
     public <ENTITY> List<ENTITY> getPage(int first, int rows, String sortBy, boolean ascending, Map<String, Object> filters, Class<ENTITY> clazz);
 
     /**
-     * 
+     *
      * @param <ENTITY>
      * @param clazz
-     * @return 
+     * @return
      */
     public <ENTITY> Long getCount(Class<ENTITY> clazz);
 
@@ -43,5 +44,12 @@ public interface VisitorDao {
      * @return
      */
     public <ENTITY> Long getCount(Map<String, Object> filters, Class<ENTITY> clazz);
+
+    /**
+     *
+     * @param id
+     * @return
+     */
+    public List<Visit> getVisitsByVisitorId(Long id);
 
 }

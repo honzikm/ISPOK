@@ -55,8 +55,10 @@ public class CashgameManager {
     @PostConstruct
     void init() {
         List<OfficeDto> officeDtos = getAllOffices();
-        setOfficeId(officeDtos.get(0).getId());
-        cashgames = getCashgames();
+        if (!officeDtos.isEmpty()) {
+            setOfficeId(officeDtos.get(0).getId());
+            cashgames = getCashgames();
+        }
     }
 
     public String getAutoCompleteText() {

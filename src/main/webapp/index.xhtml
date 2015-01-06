@@ -4,7 +4,7 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
 
 
@@ -24,9 +24,49 @@
         <f:view>
             <h:form>
                 <fieldset>
-                    <legend><h:outputText value="#{msg.upcoming_tournaments}"/></legend>
+                    <legend>
+                        <h:outputText value="#{msg.upcoming_tournaments}"/>
+                    </legend>
 
+                    <!--                    <c:forEach var="tournament"
+                                                   items="${index.upcomingTournaments}"
+                                                   >
+                                            <h:outputText value="${tournament.name}"
+                                                          />
 
+                                        </c:forEach>-->
+                    <ui:repeat var="tournament"
+                               value="#{index.upcomingTournaments}"
+                               >
+                        <fieldset>
+                            <ul style="list-style: none">
+                                <li>
+                                    <h:outputLabel for="naem"
+                                                   value="#{msg.name}: "
+                                                   />
+                                    <h:outputText id="name"
+                                                  value="#{tournament.name}"
+                                                  />
+                                </li>
+                                <li>
+                                    <h:outputLabel for="start"
+                                                   value="#{msg.start}: "
+                                                   />
+                                    <h:outputText id="start"
+                                                  value="#{tournament.start}"
+                                                  />
+                                </li>
+                                <li>
+                                    <h:outputLabel for="buyin"
+                                                   value="#{msg.buyin}: "
+                                                   />
+                                    <h:outputText id="buyin"
+                                                  value="#{tournament.buyin}"
+                                                  />
+                                </li>
+                            </ul>
+                        </fieldset>
+                    </ui:repeat>
                 </fieldset>
             </h:form>
         </f:view>
