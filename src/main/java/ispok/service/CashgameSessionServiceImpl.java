@@ -43,7 +43,8 @@ public class CashgameSessionServiceImpl extends AbstractDataAccessService implem
     public void save(CashgameSessionDto cashgameSessionDto) {
         CashgameSession cashgameSession;
         try {
-            cashgameSession = genericDao.loadById(cashgameSessionDto.getId(), CashgameSession.class);
+//            cashgameSession = genericDao.loadById(cashgameSessionDto.getId(), CashgameSession.class);
+            cashgameSession = genericDao.getById(cashgameSessionDto.getId(), CashgameSession.class);
         } catch (Exception e) {
             cashgameSession = new CashgameSession();
         }
