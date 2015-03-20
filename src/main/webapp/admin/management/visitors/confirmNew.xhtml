@@ -1,5 +1,5 @@
 
-<ui:composition  xmlns="http://www.w3.org/1999/xhtml"   
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
                  xmlns:h="http://java.sun.com/jsf/html"
                  xmlns:ui="http://java.sun.com/jsf/facelets"
                  xmlns:p="http://primefaces.org/ui"
@@ -33,7 +33,9 @@
                     <tr><td><h:outputLabel for="city" value="#{msg.domicile_city}: "/></td><td><h:outputText id="city" value="#{newVisitor.city}" /></td></tr>
                     <tr><td><h:outputLabel for="zip" value="#{msg.domicile_zip}: "/></td><td><h:outputText id="zip" value="#{newVisitor.zip}" /></td></tr>
                     <tr><td><h:outputLabel for="region" value="#{msg.domicile_region}: "/></td><td><h:outputText id="region" value="#{newVisitor.region}" /></td></tr>
-                    <tr><td><h:outputLabel for="country" value="#{msg.domicile_country}: "/></td><td><h:outputText id="country" value="#{newVisitor.country}" /></td></tr>
+                    <tr><td><h:outputLabel for="country" value="#{msg.domicile_country}: "/></td><td><h:outputFormat id="country" value="#{countryA3.ABW}">
+                                <f:param value="#{newVisitor.country}"/>
+                        </td></tr>
                     <c:if test="#{newVisitor.foreigner}" >
                         <tr><td><h:outputLabel for="passportId" value="#{msg.passportId}: "/></td><td><h:outputText id="passportId" value="#{newVisitor.passportId}" /></td></tr>
                         <tr><td><h:outputLabel for="citizenship" value="#{msg.visitor_citizenship}: "/></td><td><h:outputText id="citizenship" value="#{newVisitor.citizenshipId}" /></td></tr>
@@ -44,11 +46,11 @@
                                            />
                         </td>
                         <td>
-                            <p:commandLink  oncomplete="PF('photoDialog').show()" 
+                            <p:commandLink  oncomplete="PF('photoDialog').show()"
                                             update=":photoDialogId"
                                             >
                                 <p:graphicImage id="photo"
-                                                value="#{newVisitor.photoThumbnail}" 
+                                                value="#{newVisitor.photoThumbnail}"
                                                 cache="false"
                                                 />
                             </p:commandLink>
@@ -74,11 +76,11 @@
                                     </p:commandButton>
                                 </li>
                                 <!--<li>-->
-<!--                                            <p:commandButton value="#{msg.cancel}" 
+<!--                                            <p:commandButton value="#{msg.cancel}"
                                                      action="#{newVisitor.cancel()}"
                                                      >-->
                                 <!--<p:resetInput target="newOfficeForm" />-->
-                                <!--<p:ajax update="newVisitorForm" resetValues="true"/>--> 
+                                <!--<p:ajax update="newVisitorForm" resetValues="true"/>-->
                                 <!--</p:commandButton>-->
                                 <!--</li>-->
                             </ul>
@@ -90,18 +92,18 @@
 
     </ui:define>
 
-    <ui:define name="bodyContent" 
+    <ui:define name="bodyContent"
                >
-        <p:dialog id="photoDialogId" 
+        <p:dialog id="photoDialogId"
                   header="#{msg.cancel}: "
                   widgetVar="photoDialog"
                   modal="true"
-                  resizable="false" 
-                  closeOnEscape="true" 
+                  resizable="false"
+                  closeOnEscape="true"
                   position="center"
                   >
-            <p:graphicImage id="photo" 
-                            value="#{newVisitor.photo}" 
+            <p:graphicImage id="photo"
+                            value="#{newVisitor.photo}"
                             cache="false"
                             />
         </p:dialog>

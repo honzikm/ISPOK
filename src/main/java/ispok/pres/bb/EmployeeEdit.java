@@ -28,7 +28,7 @@ public class EmployeeEdit implements Serializable {
 
 //    private String username;
 //    private String password;
-    private EmployeeDto employee;
+    private EmployeeDto employee = new EmployeeDto();
 
 //    private boolean isReceptionist;
 //    private boolean isCashier;
@@ -109,6 +109,7 @@ public class EmployeeEdit implements Serializable {
 
     public void clearEdit() {
         this.employee = new EmployeeDto();
+        employee.setUsername("");
         this.changePassword = false;
     }
 

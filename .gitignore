@@ -1,2 +1,7 @@
 target/
 .idea/
+config/
+var/
+.lastModified
+build.properties
+lock

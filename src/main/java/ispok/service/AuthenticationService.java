@@ -112,6 +112,7 @@ public class AuthenticationService extends AbstractUserDetailsAuthenticationProv
                             throw new BadCredentialsException("Invalid password");
                         }
                         auths.add(new SimpleGrantedAuthority("ROLE_VISITOR"));
+                        ud = new User(visitorDto.getEmail(), visitorDto.getPasswordHash(), auths);
                     }
                     return ud;
 

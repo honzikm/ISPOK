@@ -23,30 +23,10 @@
             </li>
         </sec:authorize>
 
-        <sec:authorize ifAnyGranted="ROLE_USER">
+        <sec:authorize ifAnyGranted="ROLE_VISITOR">
             <li>
-                <h:link value="#{msg.reservations}" outcome="/user/reservations.xhtml"/>
+                <h:link value="#{msg.myaccount}" outcome="/user/profile.xhtml"/>
             </li>
-        </sec:authorize>
-
-        <sec:authorize ifAnyGranted="ROLE_MANAGER">
-            <li>
-                <h:link value="#{msg.staff}" outcome="/admin/staffEdit.xhtml"/>
-            </li>
-            <li>
-                <h:link value="#{msg.offices}" outcome="/admin/officeEdit.xhtml"/>
-            </li>
-            <!--
-            <li>
-                <h:link value="#{msg.flight_edit}" outcome="/admin/flightEdit.xhtml"/>
-            </li>
-            <li>
-                <h:link value="#{msg.airport_edit}" outcome="/admin/airportEdit.xhtml"/>
-            </li>
-            <li>
-                <h:link value="#{msg.aircraft_edit}" outcome="/admin/aircraftEdit.xhtml"/>
-            </li>-->
         </sec:authorize>
     </ul>
-
 </ui:component>

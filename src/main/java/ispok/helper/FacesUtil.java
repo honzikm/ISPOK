@@ -70,6 +70,10 @@ public class FacesUtil {
         return ResourceBundle.getBundle("ispok/pres/inter/ispok").getString(key);
     }
 
+    public static String getCountryName(String key) {
+        return ResourceBundle.getBundle("ispok/pres/inter/countryA3").getString(key);
+    }
+
     public static Object getSessionAttribute(String key) {
         return ((HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true)).getAttribute(key);
     }

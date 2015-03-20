@@ -8,10 +8,9 @@ package ispok.service;
 import ispok.bo.Country;
 import ispok.dao.CountryDao;
 import ispok.dto.CountryDto;
+import ispok.helper.FacesUtil;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import javax.faces.context.FacesContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -27,10 +26,7 @@ public class CountryServiceImpl extends AbstractDataAccessService implements Cou
 
     @Override
     public List<CountryDto> getAllCountries() {
-        Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
-
-        List<Country> countries = countryDao.getAll(locale.getISO3Language());
-
+        List<Country> countries = countryDao.getAll();
         return getCountryDtos(countries);
     }
 
@@ -47,7 +43,7 @@ public class CountryServiceImpl extends AbstractDataAccessService implements Cou
         countryDto.setId(country.getId());
         countryDto.setAlpha2(country.getAlpha2());
         countryDto.setAlpha3(country.getAlpha3());
-        countryDto.setName(country.getEng());
+        countryDto.setName(FacesUtil.getCountryName(country.getAlpha3()));
         return countryDto;
     }
 
@@ -64,5 +60,4 @@ public class CountryServiceImpl extends AbstractDataAccessService implements Cou
 //        countryDto.setAlpha3(country.getAlpha3());
 //        return countryDto;
 //    }
-
 }

@@ -2,15 +2,15 @@
 
 <!-- =========== FULL CONFIGURATION FILE ================================== -->
 
-<faces-config version="2.0" 
-              xmlns="http://java.sun.com/xml/ns/javaee" 
-              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+<faces-config version="2.0"
+              xmlns="http://java.sun.com/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd">
 
     <application>
-        <!--This is needed if using spring beans in the EL expressions--> 
+        <!--This is needed if using spring beans in the EL expressions-->
         <el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
-        
+
         <!--Localization configuration-->
         <!--defin the default and the supported locales.-->
         <locale-config>
@@ -23,6 +23,11 @@
             <var>msg</var>
         </resource-bundle>
 
+        <resource-bundle>
+            <base-name>ispok.pres.inter.countryA3</base-name>
+            <var>countryA3</var>
+        </resource-bundle>
+
 
         <render-kit>
             <renderer>
@@ -30,7 +35,7 @@
                 <renderer-type>org.primefaces.component.FileUploadRenderer</renderer-type>
                 <renderer-class>ispok.helper.MyFileUploadRenderer</renderer-class>
             </renderer>
-        </render-kit>        
-        
+        </render-kit>
+
     </application>
 </faces-config>

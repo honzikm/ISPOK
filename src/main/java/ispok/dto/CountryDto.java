@@ -34,5 +34,4 @@ public class CountryDto extends AbstractDto {
     public void setName(String name) {
         this.name = name;
     }
-
 }

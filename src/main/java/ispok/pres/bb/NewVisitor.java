@@ -565,6 +565,6 @@ public class NewVisitor {
 
     public String getCountry() {
         CountryDto countryDto = countryService.getCountryById(countryId);
-        return countryDto.getName();
+        return countryDto.getAlpha3();
     }
 }

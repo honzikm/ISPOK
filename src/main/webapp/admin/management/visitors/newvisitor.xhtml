@@ -1,5 +1,5 @@
 
-<ui:composition  xmlns="http://www.w3.org/1999/xhtml"   
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
                  xmlns:h="http://java.sun.com/jsf/html"
                  xmlns:ui="http://java.sun.com/jsf/facelets"
                  xmlns:p="http://primefaces.org/ui"
@@ -16,25 +16,25 @@
     <ui:define name="centerContent"
                >
 
-        <!--<p:growl id="growl" showDetail="true" />--> 
+        <!--<p:growl id="growl" showDetail="true" />-->
 
-        <p:panel header="#{msg.visitor_new}" 
+        <p:panel header="#{msg.visitor_new}"
                  >
 
-            <h:form id="newVisitorForm" 
+            <h:form id="newVisitorForm"
                     enctype="multipart/form-data"
                     >
                 <table>
                     <tr>
                         <td>
-                            <p:outputLabel for="firstName" 
-                                           value="#{msg.visitor_firstname}: " 
+                            <p:outputLabel for="firstName"
+                                           value="#{msg.visitor_firstname}: "
                                            />
                         </td>
                         <td>
-                            <p:inputText id="firstName" 
+                            <p:inputText id="firstName"
                                          value="#{newVisitor.firstName}"
-                                         required="true" 
+                                         required="true"
                                          requiredMessage="#{msg.required}"
                                          >
                                 <f:converter binding="#{stringTrimmer}" />
@@ -42,39 +42,39 @@
                             </p:inputText>
                         </td>
                         <td>
-                            <p:message id="firstNameMsg" 
+                            <p:message id="firstNameMsg"
                                        for="firstName"
                                        />
                         </td>
                     </tr>
                     <tr>
-                        <td><p:outputLabel for="lastName" 
+                        <td><p:outputLabel for="lastName"
                                            value="#{msg.visitor_lastname}: "
                                            />
                         </td>
                         <td>
                             <p:inputText id="lastName"
                                          value="#{newVisitor.lastName}"
-                                         required="true" 
+                                         required="true"
                                          requiredMessage="#{msg.required}"
                                          >
                                 <f:converter binding="#{stringTrimmer}" />
                                 <f:validator validatorId="lastNameValidator" />
                             </p:inputText>
                         </td>
-                        <td><p:message id="lastnameMsg" 
-                                       for="lastName" 
+                        <td><p:message id="lastnameMsg"
+                                       for="lastName"
                                        />
                         </td>
-                    </tr> 
+                    </tr>
                     <tr>
-                        <td><p:outputLabel for="birthDate" 
+                        <td><p:outputLabel for="birthDate"
                                            value="#{msg.visitor_birthdate}: "
                                            />
                         </td>
                         <td>
-                            <p:inputText id="birthDate" 
-                                         value="#{newVisitor.birthDate}" 
+                            <p:inputText id="birthDate"
+                                         value="#{newVisitor.birthDate}"
                                          required="true"
                                          requiredMessage="#{msg.visitor_birthdate_valid}"
                                          >
@@ -82,24 +82,24 @@
                             </p:inputText>
                         </td>
                         <td><p:message id="birthDateMsg"
-                                       for="birthDate" 
+                                       for="birthDate"
                                        />
                         </td>
                     </tr>
                     <tr>
-                        <td><p:outputLabel for="nin" 
+                        <td><p:outputLabel for="nin"
                                            value="#{msg.visitor_nin}: "
                                            />
                         </td>
                         <td>
-                            <p:inputText id="nin" 
-                                         value="#{newVisitor.nin}" 
-                                         required="true" 
+                            <p:inputText id="nin"
+                                         value="#{newVisitor.nin}"
+                                         required="true"
                                          requiredMessage="#{msg.required}"
                                          >
                             </p:inputText>
                         </td>
-                        <td><p:message id="ninMsg" 
+                        <td><p:message id="ninMsg"
                                        for="nin"
                                        />
                         </td>
@@ -111,8 +111,8 @@
                                 />
                         </td>
                         <td>
-                            <p:inputText id="nickname" 
-                                         value="#{newVisitor.nickname}" 
+                            <p:inputText id="nickname"
+                                         value="#{newVisitor.nickname}"
                                          >
                                 <f:converter binding="#{stringTrimmer}" />
                                 <f:validator validatorId="nicknameValidator"/>
@@ -136,59 +136,59 @@
                             </p:inputText>
                         </td>
                         <td><p:message id="telephoneMsg"
-                                       for="telephone" 
+                                       for="telephone"
                                        />
                         </td>
                     </tr>
                     <tr>
-                        <td><p:outputLabel for="email" 
+                        <td><p:outputLabel for="email"
                                            value="#{msg.visitor_email}: "
                                            />
                         </td>
                         <td>
-                            <p:inputText id="email" 
+                            <p:inputText id="email"
                                          value="#{newVisitor.email}"
                                          required="true"
                                          requiredMessage="#{msg.required}"
 
                                          >
-                                <f:converter binding="#{stringTrimmer}" 
+                                <f:converter binding="#{stringTrimmer}"
                                              />
-                                <f:validator validatorId="emailValidator" 
+                                <f:validator validatorId="emailValidator"
                                              />
                                 <f:validator validatorId="visitorEmailExistValidator"
                                              />
                             </p:inputText>
                         </td>
-                        <td><p:message id="emailMsg" 
-                                       for="email" 
+                        <td><p:message id="emailMsg"
+                                       for="email"
                                        />
                         </td>
                     </tr>
                     <tr>
-                        <td><p:outputLabel for="sex" 
+                        <td><p:outputLabel for="sex"
                                            value="#{msg.visitor_sex}: "
                                            />
                         </td>
                         <td>
-                            <p:selectOneMenu id="sex" 
+                            <p:selectOneMenu id="sex"
                                              value="#{newVisitor.sex}"
-                                             >  
-                                <f:selectItem itemLabel="---" 
-                                              itemValue="" 
-                                              />  
+                                             >
+                                <f:selectItem itemLabel="---"
+                                              itemValue=""
+                                              />
                                 <f:selectItem itemLabel="M"
                                               itemValue="M"
-                                              />  
+                                              />
                                 <f:selectItem itemLabel="F"
-                                              itemValue="F" 
-                                              />  
-                                <f:selectItem itemLabel="X" 
-                                              itemValue="X" 
-                                              />  
-                            </p:selectOneMenu>  
+                                              itemValue="F"
+                                              />
+                                <f:selectItem itemLabel="X"
+                                              itemValue="X"
+                                              />
+                            </p:selectOneMenu>
                         </td>
-                        <td><p:message id="sexMsg" 
+                        <td><p:message id="sexMsg"
                                        for="sex"
                                        />
                         </td>
@@ -199,18 +199,18 @@
                                            />
                         </td>
                         <td>
-                            <p:inputText id="password" 
+                            <p:inputText id="password"
                                          value="#{newVisitor.password}"
                                          >
 
                                 <f:validator validatorId="passwordValidator"/>
                             </p:inputText>
                         </td>
-                        <td><p:message id="passwordMsg" 
-                                       for="password" 
+                        <td><p:message id="passwordMsg"
+                                       for="password"
                                        />
                         </td>
-                    </tr>     
+                    </tr>
                     <tr>
                         <td colspan="2"><h:outputText
                                 value="#{msg.domicile}"
@@ -224,14 +224,14 @@
                         </td>
                         <td>
                             <p:inputText id="address"
-                                         value="#{newVisitor.address}" 
-                                         required="true" 
+                                         value="#{newVisitor.address}"
+                                         required="true"
                                          requiredMessage="#{msg.required}"
                                          >
                             </p:inputText>
                         </td>
                         <td><p:message id="addressMag"
-                                       for="address" 
+                                       for="address"
                                        />
                         </td>
                     </tr>
@@ -242,77 +242,77 @@
                         </td>
                         <td><p:inputText id="city"
                                          value="#{newVisitor.city}"
-                                         required="true" 
+                                         required="true"
                                          requiredMessage="#{msg.required}"
                                          />
                         </td>
-                        <td><p:message id="cityMsg" 
+                        <td><p:message id="cityMsg"
                                        for="city" />
                         </td>
                     </tr>
                     <tr>
-                        <td><p:outputLabel for="zip" 
+                        <td><p:outputLabel for="zip"
                                            value="#{msg.domicile_zip}: "
                                            />
                         </td>
                         <td>
-                            <p:inputText id="zip" 
-                                         value="#{newVisitor.zip}" 
+                            <p:inputText id="zip"
+                                         value="#{newVisitor.zip}"
                                          required="true"
                                          requiredMessage="#{msg.required}"
                                          >
                             </p:inputText>
                         </td>
-                        <td><p:message id="zipMsg" 
-                                       for="zip" 
+                        <td><p:message id="zipMsg"
+                                       for="zip"
                                        />
                         </td>
                     </tr>
                     <tr>
-                        <td><p:outputLabel for="region" 
+                        <td><p:outputLabel for="region"
                                            value="#{msg.domicile_region}: "
                                            />
                         </td>
                         <td>
-                            <p:inputText id="region" 
-                                         value="#{newVisitor.region}" 
+                            <p:inputText id="region"
+                                         value="#{newVisitor.region}"
                                          >
                             </p:inputText>
                         </td>
-                        <td><p:message id="regionMsg" 
+                        <td><p:message id="regionMsg"
                                        for="region"
                                        />
                         </td>
                     </tr>
                     <tr>
-                        <td><p:outputLabel for="country" 
+                        <td><p:outputLabel for="country"
                                            value="#{msg.domicile_country}: "
                                            />
                         </td>
                         <td>
-                            <p:selectOneMenu id="country" 
+                            <p:selectOneMenu id="country"
                                              value="#{newVisitor.countryId}"
-                                             >  
-                                <!--<f:selectItem itemLabel="Select One" itemValue="" />-->  
+                                             >
+                                <!--<f:selectItem itemLabel="Select One" itemValue="" />-->
                                 <f:selectItems value="#{countryServiceImpl.allCountries}"
-                                               var="country" 
-                                               itemLabel="#{country.name}" 
+                                               var="country"
+                                               itemLabel="#{country.name}"
                                                itemValue="#{country.id}"
-                                               />  
-                            </p:selectOneMenu>  
+                                               />
+                            </p:selectOneMenu>
                         </td>
-                        <td><p:message id="countryMsg" 
+                        <td><p:message id="countryMsg"
                                        for="country"
                                        />
                         </td>
                     </tr>
                     <tr>
-                        <td><p:outputLabel for="foreigner" 
+                        <td><p:outputLabel for="foreigner"
                                            value="#{msg.foreigner}: "
                                            />
                         </td>
                         <td>
-                            <p:selectBooleanCheckbox id="foreigner" 
+                            <p:selectBooleanCheckbox id="foreigner"
                                                      value="#{newVisitor.foreigner}"
                                                      >
                                 <p:ajax update="passportId, passportIdMsg, citizenship, citizenshipMsg" />
@@ -324,50 +324,50 @@
                         </td>
                     </tr>
                     <tr id="passportIdRow">
-                        <td><p:outputLabel for="passportId" 
+                        <td><p:outputLabel for="passportId"
                                            value="#{msg.passportId}: "
                                            />
                         </td>
                         <td>
                             <p:inputText id="passportId"
-                                         value="#{newVisitor.passportId}" 
-                                         required="true" 
-                                         requiredMessage="#{msg.visitor_idnumber_valid}" 
+                                         value="#{newVisitor.passportId}"
+                                         required="true"
+                                         requiredMessage="#{msg.visitor_idnumber_valid}"
                                          disabled="#{not newVisitor.foreigner}"
                                          >
                                 <f:converter binding="#{stringTrimmer}" />
                             </p:inputText>
                         </td>
-                        <td><p:message id="passportIdMsg" 
-                                       for="passportId" 
+                        <td><p:message id="passportIdMsg"
+                                       for="passportId"
                                        />
                         </td>
                     </tr>
                     <tr id="citizenshipRow">
-                        <td><p:outputLabel for="citizenship" 
+                        <td><p:outputLabel for="citizenship"
                                            value="#{msg.visitor_citizenship}: "
                                            />
                         </td>
                         <td>
                             <p:selectOneMenu id="citizenship"
-                                             value="#{newVisitor.citizenshipId}" 
+                                             value="#{newVisitor.citizenshipId}"
                                              disabled="#{not newVisitor.foreigner}"
-                                             >  
-                                <!--<f:selectItem itemLabel="Select One" itemValue="" />-->  
-                                <f:selectItems value="#{countryServiceImpl.allCountries}" 
+                                             >
+                                <!--<f:selectItem itemLabel="Select One" itemValue="" />-->
+                                <f:selectItems value="#{countryServiceImpl.allCountries}"
                                                var="country"
                                                itemLabel="#{country.name}"
                                                itemValue="#{country.id}"
-                                               />  
-                            </p:selectOneMenu>  
+                                               />
+                            </p:selectOneMenu>
                         </td>
-                        <td><p:message id="citizenshipMsg" 
-                                       for="citizenship" 
+                        <td><p:message id="citizenshipMsg"
+                                       for="citizenship"
                                        />
                         </td>
                     </tr>
                     <tr>
-                        <td><p:outputLabel for="photo" 
+                        <td><p:outputLabel for="photo"
                                            value="#{msg.visitor_photo}: "
                                            />
                         </td>
@@ -376,17 +376,17 @@
                                 <f:validator binding="#{visitorPhotoValidator}" />
                             </h:inputFile>-->
 
-                            <p:fileUpload id="photo" 
-                                          mode="simple" 
-                                          value="#{newVisitor.photoFile}" 
-                                          required="true" 
-                                          requiredMessage="#{msg.required}" 
+                            <p:fileUpload id="photo"
+                                          mode="simple"
+                                          value="#{newVisitor.photoFile}"
+                                          required="true"
+                                          requiredMessage="#{msg.required}"
                                           >
                                 <f:validator validatorId="visitorPhotoEmptyValidator"/>
                                 <f:validator validatorId="visitorPhotoSizeValidator"/>
                             </p:fileUpload>
                         </td>
-                        <td><p:message id="photoMsg" 
+                        <td><p:message id="photoMsg"
                                        for="photo"
                                        />
                         </td>
@@ -395,33 +395,33 @@
                         <td colspan="2">
                             <ul class="center, inline">
                                 <li>
-                                    <p:commandButton value="#{msg.add}" 
+                                    <p:commandButton value="#{msg.add}"
                                                      ajax="false"
-                                                     update="newVisitorForm"    
-                                                     action="#{newVisitor.addVisitor()}" 
+                                                     update="newVisitorForm"
+                                                     action="#{newVisitor.addVisitor()}"
                                                      >
                                         <!--<p:ajax update=":growl" />-->
                                     </p:commandButton>
                                 </li>
                                 <li class="inline">
-                                    <p:commandButton value="#{msg.reset}" 
+                                    <p:commandButton value="#{msg.reset}"
                                                      update="newVisitorForm"
-                                                     ajax="true" 
-                                                     process="@this" 
+                                                     ajax="true"
+                                                     process="@this"
                                                      resetValues="true"
                                                      />
                                 </li>
                                 <li>
-                                    <p:commandButton value="#{msg.cancel}" 
+                                    <p:commandButton value="#{msg.cancel}"
                                                      immediate="true"
                                                      action="#{navigation.goVisitors()}"
                                                      >
 <!--                                         action="#{newVisitor.clear()}"
                                                      oncomplete="#{navigation.visitors}"-->
                                         <!--<p:resetInput target="newOfficeForm" />-->
-                                        <p:ajax update="newVisitorForm" 
+                                        <p:ajax update="newVisitorForm"
                                                 resetValues="true"
-                                                /> 
+                                                />
                                     </p:commandButton>
                                 </li>
                             </ul>

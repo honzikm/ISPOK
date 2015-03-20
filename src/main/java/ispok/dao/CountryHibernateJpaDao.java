@@ -11,10 +11,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.ProjectionList;
-import org.hibernate.criterion.Projections;
-import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jpa.EntityManagerFactoryUtils;
 import org.springframework.stereotype.Component;
@@ -30,21 +26,24 @@ public class CountryHibernateJpaDao implements CountryDao {
     }
 
     @Override
-    public List<Country> getAll(String language) {
+    public List<Country> getAll() {
 
         Session session = getEntityManager().unwrap(Session.class);
 
+//        Criteria criteria = session.createCriteria(Country.class, "country");
+//
+//        ProjectionList projectionList = Projections.projectionList();
+//        projectionList
+//                .add(Projections.property("id"), "id")
+//                .add(Projections.property(language), "eng");
+//
+//        criteria.setProjection(projectionList);
+//        criteria.setResultTransformer(Transformers.aliasToBean(Country.class));
+//
+//        criteria.addOrder(Order.asc(language));
+//
+//        List<Country> list = criteria.list();
         Criteria criteria = session.createCriteria(Country.class, "country");
-
-        ProjectionList projectionList = Projections.projectionList();
-        projectionList
-                .add(Projections.property("id"), "id")
-                .add(Projections.property(language), "eng");
-
-        criteria.setProjection(projectionList);
-        criteria.setResultTransformer(Transformers.aliasToBean(Country.class));
-
-        criteria.addOrder(Order.asc(language));
 
         List<Country> list = criteria.list();
 

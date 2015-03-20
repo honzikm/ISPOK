@@ -9,7 +9,9 @@ import ispok.bo.Visitor;
 import ispok.provider.HashProvider;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 
+@Configurable
 public class VisitorDto extends AbstractDto {
 
     private String firstName;
@@ -184,7 +186,8 @@ public class VisitorDto extends AbstractDto {
     public boolean hasPassword(String password) {
         String hashPassw;
         hashPassw = hashProvider.computeHash(password + saltHash);
-        return hashPassw.equals(this.password);
+        boolean equals = hashPassw.equals(passwordHash);
+        return equals;
     }
 
     /**
