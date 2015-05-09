@@ -25,7 +25,7 @@ import org.springframework.stereotype.Component;
  *
  * @author Jan
  */
-@Component
+@Component(value = "visitorService")
 public class VisitorServiceImpl extends AbstractDataAccessService implements VisitorService {
 
     Logger logger = LogManager.getLogger();
@@ -243,6 +243,13 @@ public class VisitorServiceImpl extends AbstractDataAccessService implements Vis
         }
         logger.exit();
         return visitDtos;
+    }
+
+    @Override
+    public VisitorDto getVisitorByEmail(String email) {
+        Visitor v = genericDao.getByPropertyUnique("email", email, Visitor.class);
+
+        return getVisitorDto(v);
     }
 
 }

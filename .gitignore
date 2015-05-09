@@ -5,3 +5,6 @@ var/
 .lastModified
 build.properties
 lock
+config_bck/
+nbactions.xml
+winp.x64.dll

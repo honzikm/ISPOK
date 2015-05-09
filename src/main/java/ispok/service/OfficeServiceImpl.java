@@ -56,4 +56,14 @@ public class OfficeServiceImpl extends AbstractDataAccessService implements Offi
         office.setInfo(officeDto.getInfo());
         genericDao.saveOrUpdate(office);
     }
+
+    @Override
+    public boolean officeExist(String name) {
+        Office o = null;
+        o = genericDao.getByPropertyUnique("name", name, Office.class);
+        if (o == null) {
+            return false;
+        }
+        return true;
+    }
 }

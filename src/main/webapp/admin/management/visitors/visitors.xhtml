@@ -109,11 +109,14 @@
                                   />
                 </p:column>
 
-                <p:column sortBy="#{visitor.lastName}" filterBy="#{visitor.lastName}" headerText="#{msg.visitor_lastname}">
+                <p:column sortBy="#{visitor.lastName}"
+                          filterBy="#{visitor.lastName}"
+                          headerText="#{msg.visitor_lastname}">
                     <h:outputText value="#{visitor.lastName}" />
                 </p:column>
 
-                <p:column sortBy="#{visitor.birthDate}" headerText="#{msg.visitor_birthdate}">
+                <p:column sortBy="#{visitor.birthDate}"
+                          headerText="#{msg.visitor_birthdate}">
                     <h:outputText value="#{visitor.birthDate}" />
                 </p:column>
 

@@ -23,6 +23,8 @@ public class TournamentDto extends AbstractDto {
     private int levelNumber;
     private int levelTime;
     private Long payoutStructureId = (long) 0;
+    private int rebuys;
+    private int addons;
 
     public TournamentDto() {
     }
@@ -285,6 +287,42 @@ public class TournamentDto extends AbstractDto {
      */
     public void setLevelTime(int levelTime) {
         this.levelTime = levelTime;
+    }
+
+    /**
+     * Get the value of rebuys
+     *
+     * @return the value of rebuys
+     */
+    public int getRebuys() {
+        return rebuys;
+    }
+
+    /**
+     * Set the value of rebuys
+     *
+     * @param rebuys new value of rebuys
+     */
+    public void setRebuys(int rebuys) {
+        this.rebuys = rebuys;
+    }
+
+    /**
+     * Get the value of addons
+     *
+     * @return the value of addons
+     */
+    public int getAddons() {
+        return addons;
+    }
+
+    /**
+     * Set the value of addons
+     *
+     * @param addons new value of addons
+     */
+    public void setAddons(int addons) {
+        this.addons = addons;
     }
 
 }

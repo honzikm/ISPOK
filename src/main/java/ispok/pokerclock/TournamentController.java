@@ -27,7 +27,9 @@ import org.springframework.beans.factory.annotation.Configurable;
  *
  * @author Jan Mucha <j.mucha@seznam.cz>
  */
-@Configurable
+//
+@Configurable(preConstruction = true)
+//
 public class TournamentController {
 
     @Autowired
@@ -42,8 +44,9 @@ public class TournamentController {
     private List<LevelDto> levelDtos = new ArrayList<>(20);
     private PayoutStructureDto payoutStructureDto;
     private List<PayoutPlaceDto> payoutPlaceDtos;
-    private List<TournamentSessionDto> tournamentSessionDtos = new ArrayList<>(50);
-    private List<VisitorDto> playerDtos;
+    private List<TournamentSessionDto> tournamentSessionDtos;
+    private List<VisitorDto> ingamePlayerDtos;
+    private List<VisitorDto> sitoutPlyerDtos;
 
     private LevelDto currentLevel;
     private int currentLevelDuration_s;
@@ -54,6 +57,8 @@ public class TournamentController {
     private int entries;
 
     private float prizePool;
+
+    private float money;
 
     private Timer timer = new Timer("TimeCounter");
     private TimerTask timerCounter;
@@ -67,7 +72,9 @@ public class TournamentController {
         currentLevelDuration_s = 0;
         time_s = currentLevelDuration_s;
         currentLevel = new LevelDto();
-        playerDtos = new ArrayList<>(50);
+        ingamePlayerDtos = new ArrayList<>(50);
+        sitoutPlyerDtos = new ArrayList<>(50);
+        tournamentSessionDtos = new ArrayList<>(50);
         payoutPlaceDtos = new ArrayList<>(20);
         tournamentDto = null;
 
@@ -97,20 +104,77 @@ public class TournamentController {
         this.levelBreak = levelBreak;
     }
 
-    public synchronized void addPlayer(Long playerId) {
+    public synchronized boolean addPlayer(Long playerId) {
         VisitorDto playerDto = visitorService.getVisitorById(playerId);
-        playerDtos.add(playerDto);
-        entries++;
-    }
-
-    public synchronized void removePlayer(Long id) {
-        for (int i = 0; i < playerDtos.size(); i++) {
-            if (playerDtos.get(i).getId().equals(id)) {
-                playerDtos.remove(i);
-                break;
+        for (VisitorDto vdtDto : ingamePlayerDtos) {
+            if (playerDto.getId().equals(vdtDto.getId())) {
+                return false;
             }
         }
-        entries--;
+        for (VisitorDto vdtDto : sitoutPlyerDtos) {
+            if (playerDto.getId().equals(vdtDto.getId())) {
+                return false;
+            }
+        }
+        ingamePlayerDtos.add(playerDto);
+        entries++;
+        computeMoney();
+
+        for (int i = 0; i < tournamentSessionDtos.size(); i++) {
+            TournamentSessionDto tsd = tournamentSessionDtos.get(i);
+            int place = tsd.getPlace() + 1;
+            float money = 0;
+            for (PayoutPlaceDto ppd : payoutPlaceDtos) {
+                if (ppd.getPlace() == place) {
+                    money = ppd.getMoney();
+                }
+            }
+            tsd.setPlace(place);
+            tsd.setMoney(money);
+        }
+        return true;
+    }
+
+    public synchronized boolean removePlayer(Long id) {
+        VisitorDto pDto = null;
+        for (int i = 0; i < ingamePlayerDtos.size(); i++) {
+            if (ingamePlayerDtos.get(i).getId().equals(id)) {
+                ingamePlayerDtos.remove(i);
+                entries--;
+                computeMoney();
+                return true;
+            }
+        }
+
+        for (int i = 0; i < sitoutPlyerDtos.size(); i++) {
+            VisitorDto playeDtoToRemove = sitoutPlyerDtos.get(i);
+            if (playeDtoToRemove.getId().equals(id)) {
+                sitoutPlyerDtos.remove(i);
+                TournamentSessionDto tsdToRemove = null;
+                for (int j = 0; j < tournamentSessionDtos.size(); j++) {
+                    tsdToRemove = tournamentSessionDtos.get(j);
+                    if (tsdToRemove.getVisitorId().equals(id)) {
+                        tournamentSessionDtos.remove(j);
+                        break;
+                    }
+                }
+                for (TournamentSessionDto tsd : tournamentSessionDtos) {
+                    if (tsd.getPlace() > tsdToRemove.getPlace()) {
+                        tsd.setPlace(tsd.getPlace() - 1);
+                        for (PayoutPlaceDto ppd : payoutPlaceDtos) {
+                            if (tsd.getPlace() == ppd.getPlace()) {
+                                tsd.setMoney(ppd.getMoney());
+                                break;
+                            }
+                        }
+                    }
+                }
+                entries--;
+                computeMoney();
+                return true;
+            }
+        }
+        return false;
     }
 
     private synchronized void decTime() {
@@ -214,7 +278,7 @@ public class TournamentController {
     }
 
     public boolean containsPlayer(Long id) {
-        for (VisitorDto visitorDto : playerDtos) {
+        for (VisitorDto visitorDto : ingamePlayerDtos) {
             if (visitorDto.getId().equals(id)) {
                 return true;
             }
@@ -226,8 +290,34 @@ public class TournamentController {
         return entries;
     }
 
-    public List<VisitorDto> getPlayers() {
-        return playerDtos;
+    public List<VisitorDto> getIngamePlayers() {
+        return ingamePlayerDtos;
+    }
+
+    public synchronized List<VisitorDto> getSitoutPlayers() {
+//        return sitoutPlyerDtos;
+//        Collections.sort();
+        return new ArrayList<>(sitoutPlyerDtos);
+    }
+
+//    public List<Sitout> getSitouts() {
+//        List<Sitout> sitouts = new ArrayList<>(tournamentSessionDtos.size());
+//        for (int i = 0; i < sitoutPlyerDtos.size(); i++) {
+//            sitouts.add(new Sitout(sitoutPlyerDtos.get(i), tournamentSessionDtos.get(i)));
+//        }
+//        return sitouts;
+//    }
+    public TournamentSessionDto getTournamentSessionDto(Long visitorId) {
+        for (TournamentSessionDto tsd : tournamentSessionDtos) {
+            if (tsd.getVisitorId() == visitorId) {
+                return tsd;
+            }
+        }
+        return null;
+    }
+
+    public List<TournamentSessionDto> getTournamentSessionDtos() {
+        return tournamentSessionDtos;
     }
 
     public synchronized void start() {
@@ -300,6 +390,13 @@ public class TournamentController {
 
     public synchronized void setPayoutPlaces(List<PayoutPlaceDto> payoutPlaceDtos) {
         this.payoutPlaceDtos = payoutPlaceDtos;
+        for (PayoutPlaceDto ppd : payoutPlaceDtos) {
+            for (TournamentSessionDto tsd : tournamentSessionDtos) {
+                if (ppd.getPlace() == tsd.getPlace()) {
+                    tsd.setMoney(ppd.getMoney());
+                }
+            }
+        }
     }
 
     public List<PayoutPlaceDto> getPayoutPlaces() {
@@ -314,14 +411,32 @@ public class TournamentController {
         this.prizePool = prizePool;
     }
 
+    public synchronized int getRebuys() {
+        return tournamentDto.getRebuys();
+    }
+
+    public synchronized void setRebuys(int count) {
+        tournamentDto.setRebuys(count);
+        computeMoney();
+    }
+
+    public synchronized int getAddons() {
+        return tournamentDto.getAddons();
+    }
+
+    public synchronized void setAddons(int count) {
+        tournamentDto.setAddons(count);
+        computeMoney();
+    }
+
     public synchronized void sitoutPlayer(Long playerId) {
         VisitorDto visitorDto = null;
-        int place = playerDtos.size();
-        for (int i = 0; i < playerDtos.size(); i++) {
-            VisitorDto vd = playerDtos.get(i);
+        int place = ingamePlayerDtos.size();
+        for (int i = 0; i < ingamePlayerDtos.size(); i++) {
+            VisitorDto vd = ingamePlayerDtos.get(i);
             if (vd.getId().equals(playerId)) {
                 visitorDto = vd;
-                playerDtos.remove(i);
+                ingamePlayerDtos.remove(i);
                 break;
             }
         }
@@ -339,6 +454,7 @@ public class TournamentController {
                 }
             }
             tournamentSessionDtos.add(tournamentSessionDto);
+            sitoutPlyerDtos.add(visitorDto);
         }
     }
 
@@ -348,5 +464,71 @@ public class TournamentController {
         }
         tournamentDto.setFinish(new Date());
         tournamentService.save(tournamentDto);
+    }
+
+    private void computeMoney() {
+        float buyin = tournamentDto.getBuyin();
+        float addon = tournamentDto.getAddon();
+        int rebuys = tournamentDto.getRebuys();
+        int addons = tournamentDto.getAddons();
+        money = entries * buyin + addon * addons + rebuys * buyin;
+    }
+
+    public float getMoney() {
+        return money;
+    }
+
+    public synchronized boolean playerUp(Long id) {
+        TournamentSessionDto tsd1 = null, tsd2 = null;
+        for (TournamentSessionDto tsd : tournamentSessionDtos) {
+            if (tsd.getVisitorId().equals(id)) {
+                tsd1 = tsd;
+            }
+        }
+        if (tsd1 == null) {
+            return false;
+        }
+        for (TournamentSessionDto tsd : tournamentSessionDtos) {
+            if (tsd.getPlace() == tsd1.getPlace() - 1) {
+                tsd2 = tsd;
+            }
+        }
+        if (tsd2 == null) {
+            return false;
+        }
+        int place = tsd1.getPlace();
+        float prizeMoneyTmp = tsd1.getMoney();
+        tsd1.setPlace(place - 1);
+        tsd2.setPlace(place);
+        tsd1.setMoney(tsd2.getMoney());
+        tsd2.setMoney(prizeMoneyTmp);
+        return true;
+    }
+
+    public synchronized boolean playerDown(Long id) {
+        TournamentSessionDto tsd1 = null, tsd2 = null;
+        for (TournamentSessionDto tsd : tournamentSessionDtos) {
+            if (tsd.getVisitorId().equals(id)) {
+                tsd1 = tsd;
+            }
+        }
+        if (tsd1 == null) {
+            return false;
+        }
+        for (TournamentSessionDto tsd : tournamentSessionDtos) {
+            if (tsd.getPlace() == tsd1.getPlace() + 1) {
+                tsd2 = tsd;
+            }
+        }
+        if (tsd2 == null) {
+            return false;
+        }
+        int place = tsd1.getPlace();
+        float prizeMoneyTmp = tsd1.getMoney();
+        tsd1.setPlace(place + 1);
+        tsd2.setPlace(place);
+        tsd1.setMoney(tsd2.getMoney());
+        tsd2.setMoney(prizeMoneyTmp);
+        return true;
     }
 }

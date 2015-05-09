@@ -55,18 +55,24 @@
                             <p:commandButton value="#{msg.neww}"
                                              icon="ui-icon-star"
                                              action="#{navigation.goNewTournament()}"
-                                             />
+                                             >
+                                <f:actionListener binding="#{tournamentEdit.setNewTournament(true)}" />
+                            </p:commandButton>
 <!--                            <p:commandButton value="#{msg.details}"
                                              icon="ui-icon-search"
                                              update=":detailVisitorDialogId"
                                              action="#{visitorEdit.loadVisitorDetails()}"
                                              oncomplete="PF('detailVisitorDialog').show()"
                                              />
+                            -->
                             <p:commandButton value="#{msg.edit}"
                                              icon="ui-icon-pencil"
-                                             action="#{visitorEdit.edit()}"
-                                             />
-                            -->
+                                             action="#{tournamentEdit.edit()}"
+                                             update=":growl"
+                                             >
+                                <f:actionListener binding="#{tournamentEdit.setNewTournament(false)}" />
+                            </p:commandButton>
+
                             <p:commandButton value="#{msg.delete}"
                                              icon="ui-icon-trash"
                                              onclick="PF('deleteConfirmDialog').show()"

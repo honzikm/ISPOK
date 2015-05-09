@@ -13,15 +13,17 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author Jan
  */
-
 public interface OfficeService {
+
+    @Transactional
+    public boolean officeExist(String name);
 
     @Transactional(readOnly = true)
     public OfficeDto getByName(String name);
 
     @Transactional(readOnly = true)
     public List<OfficeDto> getAll();
-    
+
     @Transactional
     public Long addOffice(OfficeDto officeDto);
 

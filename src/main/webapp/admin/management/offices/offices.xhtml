@@ -6,6 +6,7 @@
                  xmlns:f="http://xmlns.jcp.org/jsf/core"
                  xmlns:mp ="http://myprimefaces.junkpunk.cz/facelets"
                  template="/admin/template/adminTemplate.xhtml"
+                 xmlns:sec="http://www.springframework.org/security/tags"
                  >
 
     <ui:define name="title">
@@ -51,12 +52,14 @@
                             update=":editOfficeForm"
                             action="#{officeEdit.loadOffice()}"
                             oncomplete="PF('editOfficeDialog').show()"
+                            disabled="#{sec:areNotGranted('ROLE_MANAGER')}"
                             />
                 <p:menuitem value="#{msg.delete}"
                             ajax="true"
                             icon="ui-icon-close"
                             update="officesTableId"
                             oncomplete="PF('deleteOfficeDialog').show()"
+                            disabled="#{sec:areNotGranted('ROLE_MANAGER')}"
                             />
             </p:contextMenu>
 
@@ -89,18 +92,21 @@
                                              icon="ui-icon-star"
                                              action="#{officeEdit.clearEdit()}"
                                              oncomplete="PF('newOfficeDialog').show()"
+                                             disabled="#{sec:areNotGranted('ROLE_MANAGER')}"
                                              />
                             <p:commandButton value="#{msg.edit}"
                                              icon="ui-icon-pencil"
                                              update=":editOfficeForm :growl"
                                              action="#{officeEdit.loadOffice()}"
                                              oncomplete="if(args.showDialog){PF('editOfficeDialog').show()}"
+                                             disabled="#{sec:areNotGranted('ROLE_MANAGER')}"
                                              />
                             <p:commandButton value="#{msg.delete}"
                                              icon="ui-icon-trash"
                                              update=":growl"
                                              action="#{officeEdit.loadOffice()}"
                                              oncomplete="if(args.showDialog){PF('confirmDialog').show()}"
+                                             disabled="#{sec:areNotGranted('ROLE_MANAGER')}"
                                              >
                             </p:commandButton>
                         </div>
@@ -222,13 +228,18 @@
                 <table>
                     <tr>
                         <td>
-                            <p:outputLabel for="editNameInput" value="#{msg.office_name}: "/>
+                            <p:outputLabel for="editNameInput"
+                                           value="#{msg.office_name}: "/>
                         </td>
                         <td>
-                            <p:inputText id="editNameInput" value="#{officeEdit.office.name}"
+                            <p:inputText id="editNameInput"
+                                         value="#{officeEdit.office.name}"
                                          required="true"
                                          requiredMessage="#{msg.required}"
                                          >
+                                <f:attribute name="original"
+                                             value="#{officeEdit.office.name}"
+                                             />
                                 <f:validator validatorId="officeNameValidator"
                                              />
                             </p:inputText>
@@ -258,8 +269,8 @@
 
                     <tr>
                         <td colspan="3">
-                            <ul>
-                                <li class="inline">
+                            <ul class="inline">
+                                <li>
                                     <p:commandButton value="#{msg.save}"
                                                      ajax="true"
                                                      update=":editOfficeForm :dataForm :growl"
@@ -267,10 +278,11 @@
                                                      oncomplete="if (args &amp;&amp; !args.validationFailed){ PF('editOfficeDialog').hide();}"
                                                      />
                                 </li>
-                                <li class="inline">
+                                <li>
                                     <p:commandButton value="#{msg.cancel}"
-                                                     process="@this"
                                                      oncomplete="PF('editOfficeDialog').hide();"
+                                                     resetValues="true"
+                                                     update=":editOfficeForm"
                                                      />
                                 </li>
                             </ul>

@@ -22,7 +22,7 @@
         <!-- pak se take musi login stranka pridat do <intercept-url> s access="IS_AUTHENTICATED_ANONYMOUSLY", viz nize -->
         <http-basic />
 
-        <form-login login-processing-url="/j_spring_security_check" login-page="/login.xhtml" authentication-failure-url="/login.xhtml?login_error=t" />
+        <form-login login-processing-url="/j_spring_security_check" login-page="/login.xhtml" authentication-failure-url="/login.xhtml?login_error=t"/>
 
         <logout logout-success-url="/index.xhtml" />
 

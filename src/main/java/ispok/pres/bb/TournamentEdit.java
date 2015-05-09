@@ -5,7 +5,6 @@
  */
 package ispok.pres.bb;
 
-import ispok.pokerclock.ActiveTournametsHolder;
 import ispok.dto.LevelDto;
 import ispok.dto.OfficeDto;
 import ispok.dto.PayoutPlaceDto;
@@ -14,6 +13,7 @@ import ispok.dto.SeriesDto;
 import ispok.dto.TournamentDto;
 import ispok.dto.TournamentStructureDto;
 import ispok.helper.FacesUtil;
+import ispok.pokerclock.ActiveTournametsHolder;
 import ispok.service.OfficeService;
 import ispok.service.PayoutStructureService;
 import ispok.service.SeriesService;
@@ -46,6 +46,7 @@ public class TournamentEdit {
     @Autowired
     private ActiveTournametsHolder activeTournametsHolder;
 
+    private boolean newTournament = true;
     private TournamentDto tournament = new TournamentDto();
     private TournamentDto selectedTournament;
     private List<TournamentDto> filteredTournaments;
@@ -53,10 +54,21 @@ public class TournamentEdit {
     private List<PayoutPlaceDto> payoutPlaces = new ArrayList<>(20);
     private Long payoutStructureId;
     private List<PayoutStructureDto> payoutStructures;
-    private Long tournamentStructureId;
+//    private Long tournamentStructureId;
     private TournamentStructureDto tournamentStructure;
     private boolean newLevelStructure;
     private List<LevelDto> levels = new ArrayList<>(20);
+
+    public boolean isNewTournament() {
+        return newTournament;
+    }
+
+    public void setNewTournament(boolean newTournament) {
+        this.newTournament = newTournament;
+        tournament = new TournamentDto();
+        getTournamentStructures();
+        setTournamentStructureId();
+    }
 
     /**
      * Get the value of payoutPlaces
@@ -125,25 +137,16 @@ public class TournamentEdit {
     }
 
     /**
-     * Get the value of tournamentStructureId
-     *
-     * @return the value of tournamentStructureId
-     */
-    public Long getTournamentStructureId() {
-        return tournamentStructureId;
-    }
-
-    /**
      * Set the value of tournamentStructureId
      *
      * @param tournamentStructureId new value of tournamentStructureId
      */
-    public void setTournamentStructureId(Long tournamentStructureId) {
-        this.tournamentStructureId = tournamentStructureId;
+    public void setTournamentStructureId() {
+//        this.tournamentStructureId = tournamentStructureId;
         levels.clear();
         TournamentStructureDto tournamentStructure = null;
         for (TournamentStructureDto tsd : tournamentStructures) {
-            if (tsd.getId().equals(tournamentStructureId)) {
+            if (tsd.getId().equals(tournament.getTournamentStructureId())) {
                 tournamentStructure = tsd;
             }
         }
@@ -151,7 +154,6 @@ public class TournamentEdit {
             LevelDto ldto = tournamentStructureService.getLevelById(l);
             levels.add(ldto);
         }
-        tournament.setTournamentStructureId(tournamentStructureId);
     }
 
     /**
@@ -175,7 +177,7 @@ public class TournamentEdit {
     public List<TournamentStructureDto> getTournamentStructures() {
         tournamentStructures = tournamentStructureService.getAll();
         if (tournamentStructures != null && !tournamentStructures.isEmpty()) {
-            setTournamentStructureId(tournamentStructures.get(0).getId());
+            tournament.setTournamentStructureId(tournamentStructures.get(0).getId());
         } else {
             levels.clear();
         }
@@ -276,9 +278,8 @@ public class TournamentEdit {
         this.filteredTournaments = filteredTournaments;
     }
 
-    public String add() {
+    public String save() {
         TournamentDto tdto = new TournamentDto(tournament);
-        tdto.setId(new Long(0));
         tdto.setFinish(null);
         tdto.setLevelNumber(0);
         tdto.setLevelTime(0);
@@ -287,9 +288,22 @@ public class TournamentEdit {
         return "/admin/management/tournaments/tournaments.xhtml";
     }
 
+    public String edit() {
+        if (selectedTournament == null) {
+            FacesUtil.addWarnMessage("warn", "no_item_selected");
+            return null;
+        }
+        tournament = selectedTournament;
+        return "/admin/management/tournaments/newTournament.xhtml";
+    }
+
     public void delete() {
         if (activeTournametsHolder.contains(tournament.getId()) || tournament.getFinish() != null) {
             FacesUtil.addErrorMessage("failed", "tournament_delete_fail");
+            return;
+        }
+        if (selectedTournament == null) {
+            FacesUtil.addWarnMessage("warn", "no_item_selected");
             return;
         }
         try {
@@ -299,5 +313,11 @@ public class TournamentEdit {
             return;
         }
         FacesUtil.addInfoMessage("success", "tournament_delete_success");
+    }
+
+    public String cancel() {
+        selectedTournament = null;
+        tournament = new TournamentDto();
+        return "/admin/management/tournaments/tournaments.xhtml";
     }
 }

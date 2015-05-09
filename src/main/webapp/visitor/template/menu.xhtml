@@ -1,12 +1,14 @@
 <ui:component xmlns="http://www.w3.org/1999/xhtml"
               xmlns:ui="http://java.sun.com/jsf/facelets"
               xmlns:sec="http://www.springframework.org/security/tags"
-              xmlns:h="http://java.sun.com/jsf/html">
+              xmlns:h="http://java.sun.com/jsf/html"
+              xmlns:f="http://java.sun.com/jsf/core"
+              >
 
-    <div class="nav">
+    <div class="menuleft">
         <ul>
             <li>
-                x
+                <h:link value="#{msg.profile}" outcome="/visitor/profile.xhtml" />
             </li>
             <li>
                 y

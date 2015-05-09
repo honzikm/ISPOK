@@ -112,6 +112,8 @@ public class TournamentServiceImpl extends AbstractDataAccessService implements 
         tournamentDto.setLevelNumber(tournament.getLevelTime());
         tournamentDto.setLevelTime(tournament.getLevelTime());
         tournamentDto.setTournamentStructureId(tournament.getTournamentStructure().getId());
+        tournamentDto.setRebuys(tournament.getRebuys());
+        tournamentDto.setAddons(tournament.getAddons());
         if (tournament.getSeries() != null) {
             tournamentDto.setSeriesId(tournament.getSeries().getId());
         } else {

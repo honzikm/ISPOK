@@ -1,5 +1,5 @@
 
-<ui:composition  xmlns="http://www.w3.org/1999/xhtml"   
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
                  xmlns:h="http://java.sun.com/jsf/html"
                  xmlns:ui="http://java.sun.com/jsf/facelets"
                  xmlns:p="http://primefaces.org/ui"
@@ -15,10 +15,10 @@
 
     <ui:define name="centerContent">
 
-        <p:growl id="growl" 
-                 showDetail="true" 
+        <p:growl id="growl"
+                 showDetail="true"
                  globalOnly="true"
-                 /> 
+                 />
 
         <p:panel header="#{msg.tournament_structure_new}"
                  >
@@ -148,8 +148,9 @@
                         </td>
                         <td>
                             <p:selectOneMenu id="tourStructure"
-                                             value="#{tournamentEdit.tournamentStructureId}"
+                                             value="#{tournamentEdit.tournament.tournamentStructureId}"
                                              >
+
                                 <f:selectItems value="#{tournamentEdit.tournamentStructures}"
                                                var="ts"
                                                itemLabel="#{ts.name}"
@@ -158,8 +159,12 @@
                                 <p:ajax partialSubmit="true"
                                         process="@this"
                                         update="levelTable"
+                                        listener="#{tournamentEdit.setTournamentStructureId()}"
                                         event="change"
-                                        />
+                                        >
+                                    <f:actionListener binding="#{tournamentEdit.setTournamentStructureId()}"
+                                                      />
+                                </p:ajax>
                             </p:selectOneMenu>
                         </td>
                     </tr>
@@ -311,15 +316,23 @@
                 <ul class="center, inline"
                     >
                     <li>
+                        <!--<c:if test="#{tournamentEdit.newTournament}"-->
                         <p:commandButton value="#{msg.save}"
-                                         action="#{tournamentEdit.add()}"
+                                         action="#{tournamentEdit.save()}"
                                          update=":growl"
                                          />
+                        <!--</c:if>-->
+<!--                        <c:if test="#{not tournamentEdit.newTournament}"
+                              <p:commandButton value="#{msg.save}"
+                                         action="#{tournamentEdit.save()}"
+                                         update=":growl"
+                                         />
+                        </c:if>-->
                     </li>
                     <li>
 
                         <p:commandButton id="resetButton"
-                                         value="#{msg.reset}"  
+                                         value="#{msg.reset}"
                                          action="#{tournamentEdit.clear()}"
                                          >
 

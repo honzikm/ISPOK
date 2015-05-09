@@ -35,6 +35,14 @@ public interface VisitorService {
 
     /**
      *
+     * @param email
+     * @return
+     */
+    @Transactional
+    public VisitorDto getVisitorByEmail(String email);
+
+    /**
+     *
      * @param id
      * @return
      */

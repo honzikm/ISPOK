@@ -53,10 +53,12 @@ public class Tournament extends AbstractBusinessObject {
 
     private int levelNumber;
     private int levelTime;
-    
-    
-    
-    
+
+    @Column(nullable = false)
+    private int rebuys;
+    @Column(nullable = false)
+    private int addons;
+
     /**
      *
      */
@@ -195,6 +197,38 @@ public class Tournament extends AbstractBusinessObject {
      */
     public void setLevelTime(int levelTime) {
         this.levelTime = levelTime;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public int getRebuys() {
+        return rebuys;
+    }
+
+    /**
+     *
+     * @param rebuys
+     */
+    public void setRebuys(int rebuys) {
+        this.rebuys = rebuys;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public int getAddons() {
+        return addons;
+    }
+
+    /**
+     *
+     * @param addons
+     */
+    public void setAddons(int addons) {
+        this.addons = addons;
     }
 
 }

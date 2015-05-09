@@ -133,15 +133,15 @@ public class GenericHibernateJpaDao implements GenericDao {
     public <ENTITY> ENTITY loadById(long id, Class<ENTITY> clazz) {
         ENTITY e = null;
         try {
-            e = (ENTITY) ((Session) getEntityManager().getDelegate()).load(clazz, id);
+//            e = (ENTITY) ((Session) getEntityManager().getDelegate()).load(clazz, id);
+            e = (ENTITY) ((Session) getEntityManager().getDelegate()).get(clazz, id);
         } catch (EntityNotFoundException enfe) {
         }
         return e;
     }
 
     @Override
-    public <ENTITY extends AbstractBusinessObject> ENTITY saveOrUpdate(ENTITY o
-    ) {
+    public <ENTITY extends AbstractBusinessObject> ENTITY saveOrUpdate(ENTITY o) {
         logger.entry();
         if (o.getId() == null) {
             getEntityManager().persist(o);

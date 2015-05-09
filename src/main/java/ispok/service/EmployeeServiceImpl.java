@@ -56,7 +56,7 @@ public class EmployeeServiceImpl extends AbstractDataAccessService implements Em
     public void updateEmployee(EmployeeDto employeeDto) {
         Employee e = genericDao.getById(employeeDto.getId(), Employee.class);
         String password = employeeDto.getPassword();
-        if (password.equals(e.getPassword())) {
+        if (!password.equals(e.getPassword())) {
             e.setPassword(password);
             employeeDto.setPassword(e.getPassword());
         }

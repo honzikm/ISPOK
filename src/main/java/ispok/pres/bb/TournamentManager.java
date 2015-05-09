@@ -10,6 +10,7 @@ import ispok.dto.OfficeDto;
 import ispok.dto.PayoutPlaceDto;
 import ispok.dto.PayoutStructureDto;
 import ispok.dto.TournamentDto;
+import ispok.dto.TournamentSessionDto;
 import ispok.dto.VisitorDto;
 import ispok.helper.FacesUtil;
 import ispok.pokerclock.ActiveTournametsHolder;
@@ -22,6 +23,7 @@ import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.SessionScoped;
+import org.primefaces.context.RequestContext;
 import org.primefaces.model.LazyDataModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -47,6 +49,7 @@ public class TournamentManager {
 
     private Long officeId;
     private Long tournamentId;
+    private List<OfficeDto> officeDtos;
     private List<TournamentDto> activeTournaments;
 //    private TournamentDto tournament;
     private TournamentController tournamentController;
@@ -61,14 +64,48 @@ public class TournamentManager {
 
     private float prizePoll;
 
+    private List<VisitorDto> ingamePlayers;
+    private List<VisitorDto> sitouts;
+
     @PostConstruct
     private void init() {
         tournamentController = null;
         activeTournaments = new ArrayList<>(20);
         officeId = (long) 0;
-        tournamentId = (long) 0;
+        tournamentId = null;
         payoutPlaces = new ArrayList<>(20);
         showPokerClock = false;
+
+        officeDtos = officeService.getAll();
+        if (!officeDtos.isEmpty()) {
+            setOfficeId(officeDtos.get(0).getId());
+        }
+    }
+
+    public boolean isEmpty() {
+        return tournamentService == null;
+    }
+
+    public int getRebuys() {
+        if (tournamentController == null) {
+            return 0;
+        }
+        return tournamentController.getRebuys();
+    }
+
+    public void setRebuys(int count) {
+        tournamentController.setRebuys(count);
+    }
+
+    public int getAddons() {
+        if (tournamentController == null) {
+            return 0;
+        }
+        return tournamentController.getAddons();
+    }
+
+    public void setAddons(int count) {
+        tournamentController.setAddons(count);
     }
 
     /**
@@ -115,7 +152,7 @@ public class TournamentManager {
      */
     public void setTournamentId(Long id) {
         this.tournamentId = id;
-        if (tournamentId != 0) {
+        if (tournamentId != null) {
             tournamentController = activeTournametsHolder.loadTournament(tournamentId);
         }
     }
@@ -151,27 +188,26 @@ public class TournamentManager {
             }
         }
         if (activeTournaments.isEmpty()) {
-            tournamentId = new Long(0);
+            tournamentId = null;
             tournamentController = null;
-            tournamentId = (long) 0;
             payoutPlaces = new ArrayList<>(20);
             showPokerClock = false;
         } else {
             setTournamentId(activeTournaments.get(0).getId());
             showPokerClock = true;
         }
+//        RequestContext.getCurrentInstance().update("pokerClock");
     }
 
     public List<OfficeDto> getAllOffices() {
-        List<OfficeDto> officeDtos = officeService.getAll();
-        if (officeDtos != null && !officeDtos.isEmpty()) {
-            setOfficeId(officeDtos.get(0).getId());
-        }
+//        List<OfficeDto> officeDtos = officeService.getAll();
+//        if (officeDtos != null && !officeDtos.isEmpty()) {
+//            setOfficeId(officeDtos.get(0).getId());
+//        }
         return officeDtos;
     }
 
     public List<TournamentDto> getActiveTournaments() {
-
         return activeTournaments;
     }
 
@@ -180,7 +216,7 @@ public class TournamentManager {
 //    }
     public int getPlayersCount() {
         if (tournamentController != null) {
-            return tournamentController.getPlayers().size();
+            return tournamentController.getIngamePlayers().size();
         }
         return 0;
     }
@@ -254,11 +290,12 @@ public class TournamentManager {
             FacesUtil.addWarnMessage("warn", "warn");
             return;
         }
-        if (tournamentController.containsPlayer(id)) {
-            FacesUtil.addWarnMessage("warn", "tournament_player_already_in");
-        } else {
-            tournamentController.addPlayer(id);
+        if (tournamentController.addPlayer(id)) {
+            loadIngamePlayers();
             FacesUtil.addInfoMessage("success", "player_added");
+            RequestContext.getCurrentInstance().update("sitoutsTable");
+        } else {
+            FacesUtil.addWarnMessage("warn", "tournament_player_already_in");
         }
     }
 
@@ -267,8 +304,14 @@ public class TournamentManager {
             FacesUtil.addWarnMessage("warn", "warn");
             return;
         }
-        tournamentController.removePlayer(id);
-        FacesUtil.addInfoMessage("success", "player_removed");
+        if (tournamentController.removePlayer(id)) {
+            loadIngamePlayers();
+            loadSitouts();
+            FacesUtil.addInfoMessage("success", "player_removed");
+            RequestContext.getCurrentInstance().update("sitoutsTable");
+        } else {
+            FacesUtil.addWarnMessage("warn", "warn");
+        }
     }
 
     public int getEntries() {
@@ -306,13 +349,43 @@ public class TournamentManager {
         return tournamentController.getTournamentDto().getInfo();
     }
 
-    public List<VisitorDto> getPlayers() {
+    public List<VisitorDto> getIngamePlayers() {
         if (tournamentController == null) {
             return null;
         }
-        return tournamentController.getPlayers();
+        return ingamePlayers;
     }
 
+    public List<VisitorDto> getSitoutPlayers() {
+        if (tournamentController == null) {
+            return null;
+        }
+        return sitouts;
+    }
+
+    public TournamentSessionDto getSessionDto(Long playerId) {
+        if (tournamentController == null) {
+            return null;
+        }
+        return tournamentController.getTournamentSessionDto(playerId);
+    }
+
+    public List<TournamentSessionDto> getTournamentSessionDtos() {
+        if (tournamentController == null) {
+            return null;
+        }
+        return tournamentController.getTournamentSessionDtos();
+    }
+
+//    public List<Sitout> getSitouts() {
+//        return tournamentController.getSitouts();
+//    }
+//    public List<VisitorDto> getPlayers() {
+//        if (tournamentController == null) {
+//            return null;
+//        }
+//        return tournamentController.getIngamePlayers();
+//    }
     public void start() {
         if (tournamentController == null) {
             FacesUtil.addWarnMessage("warn", "warn");
@@ -375,18 +448,17 @@ public class TournamentManager {
         return payoutStructureService.getAll();
     }
 
-    public float getEntryPrizePool() {
-        if (tournamentController == null) {
-            return 0;
-        }
-        try {
-            TournamentDto tournamentDto = tournamentController.getTournamentDto();
-            return tournamentController.getEntries() * tournamentDto.getBuyin();
-        } catch (NullPointerException e) {
-            return 0;
-        }
-    }
-
+//    public float getEntryPrizePool() {
+//        if (tournamentController == null) {
+//            return 0;
+//        }
+//        try {
+//            TournamentDto tournamentDto = tournamentController.getTournamentDto();
+//            return tournamentController.getEntries() * tournamentDto.getBuyin();
+//        } catch (NullPointerException e) {
+//            return 0;
+//        }
+//    }
     public float getPrizePoll() {
         return prizePoll;
     }
@@ -481,10 +553,115 @@ public class TournamentManager {
             return;
         }
         tournamentController.sitoutPlayer(playerId);
+        loadIngamePlayers();
+        loadSitouts();
         FacesUtil.addInfoMessage("success", "player_sitout");
     }
 
     public boolean isShowPokerClock() {
         return showPokerClock;
+    }
+
+    public void addRebuy() {
+        int rebuys = tournamentController.getRebuys();
+        if (rebuys >= Integer.MAX_VALUE) {
+            FacesUtil.addWarnMessage("warn", "rebuys_limit");
+        } else {
+            tournamentController.setRebuys(rebuys + 1);
+            FacesUtil.addInfoMessage("success", "rebuy_added");
+        }
+    }
+
+    public void removeRebuy() {
+        int rebuys = tournamentController.getRebuys();
+        if (rebuys <= 0) {
+            FacesUtil.addWarnMessage("warn", "rebuys_limit");
+        } else {
+            tournamentController.setRebuys(rebuys - 1);
+            FacesUtil.addInfoMessage("success", "rebuy_removed");
+        }
+    }
+
+    public void addAddon() {
+        int addons = tournamentController.getAddons();
+        if (addons >= Integer.MAX_VALUE) {
+            FacesUtil.addWarnMessage("warn", "addons_limit");
+        } else {
+            tournamentController.setAddons(addons + 1);
+            FacesUtil.addInfoMessage("success", "addon_added");
+        }
+    }
+
+    public void removeAddon() {
+        int addons = tournamentController.getAddons();
+        if (addons <= 0) {
+            FacesUtil.addWarnMessage("warn", "addons_limit");
+        } else {
+            tournamentController.setAddons(addons - 1);
+            FacesUtil.addInfoMessage("success", "addon_removed");
+        }
+    }
+
+    public float getMoney() {
+        if (tournamentController == null) {
+            return 0;
+        } else {
+            return tournamentController.getMoney();
+        }
+    }
+
+    public void playerUp(Long id) {
+        if (tournamentController.playerUp(id)) {
+            RequestContext.getCurrentInstance().update("sitoutsTable");
+            FacesUtil.addInfoMessage("success", "success");
+        } else {
+            FacesUtil.addInfoMessage("fail", "fail");
+        }
+    }
+
+    public void playerDown(Long id) {
+        if (tournamentController.playerDown(id)) {
+            RequestContext.getCurrentInstance().update("sitoutsTable");
+            FacesUtil.addInfoMessage("success", "success");
+        } else {
+            FacesUtil.addInfoMessage("fail", "fail");
+        }
+    }
+
+    private void loadIngamePlayers() {
+        ingamePlayers = tournamentController.getIngamePlayers();
+    }
+
+    private void loadSitouts() {
+        sitouts = tournamentController.getSitoutPlayers();
+    }
+
+    public void sitoutsSortListener() {
+        loadSitouts();
+    }
+
+    public void stop() {
+        if (ingamePlayers.size() > 0) {
+            FacesUtil.addWarnMessage("warn", "tournament_notempty");
+            RequestContext.getCurrentInstance().update("growl");
+        } else {
+            RequestContext.getCurrentInstance().execute("PF('confirmDialog').show();");
+        }
+    }
+
+    public void finish() {
+        if (ingamePlayers.size() > 0) {
+            FacesUtil.addWarnMessage("warn", "tournament_notempty");
+            RequestContext.getCurrentInstance().update("growl");
+        } else {
+            tournamentController.stop();
+            for (TournamentDto td : activeTournaments) {
+                if (td.getId().equals(tournamentId)) {
+                    activeTournaments.remove(td);
+                }
+            }
+            FacesUtil.addInfoMessage("success", "success");
+            RequestContext.getCurrentInstance().update("growl office");
+        }
     }
 }

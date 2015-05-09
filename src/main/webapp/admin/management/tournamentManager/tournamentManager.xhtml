@@ -21,7 +21,7 @@
                  globalOnly="true"
                  />
 
-        <p:panel header="#{msg.tournament_manager}"
+        <p:panel header="#{msg.tournament_select}"
                  >
             <h:form>
                 <table>
@@ -40,7 +40,7 @@
                                                itemLabel="#{of.name}"
                                                itemValue="#{of.id}"
                                                />
-                                <p:ajax update="tournament"
+                                <p:ajax update="tournament :pokerClock :tournamentControls"
                                         process="office"
                                         partialSubmit="true"
                                         event="change"
@@ -63,36 +63,23 @@
                                                itemLabel="#{at.name} #{at.start}"
                                                itemValue="#{at.id}"
                                                />
-                                <p:ajax update=":pokerClock tournament :payoutsDialogId"
+                                <p:ajax update=":pokerClock tournament :payoutsDialogId :tournamentControls"
                                         partialSubmit="true"
-                                        process="@this tournament"
+                                        process="tournament"
                                         event="change"
                                         />
                             </p:selectOneMenu>
                         </td>
                     </tr>
-                    <!--                <tr>
-                                        <td>
-                                            <h:outputText value="#{msg.info}:"
-                                                          />
-                                        </td>
-                                        <td>
-                                            <h:outputText id="info"
-                                                          value="#{cashgameManager.cashgame.info}"
-                                                          />
-                                        </td>
-                                    </tr>-->
-
-
                 </table>
+            </h:form>
 
-                <ul class="inline">
-                    <li>
-                        <!--                        <p:clock autoSync="true"
-                                                         mode="server"
-                                                         />-->
-                    </li>
-                </ul>
+
+        </p:panel>
+
+        <p:panel id="tournamentControls"
+                 header="#{msg.tournament_manager}">
+            <h:form rendered="#{not empty tournamentManager.tournamentId}">
 
                 <ul class="inline">
                     <li>
@@ -120,267 +107,43 @@
                                          />
                     </li>
                 </ul>
-            </h:form>
+                <ul class="inline">
+                    <li>
+                        <p:outputLabel value="#{msg.rebuy}: "
+                                       />
+                    </li>
+                    <li>
+                        <p:commandButton icon="ui-icon-plusthick"
+                                         action="#{tournamentManager.addRebuy()}"
+                                         update=":pokerClock :growl"
+                                         />
+                    </li>
+                    <li>
+                        <p:commandButton icon="ui-icon-minusthick"
+                                         action="#{tournamentManager.removeRebuy()}"
+                                         update=":pokerClock :growl"
+                                         />
+                    </li>
+                    <li>
+                        <p:outputLabel value="#{msg.addon}: "
+                                       />
+                    </li>
+                    <li>
+                        <p:commandButton icon="ui-icon-plusthick"
+                                         action="#{tournamentManager.addAddon()}"
+                                         update=":pokerClock :growl"
+                                         />
+                    </li>
+                    <li>
+                        <p:commandButton icon="ui-icon-minusthick"
+                                         action="#{tournamentManager.removeAddon()}"
+                                         update=":pokerClock :growl"
+                                         />
+                    </li>
+                </ul>
+                <ul class="inline">
 
-            <h:form>
-                <p:poll interval="1"
-                        update=":pokerClock"
-                        async="true"
-                        partialSubmit="true"
-                        process="@this"
-                        />
-            </h:form>
-
-            <p:panel id="pokerClock"
-                     header="#{msg.poker_clock}"
-                     >
-
-                <table>
-                    <tr>
-                        <td>
-                            <p:outputLabel value="#{msg.info}: "
-                                           for="info"
-                                           />
-                        </td>
-                        <td colspan="10">
-                            <h:outputText id="info"
-                                          value="#{tournamentManager.info}"
-                                          />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <p:outputLabel value="#{msg.buyin}: "
-                                           for="buyin"
-                                           />
-                        </td>
-                        <td>
-                            <h:outputText id="buyin"
-                                          value="#{tournamentManager.buyin}"
-                                          />
-                        </td>
-                        <td>
-                            <p:outputLabel value="#{msg.addon}: "
-                                           for="addon"
-                                           />
-                        </td>
-                        <td>
-                            <h:outputText id="addon"
-                                          value="#{tournamentManager.addon}"
-                                          />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <p:outputLabel value="#{msg.tournament_latereg}: "
-                                           for="latereg"
-                                           />
-                        </td>
-                        <td colspan="10">
-                            <h:outputText id="latereg"
-                                          value="#{tournamentManager.lateReg}"
-                                          />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="height: 1em">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <p:outputLabel value="#{msg.entries}: "
-                                           for="entries"
-                                           />
-                        </td>
-                        <td>
-                            <h:outputText id="entries"
-                                          value="#{tournamentManager.entries}"
-                                          />
-                        </td>
-                        <td>
-                            <p:outputLabel value="#{msg.players}: "
-                                           for="playersCnt"
-                                           />
-                        </td>
-                        <td>
-                            <h:outputText id="playersCnt"
-                                          value="#{tournamentManager.playersCount}"
-                                          />
-                        </td>
-                    </tr>
-                    <tr id="xx">
-                        <td>
-                            <c:choose>
-                                <c:when test="#{not tournamentManager.isBreak()}"
-                                        >
-                                    <p:outputLabel value="#{msg.level_time_left}: "
-                                                   for="time"
-                                                   />
-                                </c:when>
-                                <c:otherwise>
-                                    <p:outputLabel value="#{msg.break_time_left}: "
-                                                   for="time"
-                                                   />
-                                </c:otherwise>
-                            </c:choose>
-                        </td>
-                        <td>
-                            <h:outputText id="time"
-                                          value="#{tournamentManager.time}"
-                                          />
-                        </td>
-                        <td>
-                            <c:if test="#{tournamentManager.isBreak()}"
-                                  >
-                                <h:outputText value="#{msg.on_break}"
-                                              style="color:red"
-                                              />
-                            </c:if>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td style="height: 1em">
-                        </td>
-                    </tr>
-
-
-                    <tr>
-                        <td>
-                            <p:outputLabel for="level"
-                                           value="#{msg.level}: "
-                                           />
-                        </td>
-                        <td>
-                            <h:outputText id="level"
-                                          value="#{tournamentManager.levelDto.number}"
-                                          />
-                        </td>
-                        <td>
-                            <p:outputLabel for="duration"
-                                           value="#{msg.duration}: "
-                                           />
-                        </td>
-                        <td>
-                            <h:outputText id="duration"
-                                          value="#{tournamentManager.levelDto.duration}"
-                                          />
-                        </td>
-                        <td>
-                            <p:outputLabel for="breakDuration"
-                                           value="#{msg.level_break}: "
-                                           />
-                        </td>
-                        <td>
-                            <h:outputText id="breakDuration"
-                                          value="#{tournamentManager.levelDto.breakDuration}"
-                                          />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <p:outputLabel for="smallBlind"
-                                           value="#{msg.smallblind}: "
-                                           />
-                        </td>
-                        <td>
-                            <h:outputText id="smallBlind"
-                                          value="#{tournamentManager.levelDto.smallBlind}"
-                                          />
-                        </td>
-                        <td>
-                            <p:outputLabel for="bigBlind"
-                                           value="#{msg.bigblind}: "
-                                           />
-                        </td>
-                        <td>
-                            <h:outputText id="bigBlind"
-                                          value="#{tournamentManager.levelDto.bigBlind}"
-                                          />
-                        </td>
-                        <td>
-                            <p:outputLabel for="ante"
-                                           value="#{msg.ante}: "
-                                           />
-                        </td>
-                        <td>
-                            <h:outputText id="ante"
-                                          value="#{tournamentManager.levelDto.bigBlind}"
-                                          />
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td style="height: 1em">
-                        </td>
-                    </tr>
-
-                    <!--                    <tr>
-                                            <td>
-                                                <p:outputLabel for="nextLevel"
-                                                               value="Next #{msg.level}: "
-                                                               />
-                                            </td>
-                                            <td>
-                                                <h:outputText id="nextLevel"
-                                                              value="#{tournamentManager.levelDto.number}"
-                                                              />
-                                            </td>
-                                            <td>
-                                                <p:outputLabel for="nextDuration"
-                                                               value="#{msg.duration}: "
-                                                               />
-                                            </td>
-                                            <td>
-                                                <h:outputText id="nextDuration"
-                                                              value="#{tournamentManager.levelDto.duration}"
-                                                              />
-                                            </td>
-                                            <td>
-                                                <p:outputLabel for="breakDuration"
-                                                               value="#{msg.level_break}: "
-                                                               />
-                                            </td>
-                                            <td>
-                                                <h:outputText id="breakDuration"
-                                                              value="#{tournamentManager.levelDto.breakDuration}"
-                                                              />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <p:outputLabel for="smallBlind"
-                                                               value="#{msg.smallblind}: "
-                                                               />
-                                            </td>
-                                            <td>
-                                                <h:outputText id="smallBlind"
-                                                              value="#{tournamentManager.levelDto.smallBlind}"
-                                                              />
-                                            </td>
-                                            <td>
-                                                <p:outputLabel for="bigBlind"
-                                                               value="#{msg.bigblind}: "
-                                                               />
-                                            </td>
-                                            <td>
-                                                <h:outputText id="bigBlind"
-                                                              value="#{tournamentManager.levelDto.bigBlind}"
-                                                              />
-                                            </td>
-                                            <td>
-                                                <p:outputLabel for="ante"
-                                                               value="#{msg.ante}: "
-                                                               />
-                                            </td>
-                                            <td>
-                                                <h:outputText id="ante"
-                                                              value="#{tournamentManager.levelDto.bigBlind}"
-                                                              />
-                                            </td>
-                                        </tr>-->
-
-                </table>
+                </ul>
 
                 <ul class="center inline"
                     >
@@ -393,6 +156,7 @@
                     </li>
                     <li>
                         <p:commandButton icon="ui-icon-stop"
+                                         action="#{tournamentManager.stop()}"
                                          />
                     </li>
                     <li>
@@ -417,7 +181,244 @@
                                          />
                     </li>
                 </ul>
-            </p:panel>
+            </h:form>
+        </p:panel>
+
+        <p:panel id="pokerClock"
+                 header="#{msg.poker_clock}"
+                 >
+
+            <table>
+                <!--                <tr>
+                                    <td>
+                                        <h:outputText value="#{empty tournamentManager.tournamentId}"/>
+                                    </td>
+                                    <td>
+                                        <h:outputText value="#{tournamentManager.tournamentId}"/>
+                                    </td>
+                                </tr>-->
+                <tr>
+                    <td>
+                        <p:outputLabel value="#{msg.info}: "
+                                       for="info"
+                                       />
+                    </td>
+                    <td colspan="10">
+                        <h:outputText id="info"
+                                      value="#{tournamentManager.info}"
+                                      />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p:outputLabel value="#{msg.buyin}: "
+                                       for="buyin"
+                                       />
+                    </td>
+                    <td>
+                        <h:outputText id="buyin"
+                                      value="#{tournamentManager.buyin}"
+                                      />
+                    </td>
+                    <td>
+                        <p:outputLabel value="#{msg.addon}: "
+                                       for="addon"
+                                       />
+                    </td>
+                    <td>
+                        <h:outputText id="addon"
+                                      value="#{tournamentManager.addon}"
+                                      />
+                    </td>
+                    <td>
+                        <p:outputLabel value="#{msg.money}: "
+                                       for="money"
+                                       />
+                    </td>
+                    <td>
+                        <h:outputText id="money"
+                                      value="#{tournamentManager.money}"
+                                      />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p:outputLabel value="#{msg.tournament_latereg}: "
+                                       for="latereg"
+                                       />
+                    </td>
+                    <td colspan="10">
+                        <h:outputText id="latereg"
+                                      value="#{tournamentManager.lateReg}"
+                                      />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="height: 1em">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p:outputLabel value="#{msg.entries}: "
+                                       for="entries"
+                                       />
+                    </td>
+                    <td>
+                        <h:outputText id="entries"
+                                      value="#{tournamentManager.entries}"
+                                      />
+                    </td>
+                    <td>
+                        <p:outputLabel value="#{msg.players}: "
+                                       for="playersCnt"
+                                       />
+                    </td>
+                    <td>
+                        <h:outputText id="playersCnt"
+                                      value="#{tournamentManager.playersCount}"
+                                      />
+                    </td>
+
+                    <td>
+                        <p:outputLabel value="Rebuys: "
+                                       for="rebuys"
+                                       />
+                    </td>
+                    <td>
+                        <h:outputText id="rebuys"
+                                      value="#{tournamentManager.rebuys}"
+                                      />
+                    </td>
+                    <td>
+                        <p:outputLabel value="Addons: "
+                                       for="addons"
+                                       />
+                    </td>
+                    <td>
+                        <h:outputText id="addons"
+                                      value="#{tournamentManager.addons}"
+                                      />
+                    </td>
+                </tr>
+                <tr id="xx">
+                    <td>
+                        <c:choose>
+                            <c:when test="#{not tournamentManager.isBreak()}"
+                                    >
+                                <p:outputLabel value="#{msg.level_time_left}: "
+                                               for="time"
+                                               />
+                            </c:when>
+                            <c:otherwise>
+                                <p:outputLabel value="#{msg.break_time_left}: "
+                                               for="time"
+                                               />
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
+                    <td>
+                        <h:outputText id="time"
+                                      value="#{tournamentManager.time}"
+                                      />
+                    </td>
+                    <td>
+                        <c:if test="#{tournamentManager.isBreak()}"
+                              >
+                            <h:outputText value="#{msg.on_break}"
+                                          style="color:red"
+                                          />
+                        </c:if>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="height: 1em">
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td>
+                        <p:outputLabel for="level"
+                                       value="#{msg.level}: "
+                                       />
+                    </td>
+                    <td>
+                        <h:outputText id="level"
+                                      value="#{tournamentManager.levelDto.number}"
+                                      />
+                    </td>
+                    <td>
+                        <p:outputLabel for="duration"
+                                       value="#{msg.duration}: "
+                                       />
+                    </td>
+                    <td>
+                        <h:outputText id="duration"
+                                      value="#{tournamentManager.levelDto.duration}"
+                                      />
+                    </td>
+                    <td>
+                        <p:outputLabel for="breakDuration"
+                                       value="#{msg.level_break}: "
+                                       />
+                    </td>
+                    <td>
+                        <h:outputText id="breakDuration"
+                                      value="#{tournamentManager.levelDto.breakDuration}"
+                                      />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p:outputLabel for="smallBlind"
+                                       value="#{msg.smallblind}: "
+                                       />
+                    </td>
+                    <td>
+                        <h:outputText id="smallBlind"
+                                      value="#{tournamentManager.levelDto.smallBlind}"
+                                      />
+                    </td>
+                    <td>
+                        <p:outputLabel for="bigBlind"
+                                       value="#{msg.bigblind}: "
+                                       />
+                    </td>
+                    <td>
+                        <h:outputText id="bigBlind"
+                                      value="#{tournamentManager.levelDto.bigBlind}"
+                                      />
+                    </td>
+                    <td>
+                        <p:outputLabel for="ante"
+                                       value="#{msg.ante}: "
+                                       />
+                    </td>
+                    <td>
+                        <h:outputText id="ante"
+                                      value="#{tournamentManager.levelDto.bigBlind}"
+                                      />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="height: 1em">
+                    </td>
+                </tr>
+
+            </table>
+
+
+            <h:form>
+                <p:poll interval="1"
+                        update=":pokerClock"
+                        async="true"
+                        partialSubmit="true"
+                        process="@this"
+                        />
+            </h:form>
+
         </p:panel>
 
     </ui:define>
@@ -432,67 +433,160 @@
                   closeOnEscape="true"
                   width="600"
                   >
-            <p:dataTable id="playersTable"
-                         value="#{tournamentManager.players}"
-                         var="player"
-                         paginator="true"
-                         rows="25"
-                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                         rowsPerPageTemplate="10, 25"
-                         lazy="true"
-                         rowKey="#{player.id}"
-                         >
+            <p:panel header="#{msg.players_ingame}">
+                <p:dataTable id="playersTable"
+                             value="#{tournamentManager.ingamePlayers}"
+                             var="player"
+                             paginator="true"
+                             rows="25"
+                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                             rowsPerPageTemplate="10, 25"
+                             rowKey="#{player.id}"
+                             >
 
-                <p:column headerText="#{msg.id}"
-                          >
-                    <h:outputText value="#{player.id}"
-                                  />
-                </p:column>
-                <p:column headerText="#{msg.firstName}"
-                          >
-                    <h:outputText value="#{player.firstName}"
-                                  />
-                </p:column>
-                <p:column headerText="#{msg.lastName}"
-                          >
-                    <h:outputText value="#{player.lastName}"
-                                  />
-                </p:column>
-                <p:column headerText="#{msg.visitor_birthdate}"
-                          >
-                    <h:outputText value="#{player.birthDate}"
-                                  />
-                </p:column>
-                <p:column width="15"
-                          >
-                    <p:commandLink title="#{msg.details}"
-                                   styleClass="ui-icon ui-icon-search"
-                                   partialSubmit="true"
-                                   process="@this"
-                                   update=":growl"
-                                   />
-                </p:column>
-                <p:column width="15"
-                          >
-                    <p:commandLink title="#{msg.player_remove}"
-                                   styleClass="ui-icon ui-icon-minusthick"
-                                   action="#{tournamentManager.removePlayer(player.id)}"
-                                   partialSubmit="true"
-                                   process="@this"
-                                   update=":growl :entries :playersCnt :playersTable"
-                                   />
-                </p:column>
-                <p:column width="15"
-                          >
-                    <p:commandLink title="#{msg.player_sitout}"
-                                   styleClass="ui-icon ui-icon-eject"
-                                   action="#{tournamentManager.sitout(player.id)}"
-                                   partialSubmit="true"
-                                   process="@this"
-                                   update=":growl :entries :playersCnt :playersTable"
-                                   />
-                </p:column>
-            </p:dataTable>
+                    <p:column headerText="#{msg.id}"
+                              sortBy="#{player.id}"
+                              >
+                        <h:outputText value="#{player.id}"
+                                      />
+                    </p:column>
+                    <p:column headerText="#{msg.firstName}"
+                              >
+                        <h:outputText value="#{player.firstName}"
+                                      />
+                    </p:column>
+                    <p:column headerText="#{msg.lastName}"
+                              >
+                        <h:outputText value="#{player.lastName}"
+                                      />
+                    </p:column>
+                    <p:column headerText="#{msg.visitor_birthdate}"
+                              >
+                        <h:outputText value="#{player.birthDate}"
+                                      />
+                    </p:column>
+                    <p:column width="15"
+                              >
+                        <p:commandLink title="#{msg.details}"
+                                       styleClass="ui-icon ui-icon-search"
+                                       partialSubmit="true"
+                                       process="@this"
+                                       update=":growl"
+                                       />
+                    </p:column>
+                    <p:column width="15"
+                              >
+                        <p:commandLink title="#{msg.player_remove}"
+                                       styleClass="ui-icon ui-icon-minusthick"
+                                       action="#{tournamentManager.removePlayer(player.id)}"
+                                       partialSubmit="true"
+                                       process="@this"
+                                       update=":growl :entries :playersCnt :playersTable"
+                                       />
+                    </p:column>
+                    <p:column width="15"
+                              >
+                        <p:commandLink title="#{msg.player_sitout}"
+                                       styleClass="ui-icon ui-icon-eject"
+                                       action="#{tournamentManager.sitout(player.id)}"
+                                       partialSubmit="true"
+                                       process="@this"
+                                       update=":growl :entries :playersCnt :playersTable :sitoutsTable"
+                                       />
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+
+            <p:panel header="#{msg.players_sitout}">
+                <p:dataTable id="sitoutsTable"
+                             value="#{tournamentManager.sitoutPlayers}"
+                             var="sitout"
+                             paginator="true"
+                             rows="25"
+                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                             rowsPerPageTemplate="10, 25"
+                             rowKey="#{sitout.id}"
+                             sortBy="#{tournamentManager.getSessionDto(sitout.id).place}"
+                             >
+
+                    <p:column headerText="#{msg.id}"
+                              sortBy="#{sitout.id}"
+                              >
+                        <h:outputText value="#{sitout.id}"
+                                      />
+                    </p:column>
+                    <p:column headerText="#{msg.firstName}"
+                              sortBy="#{sitout.id}"
+                              >
+                        <h:outputText value="#{sitout.id}"
+                                      />
+                    </p:column>
+                    <p:column headerText="#{msg.lastName}"
+                              sortBy="#{sitout.lastName}"
+                              >
+                        <h:outputText value="#{sitout.lastName}"
+                                      />
+                    </p:column>
+                    <p:column headerText="#{msg.visitor_birthdate}"
+                              >
+                        <h:outputText value="#{sitout.birthDate}"
+                                      />
+                    </p:column>
+
+                    <p:column headerText="#{msg.firstName}"
+                              sortBy="#{tournamentManager.getSessionDto(sitout.id).place}"
+                              >
+                        <h:outputText value="#{tournamentManager.getSessionDto(sitout.id).place}"
+                                      />
+                    </p:column>
+                    <p:column headerText="#{msg.money}"
+                              sortBy="#{tournamentManager.getSessionDto(sitout.id).money}"
+                              >
+                        <h:outputText value="#{tournamentManager.getSessionDto(sitout.id).money}"
+                                      />
+                    </p:column>
+                    <p:column width="15"
+                              >
+                        <p:commandLink title="#{msg.details}"
+                                       styleClass="ui-icon ui-icon-search"
+                                       partialSubmit="true"
+                                       process="@this"
+                                       update=":growl"
+                                       />
+                    </p:column>
+                    <p:column width="15"
+                              >
+                        <p:commandLink title="#{msg.up}"
+                                       styleClass="ui-icon ui-icon-arrowthick-1-n"
+                                       action="#{tournamentManager.playerUp(sitout.id)}"
+                                       partialSubmit="true"
+                                       process="@this"
+                                       update=":growl"
+                                       />
+                    </p:column>
+                    <p:column width="15"
+                              >
+                        <p:commandLink title="#{msg.up}"
+                                       styleClass="ui-icon ui-icon-arrowthick-1-s"
+                                       action="#{tournamentManager.playerDown(sitout.id)}"
+                                       partialSubmit="true"
+                                       process="@this"
+                                       update=":growl"
+                                       />
+                    </p:column>
+                    <p:column width="15"
+                              >
+                        <p:commandLink title="#{msg.player_remove}"
+                                       styleClass="ui-icon ui-icon-minusthick"
+                                       action="#{tournamentManager.removePlayer(sitout.id)}"
+                                       partialSubmit="true"
+                                       process="@this"
+                                       update=":growl :entries :playersCnt"
+                                       />
+                    </p:column>
+                    <!--<p:ajax event="sort" listener="#{tournamentManager.sitoutsSortListener}" />-->
+                </p:dataTable>
+            </p:panel>
         </p:dialog>
 
         <p:dialog widgetVar="addPlayerDialog"
@@ -503,26 +597,29 @@
                   >
 
             <p:dataTable value="#{tournamentManager.visitorLazyDataModel}"
+                         lazy="true"
                          var="visitor"
                          paginator="true"
                          rows="25"
                          paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                          rowsPerPageTemplate="10, 25"
-                         lazy="true"
                          rowKey="#{visitor.id}"
                          >
 
                 <p:column headerText="#{msg.id}"
+                          sortBy="#{visitor.id}"
                           >
                     <h:outputText value="#{visitor.id}"
                                   />
                 </p:column>
                 <p:column headerText="#{msg.firstName}"
+                          sortBy="#{visitor.firstName}"
                           >
                     <h:outputText value="#{visitor.firstName}"
                                   />
                 </p:column>
                 <p:column headerText="#{msg.lastName}"
+                          sortBy="#{visitor.lastName}"
                           >
                     <h:outputText value="#{visitor.lastName}"
                                   />
@@ -598,7 +695,7 @@
                     <tr>
                         <td>
                             <p:outputLabel for="prizePool"
-                                           value="#{msg.prizepool} (#{tournamentManager.entryPrizePool})"
+                                           value="#{msg.prizepool} (#{tournamentManager.money})"
                                            />
                         </td>
                         <td>
@@ -628,7 +725,7 @@
                                              action="#{tournamentManager.savePayouts()}"
                                              partialSubmit="true"
                                              process="@this"
-                                             update=":growl"
+                                             update=":growl :sitoutsTable"
                                              />
                             <!--oncomplete="PF('payoutsDialog').hide()"-->
                         </td>
@@ -715,6 +812,14 @@
                 </p:dataTable>
             </h:form>
         </p:dialog>
+
+        <mp:confirmDialog widgetVar="confirmDialog"
+                          header="#{msg.tournament_finish}"
+                          message="#{msg.tournament_finish_confirm}"
+                          actionBean="#{tournamentManager}"
+                          actionMethod="finish"
+                          update=":growl"
+                          />
 
     </ui:define>
 

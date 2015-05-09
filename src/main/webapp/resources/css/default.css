@@ -1,4 +1,4 @@
-/* 
+/*
     Document   : default
     Created on : 18.2.2012, 11:42:07
     Author     : Pavel Micka
@@ -9,7 +9,7 @@
 body{
     background-color: cornsilk;
 }
-.emphased { 
+.emphased {
     font-style: italic;
 }
 .image {
@@ -27,6 +27,33 @@ p {
     text-align: justify;
 }
 
+
+.menuleft{
+    float: left;
+    overflow: no-content;
+    padding-right: 3em;
+}
+
+.menuleft ul{
+    list-style: none;
+}
+
+.center {
+    padding-top: 1em;
+    float: left;
+}
+
+.center ul{
+    list-style: none;
+    display: block;
+}
+
+.center ul li label{
+    width: 7em;
+    display: inline-block;
+    text-align: left;
+    vertical-align: top;
+}
 
 .header {
     background-color: bisque;

@@ -1,12 +1,11 @@
 
-<ui:composition  xmlns="http://www.w3.org/1999/xhtml"   
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
                  xmlns:h="http://java.sun.com/jsf/html"
                  xmlns:ui="http://java.sun.com/jsf/facelets"
                  xmlns:p="http://primefaces.org/ui"
                  xmlns:f="http://xmlns.jcp.org/jsf/core"
                  xmlns:mp ="http://myprimefaces.junkpunk.cz/facelets"
                  template="/admin/template/adminTemplate.xhtml"
-
                  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:define name="title">
@@ -17,83 +16,83 @@
     <ui:define name="centerContent"
                >
 
-        <p:growl id="growl" 
+        <p:growl id="growl"
                  showDetail="true"
                  globalOnly="true"
-                 /> 
+                 />
 
         <h:form id="dataForm"
-                > 
+                >
 
-            <p:dataTable id="cashgamesTableId" 
-                         widgetVar="cashgamesTable" 
-                         var="cashgame" 
-                         value="#{cashgameEdit.cashgameLazyDataModel}" 
-                         paginator="true" 
-                         rowsPerPageTemplate="10, 25, 50, 100" 
-                         rows="25" 
+            <p:dataTable id="cashgamesTableId"
+                         widgetVar="cashgamesTable"
+                         var="cashgame"
+                         value="#{cashgameEdit.cashgameLazyDataModel}"
+                         paginator="true"
+                         rowsPerPageTemplate="10, 25, 50, 100"
+                         rows="25"
                          filteredValue="#{cashgameEdit.filtered}"
-                         rowKey="#{cashgame.id}" 
-                         selectionMode="single" 
+                         rowKey="#{cashgame.id}"
+                         selectionMode="single"
                          selection="#{cashgameEdit.selected}"
                          lazy="true"
-                         >  
-                <f:facet name="header">  
-                    <p:outputPanel > 
+                         >
+                <f:facet name="header">
+                    <p:outputPanel >
                         <div align="right"
                              style="float: right"
                              >
-                            <h:outputText value="#{msg.name_filter}: " 
-                                          />  
-                            <p:inputText id="globalFilter" 
-                                         onkeyup="PF('cashgameTable').filter()"  
-                                         />  
+                            <h:outputText value="#{msg.name_filter}: "
+                                          />
+                            <p:inputText id="globalFilter"
+                                         onkeyup="PF('cashgameTable').filter()"
+                                         />
                         </div>
                         <div align="left">
-                            <p:commandButton value="#{msg.neww}"  
+                            <p:commandButton value="#{msg.neww}"
                                              icon="ui-icon-star"
                                              action="#{cashgameEdit.newCg()}"
                                              update=":newCashgameDialogId"
                                              oncomplete="PF('newCashgameDialog').show()"
                                              />
                             <p:commandButton value="#{msg.edit}"
-                                             icon="ui-icon-pencil" 
+                                             icon="ui-icon-pencil"
                                              action="#{cashgameEdit.editCg()}"
-                                             update=":newCashgameDialogId :growl" 
+                                             update=":newCashgameDialogId :growl"
                                              oncomplete="if(args.showDialog){PF('newCashgameDialog').show()}"
                                              />
-                            <p:commandButton value="#{msg.delete}" 
-                                             icon="ui-icon-trash" 
+                            <p:commandButton value="#{msg.delete}"
+                                             icon="ui-icon-trash"
                                              update=":growl"
                                              action="#{cashgameEdit.editCg}"
                                              oncomplete="if(args.showDialog){PF('confirmDialog').show()}"
                                              >
                             </p:commandButton>
                         </div>
-                    </p:outputPanel>  
-                </f:facet>  
+                    </p:outputPanel>
+                </f:facet>
 
                 <p:column sortBy="#{cashgame.id}"
                           headerText="#{msg.id}"
-                          >  
-                    <h:outputText value="#{cashgame.id}" 
-                                  />  
+                          >
+                    <h:outputText value="#{cashgame.id}"
+                                  />
                 </p:column>
 
-                <p:column sortBy="#{cashgame.name}" 
-                          filterBy="#{cashgame.name}" 
+                <p:column sortBy="#{cashgame.name}"
+                          filterBy="#{cashgame.name}"
                           headerText="#{msg.office_name}"
-                          >  
-                    <h:outputText value="#{cashgame.name}" 
-                                  />  
-                </p:column> 
+                          >
+                    <h:outputText value="#{cashgame.name}"
+                                  />
+                </p:column>
                 <p:column headerText="#{msg.info}"
                           >
                     <h:outputText value="#{cashgame.info}"
                                   />
                 </p:column>
 
-            </p:dataTable> 
+            </p:dataTable>
         </h:form>
     </ui:define>
 
@@ -129,7 +128,7 @@
                         <td>
                             <p:message for="name"
                                        />
-                        </td>                        
+                        </td>
                     </tr>
                     <tr>
                         <td>
@@ -147,7 +146,7 @@
                         <td>
                             <p:message for="info"
                                        />
-                        </td>                        
+                        </td>
                     </tr>
                     <tr>
                         <td>
@@ -359,25 +358,25 @@
                         <td colspan="2">
                             <ul class="center, inline">
                                 <li>
-                                    <p:commandButton value="#{cashgameEdit.firstButtonText}" 
-                                                     update="newCashgameForm :growl :dataForm"    
-                                                     action="#{cashgameEdit.save()}" 
+                                    <p:commandButton value="#{cashgameEdit.firstButtonText}"
+                                                     update="newCashgameForm :growl :dataForm"
+                                                     action="#{cashgameEdit.save()}"
                                                      oncomplete="if(!args.validationFailed){PF('newCashgameDialog').hide()}"
                                                      >
                                     </p:commandButton>
                                 </li>
                                 <!--this sequence works!-->
                                 <li>
-                                    <p:commandButton value="#{msg.reset}" 
+                                    <p:commandButton value="#{msg.reset}"
                                                      update="newCashgameForm"
-                                                     process="@this" 
+                                                     process="@this"
                                                      resetValues="true"
                                                      />
                                 </li>
 
                                 <!--this clear sequence works completely!-->
                                 <li>
-                                    <p:commandButton value="#{msg.cancel}" 
+                                    <p:commandButton value="#{msg.cancel}"
                                                      resetValues="true"
                                                      update="newCashgameForm"
                                                      oncomplete="PF('newCashgameDialog').hide();"
@@ -390,8 +389,8 @@
             </h:form>
         </p:dialog>
 
-        <mp:confirmDialog widgetVar="confirmDialog" 
-                          header="#{msg.cashgame_delete}" 
+        <mp:confirmDialog widgetVar="confirmDialog"
+                          header="#{msg.cashgame_delete}"
                           message="#{msg.cashgame_delete_confirm}"
                           actionBean="#{cashgameEdit}"
                           actionMethod="delete"
@@ -399,4 +398,4 @@
                           />
 
     </ui:define>
-</ui:composition> 
+</ui:composition>

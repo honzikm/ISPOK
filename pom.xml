@@ -17,11 +17,15 @@
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <hibernate.version>4.3.8.Final</hibernate.version>
-        <spring.version>4.1.4.RELEASE</spring.version>
+        <spring.version>4.1.6.RELEASE</spring.version>
+        <!--<spring.version>4.1.4.RELEASE</spring.version>-->
         <!--<spring.version>3.2.8.RELEASE</spring.version>-->
         <!--<spring.version>3.2.3.RELEASE</spring.version>-->
-        <spring.security.version>3.2.5.RELEASE</spring.security.version>
-        <faces.version>2.2.6</faces.version>
+        <!--<spring.security.version>4.0.0.RELEASE</spring.security.version>-->
+        <spring.security.version>3.2.7.RELEASE</spring.security.version>
+        <!--<spring.security.version>3.2.5.RELEASE</spring.security.version>-->
+        <faces.version>2.2.10</faces.version>
+        <!--<faces.version>2.2.6</faces.version>-->
     </properties>
 
     <dependencies>
@@ -177,6 +181,12 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>javax.cache</groupId>
             <artifactId>cache-api</artifactId>
             <version>1.0.0</version>
@@ -210,11 +220,16 @@
             <artifactId>aspectjweaver</artifactId>
             <version>1.8.5</version>
         </dependency>
-<!--        <dependency>
+        <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjlib</artifactId>
             <version>1.6.2</version>
-        </dependency>-->
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjtools</artifactId>
+            <version>1.8.5</version>
+        </dependency>
 
 
 
@@ -283,11 +298,11 @@
             <version>1.0.1.Final</version>
         </dependency>-->
 
-<!--          <dependency>
+          <dependency>
             <groupId>javax.persistence</groupId>
             <artifactId>persistence-api</artifactId>
-            <version>1.0</version>
-        </dependency>-->
+            <version>1.0.2</version>
+        </dependency>
 
         <dependency>
             <groupId>org.primefaces.extensions</groupId>
@@ -336,7 +351,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.2</version>
+                <version>3.3</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
@@ -407,7 +422,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>cobertura-maven-plugin</artifactId>
-                <version>2.6</version>
+                <version>2.7</version>
             </plugin>
         </plugins>
     </reporting>

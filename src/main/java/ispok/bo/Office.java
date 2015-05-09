@@ -51,7 +51,6 @@ public class Office extends AbstractBusinessObject {
     }
 
     public Office(OfficeDto officeDto) {
-        this.id = officeDto.getId();
         this.name = officeDto.getName();
         this.info = officeDto.getInfo();
     }

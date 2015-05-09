@@ -69,7 +69,7 @@ public class OfficeEdit implements Serializable {
         try {
             OfficeDto newOffice = new OfficeDto(office);
             newOffice.setInfo(office.getInfo());
-            newOffice.setId(officeService.addOffice(newOffice));
+            officeService.addOffice(newOffice);
             offices.add(newOffice);
             if (filteredOffices != null) {
                 filteredOffices.add(newOffice);

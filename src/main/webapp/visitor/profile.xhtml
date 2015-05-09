@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      >
+
+
+
+    <ui:include src="/template/head.xhtml"/>
+
+    <h:body>
+
+        <ui:include src="/template/header.xhtml"/>
+
+        <ui:include src="/visitor/template/menu.xhtml"/>
+
+        <!--Show all validation messages-->
+        <h:messages  style="color:red" />
+
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{visitorProfile.init}"/>
+        </f:metadata>
+
+        <div class="center" >
+            <f:view>
+                <h:form>
+                    <ul>
+                        <li>
+                            <h:outputLabel for="firstName"
+                                           value="#{msg.firstName}: "
+                                           />
+                            <h:outputText id="firstName"
+                                          value="#{visitorProfile.visitor.firstName}"
+                                          />
+                        </li>
+
+                        <li>
+                            <h:outputLabel for="lastName"
+                                           value="#{msg.lastName}: "
+                                           />
+                            <h:outputText id="lastName"
+                                          value="#{visitorProfile.visitor.lastName}"
+                                          />
+                        </li>
+
+                        <li>
+                            <h:outputLabel for="sex"
+                                           value="#{msg.sex}: "
+                                           />
+                            <h:outputText id="sex"
+                                          value="#{visitorProfile.visitor.sex}"
+                                          />
+                        </li>
+
+                        <li>
+                            <h:outputLabel for="nickname"
+                                           value="#{msg.nickname}: "
+                                           />
+                            <h:outputText id="nickname"
+                                          value="#{visitorProfile.visitor.nickname}"
+                                          />
+                        </li>
+
+                        <li>
+                            <h:outputLabel for="birthDate"
+                                           value="#{msg.birthdate}: "
+                                           />
+                            <h:outputText id="birthDate"
+                                          value="#{visitorProfile.visitor.birthDate}"
+                                          />
+                        </li>
+
+                        <li>
+                            <h:outputLabel for="nin"
+                                           value="#{msg.nin}: "
+                                           />
+                            <h:outputText id="nin"
+                                          value="#{visitorProfile.visitor.nin}"
+                                          />
+                        </li>
+
+                        <li>
+                            <h:outputLabel for="email"
+                                           value="#{msg.email}: "
+                                           />
+                            <h:outputText id="email"
+                                          value="#{visitorProfile.visitor.email}"
+                                          />
+                        </li>
+
+
+                        <li>
+                            <h:outputLabel for="tel"
+                                           value="#{msg.telephone}: "
+                                           />
+                            <h:outputText id="tel"
+                                          value="#{visitorProfile.visitor.telephone}"
+                                          />
+                        </li>
+
+                        <li>
+                            <h:outputLabel for="citizen"
+                                           value="#{msg.citizenship}: "
+                                           />
+                            <h:outputText id="citizen"
+                                          value="#{visitorProfile.citizenship}"
+                                          />
+                        </li>
+
+                        <li>
+                            <h:outputLabel for="addr1"
+                                           value="#{msg.address1}: "
+                                           />
+                            <h:outputText id="addr1"
+                                          value="#{visitorProfile.domicile.address1}"
+                                          />
+                        </li>
+
+                        <li>
+                            <h:outputLabel for="addr2"
+                                           value="#{msg.address2}: "
+                                           />
+                            <h:outputText id="addr2"
+                                          value="#{visitorProfile.domicile.address2}"
+                                          />
+                        </li>
+
+                        <li>
+                            <h:outputLabel for="city"
+                                           value="#{msg.city}: "
+                                           />
+                            <h:outputText id="city"
+                                          value="#{visitorProfile.city}"
+                                          />
+                        </li>
+
+
+                        <li>
+                            <h:outputLabel for="postal"
+                                           value="#{msg.postalcode}: "
+                                           />
+                            <h:outputText id="postal"
+                                          value="#{visitorProfile.postalCode}"
+                                          />
+                        </li>
+
+                        <li>
+                            <h:outputLabel for="region"
+                                           value="#{msg.region}: "
+                                           />
+                            <h:outputText id="region"
+                                          value="#{visitorProfile.region}"
+                                          />
+                        </li>
+
+                        <li>
+                            <h:outputLabel for="photo"
+                                           value="#{msg.photo}: "
+                                           />
+                            <h:graphicImage id="photo"
+                                            value="#{visitorProfile.photo}"
+                                            height="250"
+                                            width="250"
+                                            />
+                        </li>
+                    </ul>
+                </h:form>
+            </f:view>
+        </div>
+    </h:body>
+</html>
+
