@@ -133,7 +133,7 @@ public class VisitorProfile {
     }
 
     public String getPhoto() {
-        return photoPath;
+        return "/visitor/" + photoPath;
     }
 
 }
